@@ -1,0 +1,26 @@
+──────────────────────────────────────────
+OUTPUT SECTION 16 — TEACHER VALIDATION DASHBOARD METRICS
+──────────────────────────────────────────
+Based on the client's explicit Excel specifications, the system aggregates all individual decisions into an "Adaptive Feedback Engine Dashboard". This provides the instructor with a macro-level view of the entire class.
+
+■ Operational Metrics
+- Total students (Target: 60 enrolled, 50 logged)
+- Completed teacher decisions (Tracks how many AI templates the human teacher has explicitly validated)
+
+■ Diagnosed Risk Counters (Count of students flagged)
+- High argument risk
+- High cohesion risk
+- High language risk
+- High forethought risk
+- High revision risk
+- High feedback uptake risk
+- High help-seeking risk
+
+■ Clustered Learner Profiles
+- Strategic writers
+- Engaged but developing writers
+- Efficient but passive writers
+- At-risk writers
+
+PURPOSE: This dashboard acts as the final view layer (corresponding to Pipeline Stage 7). It serves a dual purpose: it tracks the teacher's operational progress in validating the system's templates, and it provides immediate pedagogical insights. For instance, if a large spike occurs in "High argument risk," the teacher knows to address argumentation holistically in the next live lecture.
+

@@ -1,0 +1,19 @@
+──────────────────────────────────────────
+OUTPUT SECTION 001 — SYSTEM GOALS, ROLES & REQUIREMENTS
+──────────────────────────────────────────
+**Business & Pedagogical Goals:**
+- Enhance EFL academic writing skills via personalized, timely, and adaptive feedback.
+- Support teachers by scaling diagnostic feedback without bypassing their pedagogical judgment.
+- Promote Self-Regulated Learning (SRL) and metacognitive awareness in students.
+
+**User Roles & Permissions:**
+- **Student:** View feedback, submit drafts, engage with Moodle, and seek help. (No dashboard access).
+- **Teacher:** Access dashboard, validate/modify/reject AI recommendations, provide final feedback.
+- **Admin/Researcher:** System configuration, threshold editing, anonymized reports, and oversight.
+
+**Non-Functional Requirements:**
+- **Scalability:** Must handle 60+ students concurrently across multiple iterative feedback loops.
+- **Security & Privacy:** Must be GDPR-compliant, utilizing anonymous IDs only (no PII in engine).
+- **Reliability:** Mandatory Human-In-The-Loop (HITL) gate; no autonomous feedback delivery.
+- **Auditability:** All system inferences and teacher validation decisions must be immutably logged.
+

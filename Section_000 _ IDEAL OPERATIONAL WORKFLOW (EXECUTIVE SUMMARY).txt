@@ -1,0 +1,14 @@
+──────────────────────────────────────────
+OUTPUT SECTION 000 — IDEAL OPERATIONAL WORKFLOW (EXECUTIVE SUMMARY)
+──────────────────────────────────────────
+This section defines the 8-step pedagogical and operational workflow from student submission to adaptive feedback delivery, serving as the high-level executive summary of the system's life cycle.
+
+1. **Student Submission:** The student submits an essay draft via Moodle and interacts with the platform.
+2. **Data Collection & NLP:** The system collects essay data and Moodle traces, then passes the text to the NLP engine.
+3. **Threshold Evaluation:** The system evaluates the numbers against programmed thresholds to classify the student's strengths and weaknesses across the 20 defined data blocks.
+4. **State Diagnosis:** The system infers the current "Learner State" (e.g., argumentation risk, cohesion risk).
+5. **Rule Matching:** The system selects the best pedagogical "Rule" that fits the state, and retrieves the corresponding "Feedback Template".
+6. **Teacher Dashboard (HITL):** The system displays a detailed recommendation report to the teacher via the dashboard.
+7. **Human Validation:** The teacher reviews the recommendation and either approves, modifies, or rejects it.
+8. **Feedback Delivery & Loop Closure:** The adaptive feedback is sent to the student, and this feedback loop is logged as a transaction to measure growth in the next draft and update the cognitive models in the database.
+

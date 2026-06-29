@@ -1,0 +1,35 @@
+──────────────────────────────────────────
+OUTPUT SECTION 04 — 8-STAGE OPERATIONAL PIPELINE
+──────────────────────────────────────────
+STAGE 1: DATA CAPTURE
+- What the AI/System Does: Collects rubric scores, text features, Moodle traces, revision behaviour, feedback views, and help-seeking messages.
+- Output: Raw learner evidence.
+
+STAGE 2: FEATURE ENGINEERING
+- What the AI/System Does: Converts raw events into indicators such as time-on-task, rubric views, revision depth, and error density. Utilizes the team's custom algorithmic processors.
+- Output: Measurable variables.
+
+STAGE 3: THRESHOLDING
+- What the AI/System Does: Classifies the computed indicators categorically as low, moderate, or strong based on strict mathematical boundaries.
+- Output: Risk bands.
+
+STAGE 4: DIAGNOSIS
+- What the AI/System Does: Combines the discrete risk bands into comprehensive learner states.
+- Output: Argumentation risk, cohesion risk, feedback uptake risk, SRL risk.
+
+STAGE 5: AI MODELLING
+- What the AI/System Does: Uses clustering, Bayesian modelling, and Random Forest prediction to refine the learner state, running in parallel with the NLP branch.
+- Output: Learner profile and competence probabilities.
+
+STAGE 6: RULE MATCHING
+- What the AI/System Does: Links the synthesized learner state to a deterministic pedagogical rule via the Intelligent Selector.
+- Output: Rule ID and feedback template.
+
+STAGE 7: TEACHER VALIDATION
+- What the AI/System Does: Presents the recommendation to the human expert. The Teacher explicitly approves, modifies, or rejects the AI-generated recommendation.
+- Output: Human-validated adaptive feedback.
+
+STAGE 8: REVISION LOOP
+- What the AI/System Does: Student receives feedback and revises the draft. The system recursively recalculates indicators based on the delta between draft iterations.
+- Output: Updated learner model.
+

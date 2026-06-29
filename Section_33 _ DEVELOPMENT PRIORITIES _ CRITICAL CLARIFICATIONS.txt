@@ -1,0 +1,21 @@
+──────────────────────────────────────────
+OUTPUT SECTION 33 — DEVELOPMENT PRIORITIES & CRITICAL CLARIFICATIONS
+──────────────────────────────────────────
+(This section documents the recommended development roadmap and highlights known ambiguities that the engineering team must resolve prior to implementation.)
+
+### 33.1 Phase-Ordered Development Priorities
+- **Phase 0 (Foundations):** DB Schema generation, Auth Layer, Audit Log setup.
+- **Phase 1 (Ingestion & Pipeline):** Connect Moodle API, NLP extraction, Feature engineering. Create the "Worked Example (S_EXAMPLE)" as the absolute first end-to-end integration test.
+- **Phase 2 (Inference & Rules):** Implement Rule-Matching Engine (27 rules) and Template Library (25 templates).
+- **Phase 3 (Teacher Surface):** Build the Teacher Dashboard (HITL) and notification delivery.
+- **Phase 4 (AI Models):** Integrate Bayesian Competence Models and Predictive Improvement (Random Forest).
+- **Phase 5 (Production & Admin):** Admin Console, cohort dashboards, LTI 1.3 integration, security audits.
+
+### 33.2 Critical Engineering Clarifications & Edge Cases
+1. **Rubric Scale Resolution:** The system strictly enforces the **1-5 scale** universally across all data dictionaries and scoring modules. Any legacy 1-4 rubric templates must be interpolated to the 1-5 scale using strict integer rounding `score = round((raw_score / 4) * 5)` during the ingestion phase before reaching the AI inference engine. This guarantees compliance with the strict integer enumerations defined in Section 23.
+2. **Cohesion Index Gap:** The defined thresholds are `<2` (Low) and `>=4` (Strong), and `2-3` (Moderate). **Resolution:** Treat the floating point gap `3.0 to 3.99` as Moderate.
+3. **Template Count Discrepancy:** The initial matrix lists 23 templates, but the updated rule tables reference 25 (adding `motivational_reengagement` and `explicit_strategic_instruction`). **Resolution:** The 25-template set is authoritative.
+4. **NLP Error Taxonomy:** The system requires "Error Density" extraction. **Resolution:** Engineering must define a strict EFL Error Taxonomy (Grammar, Mechanics, Style) to configure the NLP library (spaCy) accurately.
+5. **Multilingual Help-Seeking:** EFL students may write help-seeking messages in their native language. **Resolution:** The Help-Seeking Classifier must be robust enough to handle L1 languages (e.g., Arabic, Chinese) or require an auto-translation pre-processing step.
+6. **Multi-Teacher Cohorts:** **Resolution:** The architecture must support one-to-many and many-to-many Teacher-Cohort relationships to allow for co-teaching and Teaching Assistants.
+

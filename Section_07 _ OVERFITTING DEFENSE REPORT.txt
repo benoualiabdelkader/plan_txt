@@ -1,0 +1,16 @@
+──────────────────────────────────────────
+OUTPUT SECTION 07 — OVERFITTING DEFENSE REPORT
+──────────────────────────────────────────
+Given the constraint of $N=50$ logged students and 437 valid submission rows (accounting for missing assignments), overfitting is the primary statistical threat.
+- Validation Methodology: Stratified 5-Fold Cross Validation. If class imbalance is severe, Leave-One-Out Cross-Validation (LOOCV) is utilized.
+- Tree Depth Limiting: `max_depth` restricted strictly to 4 to 6.
+- Min Samples Per Leaf: `min_samples_leaf` forced to ≥ 5 to prevent single-instance memorization.
+- Feature Selection: Recursive Feature Elimination (RFE) using Youcef_Algo correlations. Features with importance < 0.01 are dropped to reduce dimensionality.
+- Number of Trees: `n_estimators` tuned between 100-300 to stabilize variance.
+- Class Balancing: `class_weight='balanced'` applied to counteract sparse risk states.
+- Accuracy Expectations:
+  * Acceptable: 62% - 75% (Realistic for human behavioral data on small N).
+  * Good: 75% - 82% (Ideal state).
+  * Suspicious: 83% - 90% (Investigate for data leakage).
+  * Red Flag: > 90% (Definitive overfitting; trigger immediate model rollback).
+

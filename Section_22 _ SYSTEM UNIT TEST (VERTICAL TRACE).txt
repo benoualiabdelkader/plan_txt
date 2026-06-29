@@ -1,0 +1,30 @@
+──────────────────────────────────────────
+OUTPUT SECTION 22 — SYSTEM UNIT TEST (VERTICAL TRACE)
+──────────────────────────────────────────
+This final table acts as a comprehensive "Unit Test" for the architecture. It traces a single, simulated student profile (S_EXAMPLE) vertically down through all layers of the system—from raw input variables directly to the final Teacher Action—demonstrating the exact mathematical and logical interpretation at every step.
+
+| Raw Input / Output Variable | Value | System Interpretation |
+|-----------------------------|-------|-----------------------|
+| **Student_ID** | S_EXAMPLE | Anonymous ID |
+| **Feedback_Loop** | 2 | Second feedback loop |
+| **Writing_Stage** | Body paragraph 2 | Task context |
+| **Claim_Score** | 2 | Weak claim control |
+| **Evidence_Score** | 2 | Evidence present but limited |
+| **Reasoning_Score** | 1 | High argumentation risk |
+| **Counterargument_Score** | 1 | Counterargument absent/weak |
+| **Language_Use_Score** | 3 | Developing language control |
+| **Word_Count** | 96 | Below expected elaboration |
+| **Error_Count** | 7 | Moderate error load |
+| **Cohesion_Index** | 1.5 | High cohesion risk |
+| **Rubric_Views** | 0 | Low criteria awareness |
+| **Active_Time_Min** | 12 | Low composing engagement |
+| **Revision_Frequency** | 0 | No revision |
+| **Feedback_Viewed** | No | Feedback exposure absent |
+| **Feedback_Used** | No | Feedback uptake risk high |
+| **Help_Message_Count** | 0 | Hidden difficulty possible |
+| **Help_Category** | None | No help-seeking |
+| **Expected Learner State** | At-risk writer | Low process and weak performance |
+| **Expected Primary Need** | Argument structure | Highest-priority pedagogical diagnosis |
+| **Expected Rule** | B1 | argument_scaffold |
+| **Expected Teacher Action** | Model claim-evidence-explanation and require targeted rewrite | Teacher validates before delivery |
+

@@ -1,0 +1,33 @@
+──────────────────────────────────────────
+OUTPUT SECTION 29 — FEEDBACK TEMPLATE LIBRARY (PEDAGOGICAL VIEW)
+──────────────────────────────────────────
+This table acts as a pedagogical map for the feedback template library, defining the theoretical feedback type, the main learning target, and the core feedback action intended by the system before it is instantiated into actual student-facing text (as seen in Section 21).
+
+| Template ID | Feedback Type | Main Target | Feedback Action |
+|-------------|---------------|-------------|-----------------|
+| `planning_scaffold` | Feed up / SRL planning | Planning and criteria awareness | Guide the learner through the rubric, outline structure, and staged drafting steps |
+| `planning_prompt` | Metacognitive prompt | Partial planning | Ask learner to set a micro-goal before revising |
+| `argument_scaffold` | Strategic feedback | Claim-evidence-reasoning | Model how to build one clear claim, add relevant evidence, and explain its relevance |
+| `argument_expansion` | Strategic feedback | Underdeveloped argument | Ask learner to expand reasoning after evidence and clarify the argumentative link |
+| `metacognitive_extension` | Extension feedback | Strong argumentation | Push learner toward counterargument integration or deeper critical reflection |
+| `cohesion_support` | Process-level feedback | Paragraph flow | Provide model paragraph and ask learner to restructure sentence sequence |
+| `organization_support` | Process-level feedback | Sequencing and transitions | Guide learner to improve transitions and logical progression |
+| `direct_corrective_feedback` | Direct corrective feedback | Recurrent grammar problems | Provide correction or mini-lesson for repeated form-level errors |
+| `metalinguistic_feedback` | Indirect/metalinguistic feedback | Partial grammatical control | Explain error pattern and ask learner to self-correct |
+| `fluency_extension` | Extension feedback | Strong language control | Encourage syntactic variety and stylistic refinement |
+| `lexical_enrichment` | Lexical feedback | Weak academic vocabulary | Provide academic vocabulary models and replacement expressions |
+| `lexical_refinement` | Lexical feedback | Developing lexical precision | Suggest more precise synonyms and collocations |
+| `revision_prompt` | SRL revision feedback | No or superficial revision | Provide guided revision checklist |
+| `global_revision_feedback` | Strategic revision feedback | Meaning-level revision | Model how to revise ideas, organization, and argument rather than only grammar |
+| `metacognitive_feedback` | Self-regulatory feedback | Successful revision behaviour | Ask learner to reflect on what revision strategy worked and how to reuse it |
+| `feedback_decoding` | Feedback literacy support | Feedback not used | Help learner interpret teacher comments and convert them into revision actions |
+| `feedforward_guidance` | Feed-forward feedback | Partial feedback uptake | Guide learner to apply current feedback to the next draft |
+| `reinforcement_feedback` | Reinforcement / extension | Strong feedback uptake | Acknowledge effective uptake and assign a more demanding extension task |
+| `motivational_reengagement` | Engagement support | Low behavioural participation | Teacher check-in, task clarification, simplified entry scaffold |
+| `explicit_strategic_instruction` | Explicit strategy instruction | Effort without mastery | Provide scaffolded session on argument structure and writing strategy |
+| `metacognitive_prompt` | SRL prompt | Fragile regulation / hidden difficulty | Prompt planning, monitoring, and evaluation of own work |
+| `dialogic_scaffolding` | Dialogic feedback | Adaptive help-seeking | Short clarification conference or one-to-one micro-feedback |
+| `intensive_support_plan` | Intensive support | Low predicted improvement | Individual plan targeting weakest dimensions |
+| `targeted_development_feedback` | Focused formative feedback | Moderate/high growth potential | Focus support on one priority weakness |
+| `argument_refinement` | Argument-focused feedback | Medium argument competence | Refine evidence integration and explanation |
+

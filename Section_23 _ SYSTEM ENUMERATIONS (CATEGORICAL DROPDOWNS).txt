@@ -1,0 +1,18 @@
+──────────────────────────────────────────
+OUTPUT SECTION 23 — SYSTEM ENUMERATIONS (CATEGORICAL DROPDOWNS)
+──────────────────────────────────────────
+To ensure absolute data integrity during ingestion and validation (Stage 2), the system enforces strict categorical lists (enumerations) for specific variables. No free-text is allowed for these fields.
+
+| Field / Dropdown List | Allowed Values |
+|-----------------------|----------------|
+| **Score_1_5** | 1.0, 2.0, 3.0, 4.0, 5.0 |
+| **Performance_Band** | Low/Risk, Moderate/Watch, Strong/Satisfactory |
+| **Risk_Level** | High, Medium, Low |
+| **Feedback_Loop** | 1, 2, 3, 4, 5 |
+| **Writing_Stage** | Introductory paragraph, Body paragraph 1, Body paragraph 2, Counterargument paragraph, Full argumentative essay |
+| **Draft_Pair** | D1-D2, D2-D3, D3-D4, D4-D5, Pre-Post |
+| **Revision_Depth** | None, Surface, Partial, Global/Substantive |
+| **Feedback_Used** | No, Partial, Yes |
+| **Help_Category** | None, Procedural clarification, Feedback clarification, Linguistic assistance, Argument development, Affective/motivation, Technical access |
+| **Teacher_Decision** | Pending, Approved, Modified, Rejected, Delivered |
+

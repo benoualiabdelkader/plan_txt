@@ -1,0 +1,27 @@
+──────────────────────────────────────────
+OUTPUT SECTION 31 — OPERATIONAL & PROBABILITY THRESHOLDS
+──────────────────────────────────────────
+These thresholds define exactly how continuous or categorical input data is bucketed into the three primary states (Low/Risk, Moderate/Watch, Strong/Satisfactory) before being evaluated by the Rule-Based Interpretation Matrix.
+
+### 31.1 Probability Thresholds
+This defines the thresholding for predictive models (e.g., Random Forest predicted improvement).
+
+| Variable | Low / Risk | Moderate / Watch | Strong / Satisfactory | Adaptive Feedback Action |
+|----------|------------|------------------|-----------------------|--------------------------|
+| `predicted_improvement_probability` | `< 0.40` | `0.40-0.70` | `> 0.70` | Low = scaffolding and examples; Moderate = targeted formative prompts; High = self-regulated revision support |
+
+### 31.2 Operational Indicator Thresholds
+This defines how discrete process and product variables are discretized into pedagogical risk bands.
+
+| Indicator | Variable Name | Low / Risk | Moderate / Watch | Strong / Satisfactory | Operational Meaning |
+|-----------|---------------|------------|------------------|-----------------------|---------------------|
+| Word count | `word_count` | `< 90` | `90-119` | `120-180+` | Underdeveloped versus adequately elaborated paragraph |
+| Time on task | `time_on_task_minutes` | `< 15` | `15-29` | `30-40+` | Insufficient versus adequate composing engagement |
+| Rubric views | `rubric_views` | `0` | `1` | `>= 2` | Low criteria awareness versus active rubric consultation |
+| Revision frequency | `revision_frequency` | `0` | `1` | `>= 2` | No monitoring versus limited or sustained revision |
+| Error density | `error_density_per_100_words` | `> 8` | `4-8` | `< 4` | High form-level difficulty versus manageable error load |
+| Cohesion index | `cohesion_index_per_paragraph` | `< 2` | `2-3` | `>= 4` | Weak discourse linking versus controlled cohesion |
+| Criterion score | `criterion_score` | `1-2` | `3` | `4-5` | Clear weakness, developing control, or relative strength |
+| Feedback uptake | `feedback_uptake_status` | Feedback viewed, no revision | Feedback viewed, minor revision | Feedback viewed, substantive revision | Feedback exposure versus active use |
+| Help-seeking messages | `help_seeking_status` | 0 when performance is weak | 1 procedural message | >= 1 clarification / argument / language message | No help-seeking versus adaptive help-seeking |
+

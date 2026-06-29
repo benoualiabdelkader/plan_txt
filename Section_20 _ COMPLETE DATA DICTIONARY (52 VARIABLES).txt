@@ -1,0 +1,60 @@
+──────────────────────────────────────────
+OUTPUT SECTION 20 — COMPLETE DATA DICTIONARY (52 VARIABLES)
+──────────────────────────────────────────
+This section defines the exact 52-column schema required to power the database. The engineers must create these exact fields in the backend.
+
+| Field Name | Type | Raw/Derived | Source | Used For |
+|------------|------|-------------|--------|----------|
+| **Student_ID** | Text | Raw | Research ID | Join key across tables |
+| **Group** | Text | Raw | Research design | Filtering |
+| **Feedback_Loop** | Integer 1–5 | Raw | Teacher/system | Longitudinal tracking |
+| **Task_ID** | Text | Raw | Moodle task | Task-specific adaptation |
+| **Writing_Stage** | Category | Raw | Task design | Task-sensitive feedback |
+| **Draft_Pair** | Category | Raw | Submissions | Revision analysis |
+| **Expected_Word_Count** | Integer | Raw | Task design | Word-count threshold |
+| **Claim_Score** | 1–5 | Raw | Analytic rubric | Argument diagnosis |
+| **Evidence_Score** | 1–5 | Raw | Analytic rubric | Argument diagnosis |
+| **Reasoning_Score** | 1–5 | Raw | Analytic rubric | Argument diagnosis |
+| **Counterargument_Score** | 1–5 | Raw | Analytic rubric | Higher-order argumentation |
+| **Language_Use_Score** | 1–5 | Raw | Analytic rubric | Language diagnosis |
+| **Overall_Rubric_Avg** | Number | Derived | Formula | Performance band |
+| **Performance_Band** | Category | Derived | Formula | Learner profile |
+| **Word_Count** | Integer | Raw | NLP/extractor | Development indicator |
+| **Error_Count** | Integer | Raw | NLP/teacher | Error density |
+| **Error_Density_per_100** | Number | Derived | Formula | Language risk |
+| **Cohesion_Markers_Count** | Integer | Raw | NLP | Cohesion analysis |
+| **Cohesion_Index** | Number | Raw/Derived | NLP/manual | Discourse competence |
+| **Lexical_Diversity_TTR** | Number | Raw | NLP | Lexical richness |
+| **Avg_Sentence_Length** | Number | Raw | NLP | Complexity indicator |
+| **Assignment_Views** | Integer | Raw | Moodle logs | Task engagement |
+| **Resource_Views** | Integer | Raw | Moodle logs | Learning engagement |
+| **Rubric_Views** | Integer | Raw | Moodle logs | Criteria awareness |
+| **Active_Time_Min** | Number | Raw/Derived | Moodle logs | Engagement/SRL |
+| **Draft_Count** | Integer | Raw | Moodle submissions | Process engagement |
+| **Revision_Frequency** | Integer | Raw/Derived | Draft comparison | SRL monitoring |
+| **Revision_Depth** | Category | Raw/Derived | Text comparison | Revision quality |
+| **Text_Change_Pct** | Percent | Derived | Text comparison | Revision depth |
+| **Feedback_Viewed** | Yes/No | Raw | Moodle logs | Feedback exposure |
+| **Feedback_View_Count** | Integer | Raw | Moodle logs | Feedback engagement |
+| **Feedback_Used** | Category | Raw/Derived | Draft comparison | Feedback uptake |
+| **Feedback_to_Revision_Hours** | Number | Derived | Logs | Temporal uptake |
+| **Help_Message_Count** | Integer | Raw | Moodle messages | Metacognitive regulation |
+| **Help_Category** | Category | Raw/Derived | Message coding | Help-seeking diagnosis |
+| **Process_Engagement_Band** | Category | Derived | Formula | Learner profile |
+| **Argument_Risk** | Category | Derived | Formula | Rule B1/B2/B3 |
+| **Cohesion_Risk** | Category | Derived | Formula | Rule B4/B5 |
+| **Language_Risk** | Category | Derived | Formula | Rule B6/B7 |
+| **Forethought_Risk** | Category | Derived | Formula | Rule A1/A2 |
+| **Revision_Risk** | Category | Derived | Formula | Rule C1/C2/C3 |
+| **Feedback_Uptake_Risk** | Category | Derived | Formula | Rule C4/C5/C6 |
+| **Help_Seeking_Risk** | Category | Derived | Formula | Rule D5 |
+| **Learner_Profile** | Category | Derived | Formula/model | Profile-based support |
+| **Primary_Need** | Text | Derived | Formula/rules | Rule selection |
+| **Rule_ID** | Text | Derived | Rule engine | Feedback template lookup |
+| **Feedback_Template_ID** | Text | Derived | Rule engine | Message generation |
+| **Recommended_Feedback_Focus** | Text | Derived | Rule engine | Teacher dashboard |
+| **Teacher_Decision** | Category | Raw | Teacher | HITL governance |
+| **Final_Feedback_Focus** | Text | Raw | Teacher | Delivered feedback log |
+| **Next_Action** | Text | Raw | Teacher | Intervention record |
+| **Next_Draft_Score** | Number | Raw | Next rubric | Outcome tracking |
+

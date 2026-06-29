@@ -1,0 +1,52 @@
+──────────────────────────────────────────
+OUTPUT SECTION 03 — COMPONENT ENCYCLOPEDIA
+──────────────────────────────────────────
+
+┌─────────────────────────────────────────┐
+│ COMPONENT: Preprocessing Pipeline       │
+│ TYPE: Data Engineering                  │
+├─────────────────────────────────────────┤
+│ PURPOSE: Cleans and joins Moodle, Rubric, and Text data. │
+│ INPUT: Raw student event logs, rubric matrices, and text files. │
+│ OUTPUT: Standardized feature matrix (normalized numerical + text variables). │
+│ METHOD: Youcef_Algo extracts engagement stats; Abdelkader_Algo extracts NLP features (cohesion index, error density). │
+│ CONNECTS TO: ML Branch, NLP Branch.     │
+│ FAILURE BEHAVIOR: Halts prediction for the specific student until data is corrected. Alerts administrator. │
+└─────────────────────────────────────────┘
+
+┌─────────────────────────────────────────┐
+│ COMPONENT: ML Branch (Random Forest)    │
+│ TYPE: Predictive Model                  │
+├─────────────────────────────────────────┤
+│ PURPOSE: Honors client mandate to predict learner risk using statistical ML. │
+│ INPUT: Standardized feature matrix (e.g., time-on-task, rubric_views). │
+│ OUTPUT: Probabilistic risk vector (e.g., Argumentation Risk: 0.82) + RF Confidence Score. │
+│ METHOD: Strictly regularized Random Forest Classification (max_depth=4). │
+│ CONNECTS TO: Intelligent Model Selector.│
+│ FAILURE BEHAVIOR: Intelligent Selector falls back exclusively to NLP Branch. │
+└─────────────────────────────────────────┘
+
+┌─────────────────────────────────────────┐
+│ COMPONENT: NLP Branch                   │
+│ TYPE: LLM / NLP Analysis                │
+├─────────────────────────────────────────┤
+│ PURPOSE: Deeply analyzes student essays for textual nuances missed by tabular ML. │
+│ INPUT: Raw student essay text + task prompt. │
+│ OUTPUT: Qualitative diagnostic scores + NLP Confidence Score. │
+│ METHOD: Multi-LLM synthesis (inspired by Claude/Gemini/Z.ai insights) using prompt engineering to map text to pedagogical thresholds. │
+│ CONNECTS TO: Intelligent Model Selector.│
+│ FAILURE BEHAVIOR: Intelligent Selector falls back exclusively to ML Branch. │
+└─────────────────────────────────────────┘
+
+┌─────────────────────────────────────────┐
+│ COMPONENT: Intelligent Model Selector   │
+│ TYPE: Integration / Decision Engine     │
+├─────────────────────────────────────────┤
+│ PURPOSE: Solves the small-dataset tension by optimally fusing RF and NLP outputs. │
+│ INPUT: RF output probabilities + NLP output scores. │
+│ OUTPUT: Final unified Learner State.    │
+│ METHOD: Weighted voting formula and hardcoded pedagogical overrides (Adnan_Algo backend). │
+│ CONNECTS TO: Rule Engine & Output Layer.│
+│ FAILURE BEHAVIOR: Fails safe—outputs a "Requires Manual Review" flag to Teacher Validation. │
+└─────────────────────────────────────────┘
+

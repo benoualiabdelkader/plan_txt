@@ -1,0 +1,23 @@
+──────────────────────────────────────────
+OUTPUT SECTION 09 — PROJECT FOLDER STRUCTURE
+──────────────────────────────────────────
+/project-root/
+├── /data/
+│   ├── /raw/              ← original untouched data (Moodle logs, rubrics)
+│   ├── /processed/        ← cleaned and encoded data
+│   └── /features/         ← engineered feature sets (Youcef_Algo outputs)
+├── /models/
+│   ├── /random_forest/    ← RF model files + configs
+│   └── /nlp/              ← NLP model files + configs
+├── /algorithms/
+│   ├── /custom/           ← team-built algorithms (Abdelkader, Youcef, Adnan)
+├── /nlp_responses/        ← LLM output files (Resource C texts/benchmarks)
+├── /selector/             ← intelligent model selector logic (fusion engine)
+├── /outputs/
+│   ├── /predictions/      ← final predictions per student
+│   ├── /reports/          ← generated validation reports
+│   └── /logs/             ← decision logs + explainability traces
+├── /evaluation/           ← metrics, CV results, confusion matrices
+├── /config/               ← hyperparameters + pedagogical thresholds
+└── /docs/                 ← this blueprint + technical docs
+

@@ -1,0 +1,47 @@
+──────────────────────────────────────────
+OUTPUT SECTION 43 — PROJECT DIRECTORY & DATA ARCHITECTURE
+──────────────────────────────────────────
+To maintain absolute organization between the 3 developers (Adnan, Youcef, Abdelkader), the physical files and databases must be structured strictly according to the hierarchy below. This ensures scripts interact with the correct schemas.
+
+```text
+NLP_Project_Root/
+│
+├── data/                                 # 🗄️ THE DATA LAKE
+│   ├── raw/
+│   │   ├── moodle_logs_N62.csv           # Raw Moodle behavior events
+│   │   └── student_essays_N437.json      # Raw text submissions (The Unit of Analysis)
+│   ├── processed/
+│   │   ├── adnan_nlp_features.csv        # Output: Tokens, TTR, Error Density
+│   │   ├── abdelkader_activity.csv       # Output: Sessions, PCA components, Outliers
+│   │   └── youcef_trajectories.csv       # Output: Slopes, Norms, 18 Rule Triggers
+│   └── outputs/
+│       ├── output_final.json             # THE ARBITER'S definitive chosen output
+│       └── llm_feedbacks/                # Generated LLM markdown/text files
+│           ├── individual/
+│           └── group/
+│
+├── src/                                  # ⚙️ THE CODEBASE
+│   ├── adnan_nlp/
+│   │   ├── spacy_parser.py               # Linguistic parsing logic
+│   │   └── rubric_matcher.py             # Regex text rule evaluation
+│   ├── abdelkader_moodle/
+│   │   ├── pca_reducer.py                # Reduces features to 6-8 PCA dimensions
+│   │   └── prefixspan_miner.py           # Frequent pattern mining
+│   ├── youcef_behavior/
+│   │   ├── regression_slopes.py          # OLS Regression for Trajectories
+│   │   └── rule_engine.py                # Triggers the 18 Pedagogical Rules
+│   ├── machine_learning/
+│   │   ├── random_forest.py              # ML Track A: Performance Prediction
+│   │   ├── clustering.py                 # ML Track A: Learner Profiling
+│   │   └── bayesian_network.py           # ML Track A: Competence Inference
+│   └── integration/
+│       ├── arbiter.py                    # The core comparator (Track A vs Track B)
+│       └── llm_generator.py              # API prompt scripts reading output_final.json
+│
+├── docs/                                 # 📚 DOCUMENTATION
+│   ├── system_blueprint.txt              # [MASTER ARCHITECTURE DOCUMENT - You are here]
+│   └── rules_and_thresholds.md           # Pedagogical thresholds and formulas
+│
+└── notebooks/                            # 📊 EXPLORATORY & TESTING
+    └── ml_validation_scree.ipynb         # Scree plots and Overfitting LOOCV tests
+```

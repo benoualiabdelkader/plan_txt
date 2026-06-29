@@ -1,0 +1,2013 @@
+╔══════════════════════════════════════════════════════════════════════════════════╗
+║         ULTRA SYSTEM ARCHITECT — MASTER BLUEPRINT GENERATION PROTOCOL          ║
+║                         VERSION 2.0 — PRODUCTION GRADE                         ║
+╚══════════════════════════════════════════════════════════════════════════════════╝
+
+──────────────────────────────────────────
+OUTPUT SECTION 000 — IDEAL OPERATIONAL WORKFLOW (EXECUTIVE SUMMARY)
+──────────────────────────────────────────
+This section defines the 8-step pedagogical and operational workflow from student submission to adaptive feedback delivery, serving as the high-level executive summary of the system's life cycle.
+
+1. **Student Submission:** The student submits an essay draft via Moodle and interacts with the platform.
+2. **Data Collection & NLP:** The system collects essay data and Moodle traces, then passes the text to the NLP engine.
+3. **Threshold Evaluation:** The system evaluates the numbers against programmed thresholds to classify the student's strengths and weaknesses across the 20 defined data blocks.
+4. **State Diagnosis:** The system infers the current "Learner State" (e.g., argumentation risk, cohesion risk).
+5. **Rule Matching:** The system selects the best pedagogical "Rule" that fits the state, and retrieves the corresponding "Feedback Template".
+6. **Teacher Dashboard (HITL):** The system displays a detailed recommendation report to the teacher via the dashboard.
+7. **Human Validation:** The teacher reviews the recommendation and either approves, modifies, or rejects it.
+8. **Feedback Delivery & Loop Closure:** The adaptive feedback is sent to the student, and this feedback loop is logged as a transaction to measure growth in the next draft and update the cognitive models in the database.
+
+──────────────────────────────────────────
+OUTPUT SECTION 001 — SYSTEM GOALS, ROLES & REQUIREMENTS
+──────────────────────────────────────────
+**Business & Pedagogical Goals:**
+- Enhance EFL academic writing skills via personalized, timely, and adaptive feedback.
+- Support teachers by scaling diagnostic feedback without bypassing their pedagogical judgment.
+- Promote Self-Regulated Learning (SRL) and metacognitive awareness in students.
+
+**User Roles & Permissions:**
+- **Student:** View feedback, submit drafts, engage with Moodle, and seek help. (No dashboard access).
+- **Teacher:** Access dashboard, validate/modify/reject AI recommendations, provide final feedback.
+- **Admin/Researcher:** System configuration, threshold editing, anonymized reports, and oversight.
+
+**Non-Functional Requirements:**
+- **Scalability:** Must handle 60+ students concurrently across multiple iterative feedback loops.
+- **Security & Privacy:** Must be GDPR-compliant, utilizing anonymous IDs only (no PII in engine).
+- **Reliability:** Mandatory Human-In-The-Loop (HITL) gate; no autonomous feedback delivery.
+- **Auditability:** All system inferences and teacher validation decisions must be immutably logged.
+
+──────────────────────────────────────────
+OUTPUT SECTION 00 — ENGINEERING INPUT WORKBOOK (SYSTEM CONSTRAINTS)
+──────────────────────────────────────────
+
+Based on the explicit "Engineering Input Workbook", the fundamental guardrails for programming the system are as follows:
+
+- Purpose: Specifies the minimum indicator dataset needed to program an AI-supported adaptive feedback engine for 60 EFL academic writing students.
+- Unit of Analysis: One row in the database = (One Student) × (One Feedback Loop) × (One Draft Pair).
+- Core Pipeline: Raw data → Calculated indicators → Threshold bands → Learner state → Rule ID → Feedback template → Teacher validation.
+- Primary Data Sources: Analytic rubric scores, NLP textual features, Moodle engagement traces, revision behaviour, feedback uptake, help-seeking categories, and teacher validation.
+- Engineer Note: The system mathematically computes all intermediate grey-logic formulas. The only human/external inputs are the raw text and Moodle trace logs.
+- Privacy Guardrail: Use anonymous IDs only. Never ingest names, photos, IP addresses, or raw private messages into the adaptive decision engine.
+- Implementation Mandate: Store each feedback loop as a "Transaction Record". Do not overwrite old rows. The longitudinal Learner Model must dynamically update after each new draft pair.
+
+──────────────────────────────────────────
+OUTPUT SECTION 01 — PROJECT IDENTITY CARD
+──────────────────────────────────────────
+PROJECT NAME: AI-Supported Adaptive Feedback System for EFL Academic Writing
+VERSION: 2.0 (Production Grade Blueprint)
+DATE: June 2026
+TEAM RESOURCES USED: 
+  - Resource A: Custom Algorithms (Abdelkader_Algo, Youcef_Algo, Adnan_Algo)
+  - Resource B: Client Specifications (Moodle rubrics, RF mandate, 8-stage pipeline)
+  - Resource C: LLM Analysis (Z.ai, Claude, Gemini, Grok insights)
+DATASET SUMMARY: 60 students enrolled (50 with valid Moodle logs) × up to 8 assignments = 437 valid submissions. Variables include rubric scores (1-5), NLP textual metrics, Moodle engagement logs.
+CLIENT CONSTRAINTS SUMMARY: 
+  - Extremely small dataset limits deep learning.
+  - Random Forest (RF) algorithm is strictly mandatory.
+  - Data augmentation is prohibited.
+  - Human-In-The-Loop (HITL) requirement for final teacher validation.
+SYSTEM TYPE CLASSIFICATION: Hybrid Rule-Based & Intelligent Ensemble Recommendation Engine.
+
+──────────────────────────────────────────
+OUTPUT SECTION 02 — MASTER ARCHITECTURE DIAGRAM
+──────────────────────────────────────────
+
+┌────────────────────────────────────────────────────────────────────────────┐
+│                             RAW DATA INGESTION                             │
+│ ┌─────────────────┐  ┌─────────────────────┐  ┌──────────────────────────┐ │
+│ │  Moodle Logs    │  │ Rubric Scores (1-5) │  │ Student Essay Drafts     │ │
+│ │(Views, Time)    │  │ (Claim, Evidence)   │  │ (Raw Text Data)          │ │
+│ └───────┬─────────┘  └──────────┬──────────┘  └────────────┬─────────────┘ │
+└─────────┼───────────────────────┼──────────────────────────┼───────────────┘
+          │                       │                          │
+          ▼                       ▼                          ▼
+┌────────────────────────────────────────────────────────────────────────────┐
+│                           PREPROCESSING PIPELINE                           │
+│ ┌───────────────────────────┐                ┌───────────────────────────┐ │
+│ │       Youcef_Algo         │                │     Abdelkader_Algo       │ │
+│ │ (Stats, Correl., Moodle)  │                │   (NLP Scoring Engine)    │ │
+│ │ -> Outputs numerical vars │                │ -> Word count, Error dens.│ │
+│ └───────────┬───────────────┘                └─────────────┬─────────────┘ │
+└─────────────┼──────────────────────────────────────────────┼───────────────┘
+              │                                              │
+              ▼                                              ▼
+┌────────────────────────────────────────────────────────────────────────────┐
+│                              PARALLEL BRANCHES                             │
+│ ┌──────────────────────────────────┐  ┌──────────────────────────────────┐ │
+│ │          ML BRANCH               │  │           NLP BRANCH             │ │
+│ │ ┌──────────────────────────────┐ │  │ ┌──────────────────────────────┐ │ │
+│ │ │        Random Forest         │ │  │ │        LLM Analyzers         │ │ │
+│ │ │ (Client Mandated Predictor)  │ │  │ │ (Textual diagnostic insight) │ │ │
+│ │ │ Output: Risk Probabilities   │ │  │ │ Output: NLP Confidence Score │ │ │
+│ │ └──────────────┬───────────────┘ │  │ └──────────────┬───────────────┘ │ │
+│ └────────────────┼─────────────────┘  └────────────────┼─────────────────┘ │
+└──────────────────┼─────────────────────────────────────┼───────────────────┘
+                   │                                     │
+                   ▼                                     ▼
+┌────────────────────────────────────────────────────────────────────────────┐
+│                    INTELLIGENT MODEL SELECTOR (Adnan_Algo)                 │
+│ ┌────────────────────────────────────────────────────────────────────────┐ │
+│ │ Weights: RF (0.30) + NLP (0.70) | Overrides | Disagreement Handling    │ │
+│ │ Decision Output: Unified Learner State (e.g., "Argumentation Risk")    │ │
+│ └────────────────────────────────────┬───────────────────────────────────┘ │
+└──────────────────────────────────────┼─────────────────────────────────────┘
+                                       │
+                                       ▼
+┌────────────────────────────────────────────────────────────────────────────┐
+│                               OUTPUT LAYER                                 │
+│ ┌────────────────────────────────────────────────────────────────────────┐ │
+│ │ Rule Engine: Matches Learner State to 1 of 23 Pedagogical Templates    │ │
+│ └────────────────────────────────────┬───────────────────────────────────┘ │
+└──────────────────────────────────────┼─────────────────────────────────────┘
+                                       │
+                                       ▼
+┌────────────────────────────────────────────────────────────────────────────┐
+│                        FEEDBACK & LOGGING LAYER                            │
+│ ┌──────────────────────────────────┐  ┌──────────────────────────────────┐ │
+│ │       Explainability Log         │  │       Teacher Validation         │ │
+│ │ (Why model X was chosen)         │  │ (Approve, Modify, Reject)        │ │
+│ └──────────────────────────────────┘  └──────────────────────────────────┘ │
+└────────────────────────────────────────────────────────────────────────────┘
+
+──────────────────────────────────────────
+OUTPUT SECTION 03 — COMPONENT ENCYCLOPEDIA
+──────────────────────────────────────────
+
+┌─────────────────────────────────────────┐
+│ COMPONENT: Preprocessing Pipeline       │
+│ TYPE: Data Engineering                  │
+├─────────────────────────────────────────┤
+│ PURPOSE: Cleans and joins Moodle, Rubric, and Text data. │
+│ INPUT: Raw student event logs, rubric matrices, and text files. │
+│ OUTPUT: Standardized feature matrix (normalized numerical + text variables). │
+│ METHOD: Youcef_Algo extracts engagement stats; Abdelkader_Algo extracts NLP features (cohesion index, error density). │
+│ CONNECTS TO: ML Branch, NLP Branch.     │
+│ FAILURE BEHAVIOR: Halts prediction for the specific student until data is corrected. Alerts administrator. │
+└─────────────────────────────────────────┘
+
+┌─────────────────────────────────────────┐
+│ COMPONENT: ML Branch (Random Forest)    │
+│ TYPE: Predictive Model                  │
+├─────────────────────────────────────────┤
+│ PURPOSE: Honors client mandate to predict learner risk using statistical ML. │
+│ INPUT: Standardized feature matrix (e.g., time-on-task, rubric_views). │
+│ OUTPUT: Probabilistic risk vector (e.g., Argumentation Risk: 0.82) + RF Confidence Score. │
+│ METHOD: Strictly regularized Random Forest Classification (max_depth=4). │
+│ CONNECTS TO: Intelligent Model Selector.│
+│ FAILURE BEHAVIOR: Intelligent Selector falls back exclusively to NLP Branch. │
+└─────────────────────────────────────────┘
+
+┌─────────────────────────────────────────┐
+│ COMPONENT: NLP Branch                   │
+│ TYPE: LLM / NLP Analysis                │
+├─────────────────────────────────────────┤
+│ PURPOSE: Deeply analyzes student essays for textual nuances missed by tabular ML. │
+│ INPUT: Raw student essay text + task prompt. │
+│ OUTPUT: Qualitative diagnostic scores + NLP Confidence Score. │
+│ METHOD: Multi-LLM synthesis (inspired by Claude/Gemini/Z.ai insights) using prompt engineering to map text to pedagogical thresholds. │
+│ CONNECTS TO: Intelligent Model Selector.│
+│ FAILURE BEHAVIOR: Intelligent Selector falls back exclusively to ML Branch. │
+└─────────────────────────────────────────┘
+
+┌─────────────────────────────────────────┐
+│ COMPONENT: Intelligent Model Selector   │
+│ TYPE: Integration / Decision Engine     │
+├─────────────────────────────────────────┤
+│ PURPOSE: Solves the small-dataset tension by optimally fusing RF and NLP outputs. │
+│ INPUT: RF output probabilities + NLP output scores. │
+│ OUTPUT: Final unified Learner State.    │
+│ METHOD: Weighted voting formula and hardcoded pedagogical overrides (Adnan_Algo backend). │
+│ CONNECTS TO: Rule Engine & Output Layer.│
+│ FAILURE BEHAVIOR: Fails safe—outputs a "Requires Manual Review" flag to Teacher Validation. │
+└─────────────────────────────────────────┘
+
+──────────────────────────────────────────
+OUTPUT SECTION 04 — 8-STAGE OPERATIONAL PIPELINE
+──────────────────────────────────────────
+STAGE 1: DATA CAPTURE
+- What the AI/System Does: Collects rubric scores, text features, Moodle traces, revision behaviour, feedback views, and help-seeking messages.
+- Output: Raw learner evidence.
+
+STAGE 2: FEATURE ENGINEERING
+- What the AI/System Does: Converts raw events into indicators such as time-on-task, rubric views, revision depth, and error density. Utilizes the team's custom algorithmic processors.
+- Output: Measurable variables.
+
+STAGE 3: THRESHOLDING
+- What the AI/System Does: Classifies the computed indicators categorically as low, moderate, or strong based on strict mathematical boundaries.
+- Output: Risk bands.
+
+STAGE 4: DIAGNOSIS
+- What the AI/System Does: Combines the discrete risk bands into comprehensive learner states.
+- Output: Argumentation risk, cohesion risk, feedback uptake risk, SRL risk.
+
+STAGE 5: AI MODELLING
+- What the AI/System Does: Uses clustering, Bayesian modelling, and Random Forest prediction to refine the learner state, running in parallel with the NLP branch.
+- Output: Learner profile and competence probabilities.
+
+STAGE 6: RULE MATCHING
+- What the AI/System Does: Links the synthesized learner state to a deterministic pedagogical rule via the Intelligent Selector.
+- Output: Rule ID and feedback template.
+
+STAGE 7: TEACHER VALIDATION
+- What the AI/System Does: Presents the recommendation to the human expert. The Teacher explicitly approves, modifies, or rejects the AI-generated recommendation.
+- Output: Human-validated adaptive feedback.
+
+STAGE 8: REVISION LOOP
+- What the AI/System Does: Student receives feedback and revises the draft. The system recursively recalculates indicators based on the delta between draft iterations.
+- Output: Updated learner model.
+
+──────────────────────────────────────────
+OUTPUT SECTION 05 — NLP × ML FUSION SPECIFICATION
+──────────────────────────────────────────
+a) Parsing: LLM outputs are parsed via strict JSON schemas returning { "diagnostic_label": string, "confidence": float (0.0-1.0) }.
+b) Confidence Scores: RF confidence is the maximum class probability from the trees. NLP confidence is the self-reported certainty of the LLM or agreement ratio across LLM instances.
+c) Fusion Formula: 
+   FINAL_SCORE = (0.70 × NLP_score) + (0.30 × RF_score)
+d) Rule Table for Intelligent Selector:
+   - RULE 1: If RF_confidence > 0.90 AND NLP_confidence < 0.60 → USE RF.
+   - RULE 2: If NLP_confidence > 0.85 → USE NLP.
+   - RULE 3: If |RF_score - NLP_score| < 0.2 → Calculate FINAL_SCORE.
+e) Disagreement Handling: If RF and NLP diverge widely (delta > 0.4) and both lack extreme confidence (< 0.8), the prediction is overridden to "MODERATE/WATCH" and flagged for immediate manual teacher review.
+f) Validation: The fusion layer is tested via a golden dataset of past teacher-graded assignments to calibrate the 0.70/0.30 weights (current values are heuristic baselines pending empirical calibration).
+g) Inter-Module Data Schema: The handshake payload passed from Abdelkader's NLP Engine to Adnan's Integration Backend is strictly structured as an aggregated JSON (`all_essays_summary.json`). For the 50 logged students and 437 valid submissions, the payload contains:
+   - `overall_risk_band`: Pre-calculated NLP risk trajectory.
+   - `assignments`: A dictionary per module (e.g., `a1_intro_writing`) containing:
+       * `status` (submitted/no_submission)
+       * `word_count`, `essay_grade_20`
+       * `error_density`, `cohesion`, `lexical_diversity_mtld`
+   This is systematically checked via an automated `validation_report.json` verifying file counts, grade bounds, and vector integrity before fusion begins.
+
+──────────────────────────────────────────
+OUTPUT SECTION 06 — CUSTOM ALGORITHMS INTEGRATION MAP
+──────────────────────────────────────────
+ALGORITHM: Abdelkader_Algo (NLP Engine)
+POSITION IN PIPELINE: Preprocessing / NLP Feature Engineering
+INPUT: Raw student essay text drafts.
+OUTPUT: Generates exact indicators (error density, cohesion, text length) required by the client's Excel workbook.
+INTEGRATION METHOD: Feeds continuous variables directly into the ML feature matrix and discrete text chunks into the NLP LLM prompts.
+DEPENDENCIES: SBERT, Python NLP libraries (spaCy, NLTK).
+DETAILED ALGORITHMS IMPLEMENTED (Abdelkader's Module):
+1. Tokenization and Syntactic Analysis (spaCy parser): Extracts deterministic features, Parts of Speech (POS), and Dependency Parsing.
+2. Numeric Feature Extraction: Measures lexical diversity (TTR, MTLD), Error Density, and Cohesion indicators.
+3. Rubric Evaluation Algorithm: Uses Regular Expressions (Regex) and spaCy to evaluate 22 pedagogical criteria (e.g., Introduction, Body, Counterargument, Conclusion).
+4. L1 Transfer Error Detection (L1 Pattern Matching): Detects 8 common linguistic transfer patterns from Arabic and French to English.
+5. Vector Representation (TF-IDF) & Cosine Similarity: Represents texts and detects plagiarism/similarity among students.
+6. Semantic Embedding (Sentence-BERT): Converts texts into 768-dimensional semantic vectors (Zero-shot/No fine-tuning) to feed the machine learning models.
+
+ALGORITHM: Youcef_Algo (Statistical Profiling)
+POSITION IN PIPELINE: Preprocessing / Statistical Profiling
+INPUT: Moodle activity logs and rubric grades.
+OUTPUT: Engagement variables and Spearman correlations for feature selection.
+INTEGRATION METHOD: Outputs the core tabular data block required to train the Random Forest.
+DEPENDENCIES: Pandas, Scikit-learn preprocessing.
+DETAILED ALGORITHMS IMPLEMENTED (Youcef's Module):
+1. Group Statistics Algorithm: Aggregates student behavioral data and calculates exact statistical divergences using the Mann-Whitney U test between "High/Critical Risk" and "Low/Moderate Risk" cohorts.
+2. Effect Size Computation: Calculates MWU effect size (r) and Cohen's d to measure the magnitude of difference in variables like Rhetorical Competence and Writing Process.
+3. Spearman Correlations Algorithm: Measures statistical correlation between major categories. The output is used for Feature Selection to remove non-impactful variables before AI training, actively preventing Overfitting.
+
+ALGORITHM: Adnan_Algo (Backend & Behavioral Features Engine)
+POSITION IN PIPELINE: Intelligent Selector / Backend Fusion
+INPUT: Predictions from ML Branch (RF) and NLP Branch (LLM) + Raw Moodle Logs.
+OUTPUT: Unified Learner State, Rule ID, and Behavioral Flags.
+INTEGRATION METHOD: Acts as the master decision node orchestrating the fusion formula and override rules.
+DEPENDENCIES: JSON Parsing, Pandas, Core Python logic.
+DETAILED ALGORITHMS IMPLEMENTED (Adnan's Module):
+1. Robust Behavioral Feature Engineering: Calculates advanced statistical metrics for time spent (e.g., Median, IQR, MAD) and utilizes Winsorization (capping inactivity at a maximum of 30 minutes per session) to handle outlier values in student behavior on the Moodle platform.
+2. Temporal & Log Analysis: Performs raw log event parsing, editing duration extraction, and session segmentation.
+3. Advanced Statistical Data Mining: Computes PCA (Principal Component Analysis) for dimensionality reduction, K-S tests (Kolmogorov-Smirnov) for distribution testing, and PrefixSpan for Sequential Pattern Mining of student navigation.
+4. Behavioral Flags Engine: Extracts 7 critical flags from behavioral data to diagnose student state prior to evaluation: (RUSH_SUBMISSION, DEEP_ENGAGEMENT, RUBRIC_AWARE, FEEDBACK_LITERATE, PASSIVE_DISENGAGEMENT, DEADLINE_PRESSURE, INSUFFICIENT_PLANNING).
+5. Intelligent Selector Logic: The core of the system that fuses Random Forest results with NLP Confidence, applying programmed Override Rules to select the final adaptive feedback template.
+
+──────────────────────────────────────────
+OUTPUT SECTION 07 — OVERFITTING DEFENSE REPORT
+──────────────────────────────────────────
+Given the constraint of $N=50$ logged students and 437 valid submission rows (accounting for missing assignments), overfitting is the primary statistical threat.
+- Validation Methodology: Stratified 5-Fold Cross Validation. If class imbalance is severe, Leave-One-Out Cross-Validation (LOOCV) is utilized.
+- Tree Depth Limiting: `max_depth` restricted strictly to 4 to 6.
+- Min Samples Per Leaf: `min_samples_leaf` forced to ≥ 5 to prevent single-instance memorization.
+- Feature Selection: Recursive Feature Elimination (RFE) using Youcef_Algo correlations. Features with importance < 0.01 are dropped to reduce dimensionality.
+- Number of Trees: `n_estimators` tuned between 100-300 to stabilize variance.
+- Class Balancing: `class_weight='balanced'` applied to counteract sparse risk states.
+- Accuracy Expectations:
+  * Acceptable: 62% - 75% (Realistic for human behavioral data on small N).
+  * Good: 75% - 82% (Ideal state).
+  * Suspicious: 83% - 90% (Investigate for data leakage).
+  * Red Flag: > 90% (Definitive overfitting; trigger immediate model rollback).
+
+──────────────────────────────────────────
+OUTPUT SECTION 08 — COMPLETE ALGORITHM REGISTRY
+──────────────────────────────────────────
+┌──────────────────┬──────────────┬────────────────┬────────────────┬──────────────┬────────────┐
+│ Algorithm Name   │ Source       │ Role           │ Input          │ Output       │ Layer      │
+├──────────────────┼──────────────┼────────────────┼────────────────┼──────────────┼────────────┤
+│ Random Forest    │ Client req.  │ Classification │ Feature matrix │ Class + prob │ ML Branch  │
+│ LLM Analyzers    │ Resource C   │ NLP Analysis   │ Text data      │ Score/label  │ NLP Branch │
+│ Abdelkader_Algo  │ Resource A   │ NLP Enrichment │ Essay text     │ Text metrics │ Pre-ML     │
+│ Youcef_Algo      │ Resource A   │ Profiling      │ Moodle logs    │ Cleaned vars │ Pre-ML     │
+│ Adnan_Algo       │ Resource A   │ Intelligent Sel│ Both outputs   │ Final pred.  │ Decision   │
+└──────────────────┴──────────────┴────────────────┴────────────────┴──────────────┴────────────┘
+
+──────────────────────────────────────────
+OUTPUT SECTION 09 — PROJECT FOLDER STRUCTURE
+──────────────────────────────────────────
+/project-root/
+├── /data/
+│   ├── /raw/              ← original untouched data (Moodle logs, rubrics)
+│   ├── /processed/        ← cleaned and encoded data
+│   └── /features/         ← engineered feature sets (Youcef_Algo outputs)
+├── /models/
+│   ├── /random_forest/    ← RF model files + configs
+│   └── /nlp/              ← NLP model files + configs
+├── /algorithms/
+│   ├── /custom/           ← team-built algorithms (Abdelkader, Youcef, Adnan)
+├── /nlp_responses/        ← LLM output files (Resource C texts/benchmarks)
+├── /selector/             ← intelligent model selector logic (fusion engine)
+├── /outputs/
+│   ├── /predictions/      ← final predictions per student
+│   ├── /reports/          ← generated validation reports
+│   └── /logs/             ← decision logs + explainability traces
+├── /evaluation/           ← metrics, CV results, confusion matrices
+├── /config/               ← hyperparameters + pedagogical thresholds
+└── /docs/                 ← this blueprint + technical docs
+
+──────────────────────────────────────────
+OUTPUT SECTION 10 — IMPLEMENTATION ROADMAP
+──────────────────────────────────────────
+PHASE 1 — DATA AUDIT & PREPARATION
+  □ Task 1.1: Ingest 437 valid submission rows (from $N=50$ logged students) into secure /data/raw/.
+  □ Task 1.2: Anonymize student IDs.
+
+PHASE 2 — FEATURE ENGINEERING
+  □ Task 2.1: Deploy Youcef_Algo to calculate time-on-task and engagement metrics.
+  □ Task 2.2: Deploy Abdelkader_Algo to extract cohesion and error density from texts.
+
+PHASE 3 — ML BRANCH SETUP (Random Forest + Client Algorithms)
+  □ Task 3.1: Train Random Forest using 5-Fold CV.
+  □ Task 3.2: Implement extreme regularization limits (max_depth=4).
+
+PHASE 4 — NLP BRANCH SETUP (LLM Integration)
+  □ Task 4.1: Construct NLP prompts using Claude/Gemini/Z.ai blueprints.
+  □ Task 4.2: Setup parsing pipeline for LLM outputs to extract confidence scores.
+
+PHASE 5 — CUSTOM ALGORITHMS INTEGRATION
+  □ Task 5.1: Finalize data flow piping from Abdelkader_Algo/Youcef_Algo to ML matrices.
+
+PHASE 6 — INTELLIGENT SELECTOR DEVELOPMENT
+  □ Task 6.1: Program Adnan_Algo to execute the (0.70 × NLP) + (0.30 × RF) heuristic fusion formula (pending Golden Dataset empirical calibration).
+  □ Task 6.2: Implement hardcoded override conditions and disagreement fallbacks.
+
+PHASE 7 — VALIDATION & ANTI-OVERFITTING
+  □ Task 7.1: Monitor Train vs Val gap every epoch. Drop feature importances < 0.01.
+
+PHASE 8 — TESTING & EVALUATION
+  □ Task 8.1: Test system failure modes (degraded mode operations).
+
+PHASE 9 — OUTPUT GENERATION & REPORTING
+  □ Task 9.1: Connect Rule Engine to output mapped Pedagogical Feedback Templates.
+
+PHASE 10 — DOCUMENTATION & DELIVERY
+  □ Task 10.1: Present Teacher Validation dashboard UI logic to client.
+
+──────────────────────────────────────────
+OUTPUT SECTION 11 — HONEST LIMITATIONS & RISK REGISTER
+──────────────────────────────────────────
+RISK 01: Random Forest Overfitting
+SEVERITY: High
+DESCRIPTION: N=437 submissions (derived from 50 logged students out of 60 enrolled) requires careful ML regularization.
+IMPACT: Model may perfectly memorize training drafts and fail on new cohorts.
+MITIGATION: Draconian tree limits (depth 4) and intelligent fallback to NLP branch.
+ACCEPTED: Yes — Client mandated Random Forest despite data size.
+
+RISK 02: NLP Hallucination / Misclassification
+SEVERITY: Medium
+DESCRIPTION: LLMs may hallucinate linguistic risk levels or fail to parse text structures accurately.
+IMPACT: Inappropriate feedback templates suggested to teachers.
+MITIGATION: Intelligent Selector override (If RF confidence > 0.9, ignore NLP). Final Teacher Validation acts as safety net.
+ACCEPTED: Yes — HITL requirement solves this risk entirely.
+
+RISK 03: Feature Sparsity
+SEVERITY: Low
+DESCRIPTION: Some students may have missing Moodle logs (e.g., zero time-on-task logged due to timeouts).
+IMPACT: Median imputation may skew statistical distributions.
+MITIGATION: Youcef_Algo handles median imputation, and the fusion engine down-weights RF if feature sparsity detects anomaly.
+ACCEPTED: Yes.
+
+──────────────────────────────────────────
+OUTPUT SECTION 12 — DECISION LOG TEMPLATE
+──────────────────────────────────────────
+DECISION 001: NLP Bias Weighting
+CHOSEN OPTION: NLP is weighted at 0.70 vs RF at 0.30.
+ALTERNATIVES CONSIDERED: Equal weighting (0.50 / 0.50) or RF dominance (0.70 / 0.30).
+REASON FOR CHOICE: Due to N=437 submissions, Random Forest has lower statistical power to capture deep semantic meaning. NLP models (LLMs) are pre-trained on billions of parameters and provide inherently better semantic diagnosis on small datasets. RF acts as a behavioral and quantitative check.
+TRADEOFFS ACCEPTED: Increased latency/cost of running LLM inferences vs pure offline ML predictions.
+REVERSIBILITY: Yes. The weighting parameters are stored in /config/ and can be adjusted seamlessly based on live cohort performance.
+
+──────────────────────────────────────────
+OUTPUT SECTION 13 — ALGORITHMS DEEP DIVE
+──────────────────────────────────────────
+
+■ FIRST: Natural Language Processing Module (Abdelkader_Algo)
+1. Tokenization and Syntactic Analysis Algorithm (spaCy parser)
+   - Goal: Syntactic decomposition of texts and understanding of sentence structure.
+   - Input Format: Raw student text as a string array (Raw String).
+   - Outputs: Segments (Tokens), Parts of Speech tags (POS Tags), and Dependency Parsing trees.
+
+2. Numeric Feature Extraction Algorithm
+   - Goal: Convert writing quality into numerical values to measure lexical diversity and cohesion indicators.
+   - Input Format: List of tokenized words and list of detected grammatical errors.
+   - Outputs: Continuous numerical variables (Float) including (TTR, MTLD, Cohesion, Error Density).
+
+3. Rubric Evaluation Algorithm
+   - Goal: Automated evaluation of texts according to 22 pedagogical criteria (e.g., introduction, body, conclusion).
+   - Input Format: Raw text split into independent paragraphs using Regular Expressions (Regex).
+   - Outputs: Discrete Scores for each evaluation criterion.
+
+4. L1 Transfer Error Detection Algorithm (L1 Pattern Matching)
+   - Goal: Detect the negative linguistic transfer from the mother tongue (Arabic/French) to the student's English writing via 8 specific patterns.
+   - Input Format: Student text sentences.
+   - Outputs: Number of detected errors (Integer) categorized by the linguistic pattern type.
+
+5. Vector Representation and Similarity Algorithm (TF-IDF & Cosine Similarity)
+   - Goal: Detect cases of similarity and academic plagiarism among student texts.
+   - Input Format: The text corpus of all students in the cohort.
+   - Outputs: A mathematical similarity matrix (2D Float Array Similarity Matrix).
+
+6. Semantic Embedding (Sentence-BERT)
+   - Goal: Extract deep semantic meaning and embed it into the machine learning model without the need for pre-training (Zero-shot).
+   - Input Format: Essay texts.
+   - Outputs: Massive 768-dimensional semantic vectors (768-dim Vectors).
+
+■ SECOND: Statistical Profiling and Portfolio Building Module (Youcef_Algo)
+1. Group Statistics Algorithm (Group Statistics & Mann-Whitney U)
+   - Goal: Identify fundamental statistical differences between students at high risk versus those at low risk.
+   - Input Format: Student grades and aggregated behaviors from the Moodle system.
+   - Outputs: Precise metrics including (Mann-Whitney U, p-value, r effect size, Cohen's d).
+
+2. Spearman Correlations Algorithm
+   - Goal: Feature engineering and selection of the most critical variables to eliminate weak features and prevent Overfitting.
+   - Input Format: Evaluation scores for major criteria (Writing Process, Linguistic Accuracy).
+   - Outputs: A statistical correlation matrix in (JSON) format that measures the strength of relationships between skills.
+
+■ THIRD: Behavioral Features and Decision Engine (Adnan_Algo)
+1. Robust Behavioral Feature Engineering Algorithm
+   - Goal: Calculate precise temporal statistics for student effort while removing extreme and outlier values using Winsorization (hard cap at 30-minute inactivity).
+   - Input Format: Raw Moodle logs (Raw JSON Logs) including Timestamps.
+   - Outputs: Corrected temporal statistical metrics (Median, IQR, MAD).
+
+2. Behavioral Flags Engine
+   - Goal: Classify the behavioral state of the student to guide feedback (e.g., rushed submission before the deadline).
+   - Input Format: Temporal data and browsing sessions (Editing Duration, Session Count, Page Views).
+   - Outputs: 7 critical Boolean Flags such as (RUSH_SUBMISSION, DEEP_ENGAGEMENT, DEADLINE_PRESSURE).
+
+3. Temporal Analyzer and Pattern Extraction Algorithm (Temporal & Log Analysis & PrefixSpan)
+   - Goal: Track navigation paths and student clicks on the system to diagnose learning habits and patterns.
+   - Input Format: Sequential logs of student clicks on the Moodle platform.
+   - Outputs: Sequential navigation patterns, in addition to Principal Component Analysis (PCA).
+
+4. Intelligent Selector Logic Algorithm
+   - Goal: The central engine of the system; merges the outputs of classical AI (Random Forest) and generative AI (NLP) to make the final decision.
+   - Input Format: RF Probabilities generated from the first branch, and NLP Confidence from the second branch.
+   - Outputs: The final Learner State and the Rule ID that triggers the final feedback message.
+
+──────────────────────────────────────────
+OUTPUT SECTION 14 — MACRO-LEVEL ARCHITECTURE LAYERS (LLM BENCHMARK INSIGHTS)
+──────────────────────────────────────────
+Based on meta-analyses of leading LLM architectural responses (Claude, Z.ai, Gemini), the system's operational workflow is formally structured into four distinct horizontal layers to separate concerns and ensure maintainability:
+
+■ LAYER 1: DATA INGESTION & INTEGRATION
+- Responsibility: Connects external data sources (Moodle LMS) securely without altering the original student logs. 
+- Components Involved: Raw JSON Log Parsing, Student Profile Anonymization, and secure temporary storage in `/data/raw/`.
+
+■ LAYER 2: FEATURE ENGINEERING ENGINE
+- Responsibility: Transforms messy, multi-modal raw data into structured tensors and calculated metrics.
+- Components Involved: 
+  - Adnan's Winsorization & Timestamp segmentation.
+  - Youcef's Group Statistics and Missing Value Handling.
+  - Abdelkader's spaCy Tokenization and L1 Pattern Matchers.
+
+■ LAYER 3: AI / INFERENCE ENGINE
+- Responsibility: Predicts pedagogical risk. This layer is explicitly bifurcated to solve the small-N constraint (437 submission rows).
+- Components Involved: 
+  - The Classical ML Branch (Random Forest classifier limited to depth 4).
+  - The Generative NLP Branch (Zero-shot LLM Semantic Inference & SBERT).
+
+■ LAYER 4: ADAPTIVE RULE MATCHING & FUSION ENGINE
+- Responsibility: Synthesizes competing AI predictions and safely routes them to deterministic human-readable templates.
+- Components Involved: 
+  - Adnan's Intelligent Selector Formula (0.70 NLP + 0.30 RF — heuristic baseline pending calibration).
+  - Rule-Based Override Logic.
+  - Final Feedback Template Dispatcher and Teacher Validation Dashboard.
+
+──────────────────────────────────────────
+OUTPUT SECTION 15 — CONCRETE STUDENT RECORD EXAMPLE
+──────────────────────────────────────────
+The following is an explicit, unified representation of a single row of student data integrating Moodle logs, Rubric scores, and NLP outputs immediately prior to the Rule Matching stage:
+
+| student_id | loop_id | draft_id | claim | evidence | reasoning | counterargument | language | word_count | error_density | cohesion_index | rubric_views | resource_views | time_on_task | revision_depth | feedback_viewed | help_category | learner_state | feedback_template |
+|------------|---------|----------|-------|----------|-----------|-----------------|----------|------------|---------------|----------------|--------------|----------------|--------------|----------------|-----------------|---------------|---------------|-------------------|
+| S01        | 2       | D1       | 2     | 2        | 1         | 1               | 3        | 98         | high          | low            | 0            | 1              | 12           | none           | no              | none          | argumentation risk + low planning | argument_scaffold + planning_scaffold |
+
+INTERPRETATION OF THE EXAMPLE (S01):
+- Student S01 in Loop 2, Draft 1 struggles heavily with logic (reasoning=1, counterargument=1).
+- Their NLP profile shows a short text (98 words), high error density, and low cohesion.
+- Their Behavioral profile shows severe disengagement: 0 rubric views, only 1 resource view, a mere 12 minutes on task, no revision depth, and they completely ignored previous feedback (feedback_viewed=no).
+- The Rule Engine dynamically concludes the learner state: "argumentation risk + low planning".
+- The System instantly triggers the targeted pedagogical response: "argument_scaffold + planning_scaffold".
+
+──────────────────────────────────────────
+OUTPUT SECTION 16 — TEACHER VALIDATION DASHBOARD METRICS
+──────────────────────────────────────────
+Based on the client's explicit Excel specifications, the system aggregates all individual decisions into an "Adaptive Feedback Engine Dashboard". This provides the instructor with a macro-level view of the entire class.
+
+■ Operational Metrics
+- Total students (Target: 60 enrolled, 50 logged)
+- Completed teacher decisions (Tracks how many AI templates the human teacher has explicitly validated)
+
+■ Diagnosed Risk Counters (Count of students flagged)
+- High argument risk
+- High cohesion risk
+- High language risk
+- High forethought risk
+- High revision risk
+- High feedback uptake risk
+- High help-seeking risk
+
+■ Clustered Learner Profiles
+- Strategic writers
+- Engaged but developing writers
+- Efficient but passive writers
+- At-risk writers
+
+PURPOSE: This dashboard acts as the final view layer (corresponding to Pipeline Stage 7). It serves a dual purpose: it tracks the teacher's operational progress in validating the system's templates, and it provides immediate pedagogical insights. For instance, if a large spike occurs in "High argument risk," the teacher knows to address argumentation holistically in the next live lecture.
+
+──────────────────────────────────────────
+OUTPUT SECTION 17 — INDICATOR THRESHOLDS & PEDAGOGICAL MAPPING
+──────────────────────────────────────────
+Based on the explicit definitions provided in the client's matrix, the following table dictates exactly how continuous variables are discretized into Risk Bands (Stage 3: Thresholding) and mapped to Pedagogical Meaning.
+
+| Indicator | Low/Risk | Moderate/Watch | Strong/Satisfactory | Transformation/Formula | Pedagogical Meaning | Primary Feedback Logic |
+|-----------|----------|----------------|---------------------|------------------------|---------------------|------------------------|
+| **Rubric criterion score** | 1 - 2 | 3 | 4 - 5 | Direct score | Clear weakness / developing control / relative mastery | Argument, language, or discourse support |
+| **Overall rubric average** | < 2.5 | 2.5 - 3.49 | >= 3.5 | Mean of all rubric criteria | Global writing status | Learner profile and support intensity |
+| **Word count** | Below task expectation | Near expectation | Meets/exceeds expectation | Compare Word_Count to Expected_Word_Count | Underdeveloped vs elaborated writing | Paragraph expansion or planning scaffold |
+| **Error density (per 100 words)** | > 8 | 4 - 8 | < 4 | (Error_Count / Word_Count) * 100 | Form-level difficulty | Direct/metalinguistic language feedback |
+| **Cohesion index** | < 2 | 2 - 3 | >= 4 | Cohesion markers per paragraph | Weak vs controlled discourse linking | Cohesion/organization support |
+| **Rubric views** | 0 | 1 | >= 2 | Moodle log count | Low vs active criteria awareness | Planning scaffold / rubric walkthrough |
+| **Active time-on-task** | < 15 min | 15 - 29 min | >= 30 min | Cleaned Moodle time estimate | Insufficient vs adequate composing engagement | Planning/time-management prompt |
+| **Revision frequency** | 0 | 1 | >= 2 | Draft comparison count | No monitoring vs limited/sustained revision | Revision checklist or global revision support |
+| **Feedback uptake** | Viewed but no revision | Viewed + minor revision | Viewed + substantive revision | Feedback view linked to draft change | Exposure vs actual use | Feedback decoding / feed-forward |
+| **Help-seeking messages** | 0 when weak performance | Procedural only | Clarification/argument | Message count + coded category | Hidden difficulty vs adaptive help-seeking | Dialogic scaffolding or proactive check-in |
+
+*Note on Execution: These mathematical boundaries (e.g., `< 15 min`, `> 8 errors`) are hard-coded constraints for the Feature Engineering Engine (Layer 2) to ensure the AI Branch and Rule Matching Engine (Layers 3 & 4) receive standardized categorical data.*
+
+──────────────────────────────────────────
+OUTPUT SECTION 18 — RULE MATCHING & TEMPLATE DISPATCH REGISTRY
+──────────────────────────────────────────
+This final operational table defines exactly how the "Learner State" (from Stage 4: Diagnosis) triggers Adnan's Intelligent Selector to output a deterministic `Template_ID` (Stage 6: Rule Matching), determining both the Feedback Focus and Priority level for the Teacher Dashboard.
+
+| Rule ID | Learner State | Pedagogical Interpretation | Template ID | Recommended Feedback Focus | Intervention Mode | Priority |
+|---------|---------------|----------------------------|-------------|----------------------------|-------------------|----------|
+| **A1** | Forethought risk = High | Weak planning and low criteria awareness | `planning_scaffold` | Rubric walkthrough, outline modelling, staged drafting | Teacher-guided planning conference | High |
+| **A2** | Forethought risk = Medium | Partial planning but inconsistent task preparation | `planning_prompt` | Guided planning support and micro-goal setting | Short Moodle prompt + target-setting | Medium |
+| **B1** | Argumentation weakness = High | Weak claim-evidence-reasoning structure | `argument_scaffold` | Claim-evidence-explanation modelling | Model paragraph + targeted rewrite | High |
+| **B2** | Argumentation weakness = Medium | Argument present but underdeveloped | `argument_expansion` | Guided expansion of reasoning and support | Teacher prompt + revision checklist | High |
+| **B3** | Argumentation competence = High | Strong reasoning already present | `metacognitive_extension` | Advanced challenge such as counterargument integration | Extension task | Low |
+| **B4** | Discourse competence = Low | Weak organization and poor cohesion | `cohesion_support` | Paragraph restructuring with a model paragraph | Mini-lesson or one-to-one support | High |
+| **B5** | Discourse competence = Medium | Developing organization and cohesion | `organization_support` | Guided improvement of transitions and sequencing | Transition map and sequence revision | Medium |
+| **B6** | Linguistic accuracy risk = High | Persistent grammar problems affecting clarity | `direct_corrective_feedback`| Mini grammar lesson on recurrent errors | Direct correction + focused exercise | High |
+| **B7** | Linguistic accuracy risk = Medium | Partial grammatical control | `metalinguistic_feedback` | Guided correction with explanation of rule patterns | Metalinguistic prompt | Medium |
+| **B8** | Linguistic control = High | Good grammatical control | `fluency_extension` | Advanced stylistic refinement | Academic style extension | Low |
+| **B9** | Lexical competence = Low | Restricted vocabulary and weak academic register | `lexical_enrichment` | Academic vocabulary support and model expressions | Lexical bank + sentence frames | High |
+| **B10**| Lexical competence = Medium | Developing lexical precision | `lexical_refinement` | Synonym training and lexical upgrading | Lexical refinement prompt | Medium |
+| **C1** | Revision depth = Low | No revision or very superficial revision | `revision_prompt` | Guided revision checklist | Required revision plan before resubmission | High |
+| **C2** | Revision depth = Medium | Partial revision but limited meaning-level change | `global_revision_feedback`| Teacher modelling of deeper/global revision | Global revision demonstration | Medium |
+| **C3** | Revision depth = High | Effective revision behaviour | `metacognitive_feedback` | Reflection on successful revision strategies | Self-regulation reinforcement | Low |
+| **C4** | Feedback uptake risk = High | Feedback viewed but not used | `feedback_decoding` | Feedback interpretation/decoding session | Teacher feedback-decoding conference | High |
+| **C5** | Feedback uptake risk = Medium | Partial use of feedback | `feedforward_guidance` | Guided application of comments to next revision | Feed-forward planning prompt | Medium |
+| **C6** | Feedback uptake = Strong | Feedback effectively internalized | `reinforcement_feedback` | Positive reinforcement and extension task | Autonomy-supportive extension | Low |
+| **D1** | Engagement risk = High | Disengagement/low behavioural participation | `motivational_reengagement` | Teacher check-in, task clarification, simplified steps | Proactive re-engagement | High |
+| **D2** | Learner profile = Engaged but developing | Strong effort but weak strategy use | `explicit_strategic_instruction`| Scaffolded session focused on structure and argument | Small-group strategy instruction | High |
+| **D3** | Learner profile = Efficient but passive | Adequate product but unstable process regulation | `metacognitive_prompt` | Reflection support and light teacher monitoring | Metacognitive prompt | Medium |
+| **D4** | Help-seeking regulation = Adaptive | Student monitors difficulty and seeks clarification | `dialogic_scaffolding` | Short clarification conference or micro-feedback | Dialogic micro-feedback | Medium |
+| **D5** | Help-seeking risk = High | Weak performance with no clarification-seeking | `proactive_teacher_intervention`| Proactive intervention to surface hidden difficulties | Teacher check-in | High |
+| **E1** | Predicted improvement = Low | High risk of limited progress without support | `intensive_support_plan` | Individualized support plan targeting weakest dimension | Individual support plan | High |
+| **E2** | Predicted improvement = Medium/High| Good growth potential if support is focused | `targeted_development_feedback`| Focused support on weakest priority area | Targeted teacher feedback | Medium |
+| **F1** | Argument competence probability = Developing | Developing but unstable argumentative competence | `argument_refinement` | Guided refinement of evidence integration | Focused argument refinement | Medium |
+
+──────────────────────────────────────────
+OUTPUT SECTION 19 — MASTER DATABASE SCHEMA & COLOR CODING
+──────────────────────────────────────────
+Based on the full-width Excel tracking database, the system's primary data structure is explicitly organized into distinct color-coded zones. This organization strictly separates human inputs, machine-extracted metrics, and AI-computed decisions.
+
+■ BLUE ZONE: Identification & Metadata
+- Variables: Student_ID, Group (e.g., Experimental), Feedback_Loop, Task_ID, Writing_Stage, Draft_Pair, Expected_Word_Count.
+- Purpose: Anchors the row to the specific "Transaction Record" (Stage 1).
+
+■ GREEN ZONE: Human/Teacher Evaluation Inputs
+- Variables: Claim_Score, Evidence_Score, Reasoning_Score, Counterargument_Score, Language_Score.
+- Purpose: The raw analytic rubric scores provided by human raters.
+
+■ GREY ZONE: Mathematical Averages
+- Variables: Overall_Rubric_Avg, Performance_Band.
+- Purpose: Simple arithmetic transformations computed by the system.
+
+■ ORANGE/BROWN ZONE: NLP & Behavioral Feature Extraction
+- Variables: Word_Count, Error_Count, Error_Density_per_100, Cohesion_Index, Lexical_Diversity_TTR, Avg_Sentence_Length, Resource_Views, Rubric_Views, Active_Time_Min, Revision_Frequency, Revision_Depth, Feedback_Views, Feedback_Uptake, Help_Category.
+- Purpose: The raw metrics extracted by Abdelkader's NLP Engine and Adnan/Youcef's Moodle log processors (Stage 2).
+
+■ PURPLE ZONE: AI Diagnosis & Rule Engine Outputs
+- Variables: Process_Engagement_Band, Argument_Risk, Cohesion_Risk, Language_Risk, Forethought_Risk, Revision_Risk, Feedback_Uptake_Risk, Help_Seeking_Risk, Learner_Profile, Primary_Need, Rule_ID, Feedback_Template_ID, Recommended_Feedback_Theme.
+- Purpose: The exclusive output of the Intelligent Selector. No human touches these columns; they represent the mathematical synthesis of the AI (Stages 4, 5, & 6).
+
+■ YELLOW ZONE: Human-In-The-Loop (HITL) Validation & Outcomes
+- Variables: Teacher_Decision (e.g., "Pending"), Final_Feedback_Theme, Goal_Active, Next_Draft_Score.
+- Purpose: The final validation stage (Stage 7). The teacher explicitly approves or overrides the Purple Zone's recommendations here, and the system tracks the final outcome of the next draft.
+
+──────────────────────────────────────────
+OUTPUT SECTION 20 — COMPLETE DATA DICTIONARY (52 VARIABLES)
+──────────────────────────────────────────
+This section defines the exact 52-column schema required to power the database. The engineers must create these exact fields in the backend.
+
+| Field Name | Type | Raw/Derived | Source | Used For |
+|------------|------|-------------|--------|----------|
+| **Student_ID** | Text | Raw | Research ID | Join key across tables |
+| **Group** | Text | Raw | Research design | Filtering |
+| **Feedback_Loop** | Integer 1–5 | Raw | Teacher/system | Longitudinal tracking |
+| **Task_ID** | Text | Raw | Moodle task | Task-specific adaptation |
+| **Writing_Stage** | Category | Raw | Task design | Task-sensitive feedback |
+| **Draft_Pair** | Category | Raw | Submissions | Revision analysis |
+| **Expected_Word_Count** | Integer | Raw | Task design | Word-count threshold |
+| **Claim_Score** | 1–5 | Raw | Analytic rubric | Argument diagnosis |
+| **Evidence_Score** | 1–5 | Raw | Analytic rubric | Argument diagnosis |
+| **Reasoning_Score** | 1–5 | Raw | Analytic rubric | Argument diagnosis |
+| **Counterargument_Score** | 1–5 | Raw | Analytic rubric | Higher-order argumentation |
+| **Language_Use_Score** | 1–5 | Raw | Analytic rubric | Language diagnosis |
+| **Overall_Rubric_Avg** | Number | Derived | Formula | Performance band |
+| **Performance_Band** | Category | Derived | Formula | Learner profile |
+| **Word_Count** | Integer | Raw | NLP/extractor | Development indicator |
+| **Error_Count** | Integer | Raw | NLP/teacher | Error density |
+| **Error_Density_per_100** | Number | Derived | Formula | Language risk |
+| **Cohesion_Markers_Count** | Integer | Raw | NLP | Cohesion analysis |
+| **Cohesion_Index** | Number | Raw/Derived | NLP/manual | Discourse competence |
+| **Lexical_Diversity_TTR** | Number | Raw | NLP | Lexical richness |
+| **Avg_Sentence_Length** | Number | Raw | NLP | Complexity indicator |
+| **Assignment_Views** | Integer | Raw | Moodle logs | Task engagement |
+| **Resource_Views** | Integer | Raw | Moodle logs | Learning engagement |
+| **Rubric_Views** | Integer | Raw | Moodle logs | Criteria awareness |
+| **Active_Time_Min** | Number | Raw/Derived | Moodle logs | Engagement/SRL |
+| **Draft_Count** | Integer | Raw | Moodle submissions | Process engagement |
+| **Revision_Frequency** | Integer | Raw/Derived | Draft comparison | SRL monitoring |
+| **Revision_Depth** | Category | Raw/Derived | Text comparison | Revision quality |
+| **Text_Change_Pct** | Percent | Derived | Text comparison | Revision depth |
+| **Feedback_Viewed** | Yes/No | Raw | Moodle logs | Feedback exposure |
+| **Feedback_View_Count** | Integer | Raw | Moodle logs | Feedback engagement |
+| **Feedback_Used** | Category | Raw/Derived | Draft comparison | Feedback uptake |
+| **Feedback_to_Revision_Hours** | Number | Derived | Logs | Temporal uptake |
+| **Help_Message_Count** | Integer | Raw | Moodle messages | Metacognitive regulation |
+| **Help_Category** | Category | Raw/Derived | Message coding | Help-seeking diagnosis |
+| **Process_Engagement_Band** | Category | Derived | Formula | Learner profile |
+| **Argument_Risk** | Category | Derived | Formula | Rule B1/B2/B3 |
+| **Cohesion_Risk** | Category | Derived | Formula | Rule B4/B5 |
+| **Language_Risk** | Category | Derived | Formula | Rule B6/B7 |
+| **Forethought_Risk** | Category | Derived | Formula | Rule A1/A2 |
+| **Revision_Risk** | Category | Derived | Formula | Rule C1/C2/C3 |
+| **Feedback_Uptake_Risk** | Category | Derived | Formula | Rule C4/C5/C6 |
+| **Help_Seeking_Risk** | Category | Derived | Formula | Rule D5 |
+| **Learner_Profile** | Category | Derived | Formula/model | Profile-based support |
+| **Primary_Need** | Text | Derived | Formula/rules | Rule selection |
+| **Rule_ID** | Text | Derived | Rule engine | Feedback template lookup |
+| **Feedback_Template_ID** | Text | Derived | Rule engine | Message generation |
+| **Recommended_Feedback_Focus** | Text | Derived | Rule engine | Teacher dashboard |
+| **Teacher_Decision** | Category | Raw | Teacher | HITL governance |
+| **Final_Feedback_Focus** | Text | Raw | Teacher | Delivered feedback log |
+| **Next_Action** | Text | Raw | Teacher | Intervention record |
+| **Next_Draft_Score** | Number | Raw | Next rubric | Outcome tracking |
+
+──────────────────────────────────────────
+OUTPUT SECTION 21 — FEEDBACK TEMPLATE LIBRARY (THE FINAL OUTPUT)
+──────────────────────────────────────────
+This final table dictates the exact text skeletons and pedagogical actions generated by the system once a `Template_ID` is triggered (Stage 6 -> Stage 7). This is the literal output shown to the student (Student_Facing_Skeleton) and the recommended action for the human (Teacher_Action).
+
+| Template ID | Feedback Type | Cognitive Demand | Use When | Student_Facing_Skeleton | Teacher_Action |
+|-------------|---------------|------------------|----------|-------------------------|----------------|
+| `planning_scaffold` | Feed-up / planning | Moderate | Rubric views = 0 or time-on-task is low | Before revising, return to the rubric. Identify the required claim, evidence... | Walk through the rubric and ask learner to set one goal. |
+| `planning_prompt` | Feed-up / planning | Moderate | Planning risk is medium | Set one micro-goal for this draft and check it against the rubric before... | Confirm the goal is realistic and task-specific. |
+| `argument_scaffold` | Strategic feedback | High | Argument score is low | Rewrite the paragraph using Claim -> Evidence -> Explanation. Add two... | Provide model paragraph and require claim/evidence mapping. |
+| `argument_expansion` | Strategic feedback | High | Argument is present but underdeveloped | Your argument is emerging. Expand the reasoning after the evidence and... | Ask for one evidence-explanation expansion. |
+| `argument_refinement` | Strategic/metacognitive | High | Argument competence is medium | Refine the connection between your evidence and claim. Make the warrant... | Ask learner to annotate evidence-to-claim link. |
+| `cohesion_support` | Process feedback | High | Cohesion index is low | Reorder the sentences so that each idea follows logically from the previous... | Model paragraph structure and transition use. |
+| `organization_support`| Process feedback | Moderate | Cohesion/organization is moderate | Improve sequencing by placing the strongest reason first and using transitions... | Give transition map and sequencing prompt. |
+| `direct_corrective_feedback` | Corrective feedback | Low/Moderate | Language risk is high | Correct the recurrent error pattern first, then reread the sentence for clarity... | Give a short mini-lesson on the dominant error type. |
+| `metalinguistic_feedback` | Indirect/metalinguistic | Moderate | Language risk is medium | Locate the sentence-level problem and explain the rule before correcting... | Use guided correction rather than rewriting for them. |
+| `lexical_enrichment` | Lexical feedback | Moderate | Academic register is weak | Replace vague or informal vocabulary with more precise academic expressions... | Provide controlled academic phrase bank. |
+| `lexical_refinement` | Lexical feedback | Moderate | Lexical precision is developing | Choose the word that best matches the academic meaning, not only a synonym... | Prompt learner to justify lexical choice. |
+| `revision_prompt` | Self-regulatory feedback | High | Revision frequency is 0 | Use the revision checklist. Make at least one meaning-level change, not just grammar... | Require revision plan before resubmission. |
+| `global_revision_feedback` | Self-regulatory/process | High | Revision is partial | Revise the paragraph focus, evidence explanation, or organization before... | Model global revision using one paragraph. |
+| `metacognitive_feedback` | Metacognitive feedback | Very high | Revision behaviour is strong | Explain what revision strategy worked and how you will apply it in the future... | Ask for short reflection on effective strategy. |
+| `feedback_decoding` | Feedback literacy | High | Feedback was viewed but not used | Select one teacher comment and rewrite it as an action step for your revision... | Run feedback interpretation session. |
+| `feedforward_guidance`| Feed-forward | High | Feedback use is partial | Apply the feedback to the next version by targeting one clear dimension... | Set next-draft action plan. |
+| `reinforcement_feedback` | Reinforcement/extension | Moderate | Feedback uptake is strong | You used feedback effectively. Now extend the paragraph by adding connectors... | Assign extension challenge. |
+| `dialogic_scaffolding`| Dialogic feedback | High | Learner asks meaningful clarification | Use the clarification to revise a specific sentence or paragraph section... | Provide brief one-to-one micro-feedback. |
+| `metacognitive_prompt`| Metacognitive support | Very high | Weak performance and no help-seeking | Identify what confused you most, then ask one precise question before continuing... | Proactive teacher check-in. |
+| `intensive_support_plan` | Intensive adaptive supp | High | Multiple high risks | Focus on one priority dimension, revise with a model, then submit a short piece... | Individual support plan. |
+| `targeted_development_feedback` | Targeted formative feed | Moderate/High | Moderate improvement potential | Work on the weakest priority area first: do not revise everything at once... | Focused support on weakest dimension. |
+| `metacognitive_extension` | Extension challenge | Very high | Strong performance | Add a counterargument, nuance, or more sophisticated academic stance... | Challenge task for advanced learner. |
+
+──────────────────────────────────────────
+OUTPUT SECTION 22 — SYSTEM UNIT TEST (VERTICAL TRACE)
+──────────────────────────────────────────
+This final table acts as a comprehensive "Unit Test" for the architecture. It traces a single, simulated student profile (S_EXAMPLE) vertically down through all layers of the system—from raw input variables directly to the final Teacher Action—demonstrating the exact mathematical and logical interpretation at every step.
+
+| Raw Input / Output Variable | Value | System Interpretation |
+|-----------------------------|-------|-----------------------|
+| **Student_ID** | S_EXAMPLE | Anonymous ID |
+| **Feedback_Loop** | 2 | Second feedback loop |
+| **Writing_Stage** | Body paragraph 2 | Task context |
+| **Claim_Score** | 2 | Weak claim control |
+| **Evidence_Score** | 2 | Evidence present but limited |
+| **Reasoning_Score** | 1 | High argumentation risk |
+| **Counterargument_Score** | 1 | Counterargument absent/weak |
+| **Language_Use_Score** | 3 | Developing language control |
+| **Word_Count** | 96 | Below expected elaboration |
+| **Error_Count** | 7 | Moderate error load |
+| **Cohesion_Index** | 1.5 | High cohesion risk |
+| **Rubric_Views** | 0 | Low criteria awareness |
+| **Active_Time_Min** | 12 | Low composing engagement |
+| **Revision_Frequency** | 0 | No revision |
+| **Feedback_Viewed** | No | Feedback exposure absent |
+| **Feedback_Used** | No | Feedback uptake risk high |
+| **Help_Message_Count** | 0 | Hidden difficulty possible |
+| **Help_Category** | None | No help-seeking |
+| **Expected Learner State** | At-risk writer | Low process and weak performance |
+| **Expected Primary Need** | Argument structure | Highest-priority pedagogical diagnosis |
+| **Expected Rule** | B1 | argument_scaffold |
+| **Expected Teacher Action** | Model claim-evidence-explanation and require targeted rewrite | Teacher validates before delivery |
+
+──────────────────────────────────────────
+OUTPUT SECTION 23 — SYSTEM ENUMERATIONS (CATEGORICAL DROPDOWNS)
+──────────────────────────────────────────
+To ensure absolute data integrity during ingestion and validation (Stage 2), the system enforces strict categorical lists (enumerations) for specific variables. No free-text is allowed for these fields.
+
+| Field / Dropdown List | Allowed Values |
+|-----------------------|----------------|
+| **Score_1_5** | 1.0, 2.0, 3.0, 4.0, 5.0 |
+| **Performance_Band** | Low/Risk, Moderate/Watch, Strong/Satisfactory |
+| **Risk_Level** | High, Medium, Low |
+| **Feedback_Loop** | 1, 2, 3, 4, 5 |
+| **Writing_Stage** | Introductory paragraph, Body paragraph 1, Body paragraph 2, Counterargument paragraph, Full argumentative essay |
+| **Draft_Pair** | D1-D2, D2-D3, D3-D4, D4-D5, Pre-Post |
+| **Revision_Depth** | None, Surface, Partial, Global/Substantive |
+| **Feedback_Used** | No, Partial, Yes |
+| **Help_Category** | None, Procedural clarification, Feedback clarification, Linguistic assistance, Argument development, Affective/motivation, Technical access |
+| **Teacher_Decision** | Pending, Approved, Modified, Rejected, Delivered |
+
+──────────────────────────────────────────
+OUTPUT SECTION 24 — PIPELINE ENGINEERING LOGIC (10-STEP OPERATIONS)
+──────────────────────────────────────────
+This final operational table details the exact 10-step sequence the backend must execute for every single transaction loop. It connects the Raw Input to the Feature Engineering, Rule Matching, and Teacher Validation layers.
+
+1. **Ingest raw evidence:** Import one transaction record per student per feedback loop and draft pair (Store old loops; never overwrite).
+2. **Validate data:** Check missing required values and allowed ranges (Block recommendation if core rubric or task data are missing).
+3. **Feature engineering:** Calculate overall score, error density, process engagement, and risk indicators based on Moodle traces.
+4. **Thresholding:** Classify indicators into High/Medium/Low risk states (Argument_Risk, Cohesion_Risk, etc.).
+5. **Learner-state construction:** Combine performance and engagement into a `Learner_Profile`.
+6. **Priority selection:** Rank needs so the learner receives one main feedback focus first to avoid cognitive overload. Priority order: 1) Writing competence risk, 2) Revision/feedback uptake risk, 3) Engagement/help-seeking risk.
+7. **Rule matching:** Map primary need and risk level to rule and template (`Rule_ID`, `Feedback_Template_ID`).
+8. **Teacher validation:** Teacher approves, modifies, rejects, or delivers recommendation (`Teacher_Decision` HITL layer).
+9. **Feedback delivery:** Generate student-facing feedback from template and teacher validation (Can be Moodle comment or onsite feedback).
+10. **Update model:** After next draft, add new row and recompute indicators (Supports longitudinal adaptive loops).
+
+──────────────────────────────────────────
+OUTPUT SECTION 25 — DASHBOARD METRICS
+──────────────────────────────────────────
+The system will provide a dashboard for the teacher/researcher to monitor the overall health of the class. The dashboard aggregates the following counts directly from the backend database:
+
+| Metric | Formula / Count Logic |
+|--------|-----------------------|
+| Total students | 60 (50 logged) |
+| Completed teacher decisions | Count of rows where Teacher_Decision != Pending |
+| High argument risk | Count of rows where Argument_Risk = High |
+| High cohesion risk | Count of rows where Cohesion_Risk = High |
+| High language risk | Count of rows where Language_Risk = High |
+| High forethought risk | Count of rows where Forethought_Risk = High |
+| High revision risk | Count of rows where Revision_Risk = High |
+| High feedback uptake risk | Count of rows where Feedback_Uptake_Risk = High |
+| High help-seeking risk | Count of rows where Help_Seeking_Risk = High |
+| Strategic writers | Count of Learner_Profile = "Strategic" |
+| Engaged but developing writers | Count of Learner_Profile = "Engaged but developing" |
+| Efficient but passive writers | Count of Learner_Profile = "Efficient but passive" |
+| At-risk writers | Count of Learner_Profile = "At-risk writer" |
+
+──────────────────────────────────────────
+OUTPUT SECTION 26 — DATA BLOCKS PEDAGOGICAL RATIONALE
+──────────────────────────────────────────
+This section provides the pedagogical and technical rationale for why each high-level data block is required in the system.
+
+| Data Block | Exact Data Needed | Level of Input | Source | Why it is Needed | Used For |
+|------------|-------------------|----------------|--------|------------------|----------|
+| 1. Learner identifier | Anonymous student ID, group, feedback-loop number, task ID, draft number | Student × task × draft | Research dataset / Moodle export | Links all evidence without exposing student identity | Data integration, longitudinal tracking, privacy protection |
+| 2. Task configuration | Task type, essay component, prompt, deadline, expected word count, rubric used, required structure | Task / feedback loop | Teacher-created Moodle task | Gives the system the pedagogical frame for interpreting whether the learner met task expectations | Threshold setting, task-sensitive feedback selection |
+| 3. Analytic rubric scores | Criterion scores, preferably final paper dimensions: Claim, Evidence, Reasoning, Counterargument, Language Use. If using the fuller thesis rubric, include Content, Organization, Cohesion, Lexical Sophistication, Grammar, Argumentation | Student × draft | Teacher / raters | Converts qualitative writing performance into measurable diagnostic variables | Performance-based adaptation, Bayesian competence inference |
+| 4. Overall writing score | Total score, mean criterion score, performance band: low/risk, moderate/watch, strong/satisfactory | Student × draft | Rubric scoring | Provides a global indicator of writing development but should not replace dimension-level diagnosis | Learner profiling, prediction, growth measurement |
+| 5. Textual features | Word count, type-token ratio or lexical diversity, average sentence length, cohesion index, error density, number of academic connectors, possibly paragraph length | Draft | NLP / manual extraction / spaCy | Supplies linguistic and discourse-level evidence beyond teacher scores | Product analytics, Bayesian evidence nodes, feedback targeting |
+| 6. Submission behaviour | Submission timestamp, deadline status, draft count, number of resubmissions, delay between drafts | Student × task | Moodle assignment logs | Shows writing-process engagement and whether the learner participates in iterative drafting | Engagement diagnosis, SRL indicators, risk detection |
+| 7. Revision behaviour | Revision frequency, revision depth, text change percentage, surface vs meaning-level revision, improvement from Draft 1 to Draft 2 | Student × draft pair | Essay comparison / Moodle submissions | Captures whether feedback produced actual textual change | Self-regulated revision inference, feedback uptake evaluation |
+| 8. Moodle engagement traces | Login/session count, assignment views, resource views, lesson views, activity completion, participation/progress-bar status | Student × week/task | Moodle logs | Indicates whether the learner accessed the learning environment and instructional resources | Engagement profiling, clustering |
+| 9. Criteria-awareness indicators | Rubric views, self-assessment checklist views, task-instruction views | Student × task | Moodle logs | Shows whether learners consulted assessment criteria before or during writing | Feedback literacy, forethought/planning risk |
+| 10. Time-on-task | Estimated active time on task, adjusted session duration, time spent on assignment page/resources | Student × task | Moodle logs, cleaned for inactivity | Approximates cognitive and behavioural engagement; raw login time should be cleaned because it may overestimate engagement | Behaviour-based adaptation, SRL monitoring |
+| 11. Feedback engagement | Feedback views, number of times feedback was opened, time between feedback view and revision, whether feedback was followed by textual improvement | Student × feedback loop | Moodle logs + draft comparison | Distinguishes feedback exposure from feedback uptake | Feedback uptake rules, feed-forward decisions |
+| 12. Help-seeking messages | Message count, timestamp, message category: feedback clarification, linguistic assistance, argument development, procedural clarification | Student × task | Moodle messages / coded messages | Captures metacognitive regulation and learner response to difficulty | Help-seeking rules, teacher intervention, dialogic support |
+| 13. Absence of help-seeking during weak performance | Weak score plus zero relevant messages | Student × task | Rubric + Moodle messages | Important because silence during difficulty may indicate hidden confusion or avoidance, not independence | Risk flag, proactive teacher check-in |
+| 14. Teacher feedback record | Feedback type delivered: direct corrective, indirect, strategic, metacognitive, dialogic, feed-forward | Student × task | Teacher dashboard / feedback log | The system must know what intervention was actually delivered before interpreting later improvement | Intervention history, adaptive loop continuity |
+| 15. Rule selected by the system | Rule ID, triggered indicator, feedback template recommended, recommendation confidence or priority | Student × task | System-generated output | Makes the adaptive logic transparent and auditable | Human-in-the-loop validation |
+| 16. Teacher validation decision | Approved, modified, delayed, rejected; reason for modification; individual vs group feedback | Student × task / profile group | Teacher dashboard | Preserves teacher agency and prevents the system from functioning as an autonomous decision-maker | Ethical HITL governance, methodological transparency |
+| 17. Learner profile output | Strategic writer, engaged but developing writer, efficient but passive writer, at-risk writer | Student × loop | Clustering output | Summarizes patterns of engagement and writing performance | Profile-matched support, teacher-facing diagnosis |
+| 18. Bayesian competence probabilities | Argument Structure Competence, Cohesion and Coherence Competence, Linguistic Complexity, Self-Regulated Revision; probability bands: low, medium, high | Student × loop | Bayesian model | Converts observed evidence into probabilistic diagnostic claims about latent writing development | Adaptive feedback selection, teacher review |
+| 19. Predictive risk / improvement estimate | Predicted improvement band or risk level; not an autonomous grade | Student × loop | Random Forest or simpler predictive model | Helps identify who may need intensified support, but should remain advisory | Early-warning support, prioritisation |
+| 20. Outcome after feedback loop | Next draft scores, score gains, dimension-level improvement, revision quality, post-loop reflection | Student × draft / loop | Rubric + portfolio/reflection | Shows whether the adaptive response produced observable development | Evaluation of feedback effectiveness and longitudinal growth |
+
+──────────────────────────────────────────
+OUTPUT SECTION 27 — HELP-SEEKING CODING FRAMEWORK & RULES
+──────────────────────────────────────────
+This section explicitly defines how student messages to the teacher/system are categorized and translated into adaptive responses.
+
+### 27.1 Help-Seeking Coding Framework
+| Code | Category | Description | Example | Adaptive Interpretation |
+|------|----------|-------------|---------|-------------------------|
+| **HS1** | Feedback clarification | Student asks about teacher/system feedback | "I do not understand the cohesion comment." | Positive sign of feedback literacy; triggers `dialogic_scaffolding`. |
+| **HS2** | Linguistic assistance | Student asks about grammar, vocabulary, or form | "Is this verb tense correct?" | Language-focused; triggers `metalinguistic_feedback` or `lexical_refinement`. |
+| **HS3** | Argument development | Student asks about thesis, evidence, reasoning | "Should I add another example here?" | High-value academic help-seeking; triggers `argument_expansion`. |
+| **HS4** | Procedural clarification | Student asks about requirements, deadline, length | "How many sources should I include?" | Minimal help-seeking; useful but less cognitively deep. |
+| **HS0** | No help-seeking | No message sent | N/A | Risk ONLY when combined with weak performance. |
+
+### 27.2 Help-Seeking Thresholds
+| Variable | Low / Risk | Moderate / Watch | Strong / Adaptive |
+|----------|------------|------------------|-------------------|
+| **help_message_count** | 0 when performance is weak | 1 procedural message | >= 1 clarification, argument, or language message |
+| **help_message_quality**| None / irrelevant | Procedural only | Feedback clarification, language assistance, or argument dev |
+| **help_seeking_timing** | No message before/after feedback | Message before deadline only | Message after feedback and before revision |
+| **help_seeking_status** | hidden_difficulty_risk | minimal_help_seeking | adaptive_help_seeking |
+
+### 27.3 Help-Seeking Rules
+| Condition | Learner State | Rule ID | Feedback Template | Teacher Action |
+|-----------|---------------|---------|-------------------|----------------|
+| Weak criterion score <= 2 + no help msg | `help_seeking_risk = High` | D5 | `metacognitive_prompt` | Proactive teacher intervention |
+| At least one feedback-clarification message | `help_seeking_regulation = Adaptive`| D4 | `dialogic_scaffolding` | Short clarification conference |
+| At least one argument-development message | `argument_help_seeking = Adaptive` | B2/F1 | `argument_expansion` | Guide reasoning and evidence integration |
+| At least one language-assistance message + weak score | `linguistic_help_needed` | B7/B9 | `metalinguistic_feedback` | Target grammar or vocabulary |
+| Only procedural message + weak writing performance | `minimal_help_seeking` | A2/D3 | `planning_prompt` | Move learner from procedural to strategic regulation |
+
+──────────────────────────────────────────
+OUTPUT SECTION 28 — ITERATIVE FEEDBACK LOOPS & ANALYTIC RUBRICS
+──────────────────────────────────────────
+This section explicitly defines the sequencing of the assignments (Feedback Loops 1 through 4) and the specific scoring criteria/checklists for each stage of the writing process. This governs how the analytic scores are assigned iteratively by the teacher/system.
+
+### 28.1 Feedback Loop 1: Introduction Paragraph (Checklist)
+| Checklist Item | Guiding Questions for Peers | Example Feedback Phrases |
+|----------------|-----------------------------|--------------------------|
+| **1. Attention-Grabber / Hook** | Does the opening sentence capture the reader’s attention? Is it relevant to the argument topic? | “The opening is interesting, but you could relate it more directly to the controversy over blended assessment.” |
+| **2. Background / Context** | Does the introduction provide essential background to understand the topic? Are key terms or concepts defined? | “You briefly define blended assessment; consider adding one sentence about its role in EFL writing to give context.” |
+| **3. Issue / Problem / Controversy** | Is the debate, problem, or issue clearly stated? Is it relevant to current research or practice? | “The controversy is mentioned, but it could be more explicit: what is the main disagreement in the literature?” |
+| **4. Significance / Rationale** | Does the introduction explain why the topic matters or why it is important to address? | “You could add a sentence explaining why improving writing quality with adaptive feedback is important in EFL education.” |
+| **5. Position / Thesis Statement** | Does the thesis clearly state your position? Is it specific, arguable, and concise? | “Your thesis expresses a general stance; make it explicit that you advocate for an adaptive, learning-analytics-informed feedback framework.” |
+| **6. Roadmap / Preview of Arguments** | Does the introduction briefly outline the main points that will support the thesis? | “Consider adding one sentence summarizing the key arguments that will be discussed in the essay.” |
+
+### 28.2 Feedback Loop 2: Body Paragraphs (First and Second)
+| Criterion | Excellent (4) | Good (3) | Satisfactory (2) | Needs Improvement (1) |
+|-----------|---------------|----------|------------------|-----------------------|
+| **Claim** | Clear, precise topic sentence directly supports thesis | Mostly clear, minor ambiguity | Claim is vague or partially connected to thesis | Claim is unclear or missing |
+| **Argument Development** | Each sentence logically develops the argument with clear reasoning | Mostly logical, minor gaps | Some sentences do not clearly support argument | Argument lacks logical sequence |
+| **Evidence / Sources** | Evidence is relevant, integrated, properly cited, and interpreted | Evidence mostly relevant, minor integration issues | Some evidence lacks citation or interpretation | Evidence missing or irrelevant |
+| **Analysis / Interpretation** | Provides insightful analysis linking evidence to claim | Analysis is mostly clear | Limited analysis, mostly summary | No analysis present |
+| **Cohesion & Coherence** | Logical connectors and lexical cohesion maintain flow | Minor cohesion issues | Some sentences disconnected | Paragraph lacks coherence |
+| **Linguistic Accuracy & Academic Style** | Complex sentences, hedging, academic vocabulary, minimal errors | Mostly correct, minor errors | Some grammatical errors or informal style | Many errors, style inappropriate |
+
+### 28.3 Feedback Loop 3: Counterargument Paragraph
+| Criterion | Excellent (4) | Good (3) | Fair (2) | Limited (1) |
+|-----------|---------------|----------|----------|-------------|
+| **Structure of the counter-argument paragraph** | The paragraph includes all essential components: opposing view, explanation, support, refutation/concession, and concluding link, arranged in a clear and logical sequence. | The paragraph includes most required components and is generally well organized. | The paragraph includes some required components, but the structure is partially incomplete or uneven. | The paragraph lacks key components and shows weak or ineffective organization. |
+| **Presentation of the opposing viewpoint** | The opposing viewpoint is presented clearly, accurately, and fairly, showing strong understanding of the alternative position. | The opposing viewpoint is clear and generally accurate. | The opposing viewpoint is somewhat vague, simplified, or insufficiently developed. | The opposing viewpoint is unclear, inaccurate, or absent. |
+| **Development and support of ideas** | The paragraph includes relevant and well-developed reasoning or examples that effectively support the counter-argument. | Ideas are supported with relevant explanation or examples, though development may be somewhat limited. | Support is present but underdeveloped, repetitive, or only partly relevant. | Support is minimal, unclear, or missing. |
+| **Quality of refutation or concession** | The writer responds to the opposing view effectively and persuasively, strengthening the overall argument. | The refutation or concession is relevant and reasonably clear. | The response to the opposing view is weak, brief, or insufficiently convincing. | The paragraph lacks a meaningful refutation or concession. |
+| **Coherence and cohesion** | The paragraph demonstrates excellent unity, logical progression, and effective use of transitions and linking devices. | The paragraph is generally coherent, with appropriate transitions and overall unity. | The paragraph shows some organizational control, but transitions or flow are inconsistent. | The paragraph lacks coherence, and ideas are poorly connected. |
+
+### 28.4 Feedback Loop 4: Conclusion Paragraph
+| Criteria | Excellent (4) | Good (3) | Satisfactory (2) | Needs Improvement (1) |
+|----------|---------------|----------|------------------|-----------------------|
+| **Transition to the conclusion** | Uses a clear and effective transition that creates a smooth flow from the last body paragraph to the conclusion. | Uses an appropriate transition, though the flow may be slightly uneven. | Uses a basic transition, but the connection to the previous paragraph is weak. | It does not use a clear transition, or the paragraph begins abruptly. |
+| **Restatement of thesis** | Restates the thesis clearly and effectively in new words. | Restates the thesis clearly with some variation in wording. | Restates the thesis, but it is too close to the original or somewhat unclear. | The thesis is missing, unclear, or simply copied from the introduction. |
+| **Summary of main points** | Summarizes the main supporting points clearly and concisely. | Summarizes most main points clearly. | Refers to some main points, but the summary is incomplete or unclear. | Does not summarize the main points effectively. |
+| **Final closing statement** | Ends with a strong, thoughtful, and memorable final statement. | Ends with a clear final statement that supports the essay well. | Ends with a simple closing statement, but it lacks strength or impact. | The ending is weak, unclear, or missing. |
+| **Language and mechanics** | Uses accurate grammar, punctuation, spelling, and formal academic language throughout. | Contains minor language or mechanical errors that do not affect meaning. | Contains several errors that sometimes affect clarity. | Contains frequent errors that make the paragraph difficult to understand. |
+
+──────────────────────────────────────────
+OUTPUT SECTION 29 — FEEDBACK TEMPLATE LIBRARY (PEDAGOGICAL VIEW)
+──────────────────────────────────────────
+This table acts as a pedagogical map for the feedback template library, defining the theoretical feedback type, the main learning target, and the core feedback action intended by the system before it is instantiated into actual student-facing text (as seen in Section 21).
+
+| Template ID | Feedback Type | Main Target | Feedback Action |
+|-------------|---------------|-------------|-----------------|
+| `planning_scaffold` | Feed up / SRL planning | Planning and criteria awareness | Guide the learner through the rubric, outline structure, and staged drafting steps |
+| `planning_prompt` | Metacognitive prompt | Partial planning | Ask learner to set a micro-goal before revising |
+| `argument_scaffold` | Strategic feedback | Claim-evidence-reasoning | Model how to build one clear claim, add relevant evidence, and explain its relevance |
+| `argument_expansion` | Strategic feedback | Underdeveloped argument | Ask learner to expand reasoning after evidence and clarify the argumentative link |
+| `metacognitive_extension` | Extension feedback | Strong argumentation | Push learner toward counterargument integration or deeper critical reflection |
+| `cohesion_support` | Process-level feedback | Paragraph flow | Provide model paragraph and ask learner to restructure sentence sequence |
+| `organization_support` | Process-level feedback | Sequencing and transitions | Guide learner to improve transitions and logical progression |
+| `direct_corrective_feedback` | Direct corrective feedback | Recurrent grammar problems | Provide correction or mini-lesson for repeated form-level errors |
+| `metalinguistic_feedback` | Indirect/metalinguistic feedback | Partial grammatical control | Explain error pattern and ask learner to self-correct |
+| `fluency_extension` | Extension feedback | Strong language control | Encourage syntactic variety and stylistic refinement |
+| `lexical_enrichment` | Lexical feedback | Weak academic vocabulary | Provide academic vocabulary models and replacement expressions |
+| `lexical_refinement` | Lexical feedback | Developing lexical precision | Suggest more precise synonyms and collocations |
+| `revision_prompt` | SRL revision feedback | No or superficial revision | Provide guided revision checklist |
+| `global_revision_feedback` | Strategic revision feedback | Meaning-level revision | Model how to revise ideas, organization, and argument rather than only grammar |
+| `metacognitive_feedback` | Self-regulatory feedback | Successful revision behaviour | Ask learner to reflect on what revision strategy worked and how to reuse it |
+| `feedback_decoding` | Feedback literacy support | Feedback not used | Help learner interpret teacher comments and convert them into revision actions |
+| `feedforward_guidance` | Feed-forward feedback | Partial feedback uptake | Guide learner to apply current feedback to the next draft |
+| `reinforcement_feedback` | Reinforcement / extension | Strong feedback uptake | Acknowledge effective uptake and assign a more demanding extension task |
+| `motivational_reengagement` | Engagement support | Low behavioural participation | Teacher check-in, task clarification, simplified entry scaffold |
+| `explicit_strategic_instruction` | Explicit strategy instruction | Effort without mastery | Provide scaffolded session on argument structure and writing strategy |
+| `metacognitive_prompt` | SRL prompt | Fragile regulation / hidden difficulty | Prompt planning, monitoring, and evaluation of own work |
+| `dialogic_scaffolding` | Dialogic feedback | Adaptive help-seeking | Short clarification conference or one-to-one micro-feedback |
+| `intensive_support_plan` | Intensive support | Low predicted improvement | Individual plan targeting weakest dimensions |
+| `targeted_development_feedback` | Focused formative feedback | Moderate/high growth potential | Focus support on one priority weakness |
+| `argument_refinement` | Argument-focused feedback | Medium argument competence | Refine evidence integration and explanation |
+
+──────────────────────────────────────────
+OUTPUT SECTION 30 — RULE-BASED INTERPRETATION MATRIX (THE ENGINE)
+──────────────────────────────────────────
+This table represents the absolute core of the adaptive engine's inference layer. It dictates exactly which Rule ID is triggered when a specific learner state is detected, mapping the raw AI output directly to a pedagogical interpretation and the final Feedback Template ID.
+
+| AI Output / Learner State | Rule ID | Pedagogical Interpretation | Feedback Template ID | Onsite Adaptive Feedback / Intervention |
+|---------------------------|---------|----------------------------|----------------------|-----------------------------------------|
+| `forethought_risk = High` | `A1` | Weak planning and low criteria awareness | `planning_scaffold` | Rubric walkthrough, outline modelling, staged drafting support |
+| `forethought_risk = Medium` | `A2` | Partial planning but inconsistent task preparation | `planning_prompt` | Guided planning support and micro-goal setting |
+| `argumentation_weakness = High` | `B1` | Weak claim-evidence-reasoning structure | `argument_scaffold` | Claim-evidence-explanation modelling |
+| `argumentation_weakness = Medium` | `B2` | Argument present but underdeveloped | `argument_expansion` | Guided expansion of reasoning and support |
+| `argumentation_competence = High` | `B3` | Strong reasoning already present | `metacognitive_extension` | Advanced challenge, such as counterargument integration |
+| `discourse_competence = Low` | `B4` | Weak organization and poor cohesion | `cohesion_support` | Paragraph restructuring with a model paragraph |
+| `discourse_competence = Medium` | `B5` | Developing organization and cohesion | `organization_support` | Guided improvement of transitions and sequencing |
+| `linguistic_accuracy_risk = High` | `B6` | Persistent grammar problems affecting clarity | `direct_corrective_feedback` | Mini grammar lesson on recurrent errors |
+| `linguistic_accuracy_risk = Medium` | `B7` | Partial grammatical control | `metalinguistic_feedback` | Guided correction with explanation of rule patterns |
+| `linguistic_control = High` | `B8` | Good grammatical control | `fluency_extension` | Advanced stylistic refinement |
+| `lexical_competence = Low` | `B9` | Restricted vocabulary and weak academic register | `lexical_enrichment` | Academic vocabulary support and model expressions |
+| `lexical_competence = Medium` | `B10` | Developing lexical precision | `lexical_refinement` | Synonym training and lexical upgrading |
+| `revision_depth = Low` | `C1` | No revision or very superficial revision | `revision_prompt` | Guided revision checklist |
+| `revision_depth = Medium` | `C2` | Partial revision but limited meaning-level change | `global_revision_feedback` | Teacher modelling of deeper/global revision |
+| `revision_depth = High` | `C3` | Effective revision behaviour | `metacognitive_feedback` | Reflection on successful revision strategies |
+| `feedback_uptake_risk = High` | `C4` | Feedback viewed but not used | `feedback_decoding` | Feedback interpretation / decoding session |
+| `feedback_uptake_risk = Medium` | `C5` | Partial use of feedback | `feedforward_guidance` | Guided application of comments to the next revision |
+| `feedback_uptake = Strong` | `C6` | Feedback effectively internalized | `reinforcement_feedback` | Positive reinforcement and extension task |
+| `engagement_risk = High` | `D1` | Disengagement / low behavioural participation | `motivational_reengagement` | Teacher check-in, task clarification, simplified scaffold if needed |
+| `learner_profile = Effortful but struggling` | `D2` | Strong effort but weak strategy use | `explicit_strategic_instruction` | Scaffolded support session focused on structure and argumentation |
+| `learner_profile = Fragile regulator` | `D3` | Adequate product but unstable process regulation | `metacognitive_prompt` | Reflection support and light teacher monitoring |
+| `help_seeking_regulation = Adaptive` | `D4` | Student actively monitors difficulty and seeks clarification | `dialogic_scaffolding` | Short clarification conference or one-to-one micro-feedback |
+| `help_seeking_risk = High` | `D5` | Weak performance with no clarification-seeking | `metacognitive_prompt` | Proactive teacher intervention to surface hidden difficulty |
+| `predicted_improvement = Low` | `E1` | High risk of limited progress without support | `intensive_support_plan` | Individualized support plan targeting weakest dimensions |
+| `predicted_improvement = Medium/High` | `E2` | Good growth potential if support is focused | `targeted_development_feedback` | Focused support on weakest priority area |
+| `argument_competence_probability = Medium` | `F1` | Developing but unstable argumentative competence | `argument_refinement` | Guided refinement of evidence integration and explanation |
+
+──────────────────────────────────────────
+OUTPUT SECTION 31 — OPERATIONAL & PROBABILITY THRESHOLDS
+──────────────────────────────────────────
+These thresholds define exactly how continuous or categorical input data is bucketed into the three primary states (Low/Risk, Moderate/Watch, Strong/Satisfactory) before being evaluated by the Rule-Based Interpretation Matrix.
+
+### 31.1 Probability Thresholds
+This defines the thresholding for predictive models (e.g., Random Forest predicted improvement).
+
+| Variable | Low / Risk | Moderate / Watch | Strong / Satisfactory | Adaptive Feedback Action |
+|----------|------------|------------------|-----------------------|--------------------------|
+| `predicted_improvement_probability` | `< 0.40` | `0.40-0.70` | `> 0.70` | Low = scaffolding and examples; Moderate = targeted formative prompts; High = self-regulated revision support |
+
+### 31.2 Operational Indicator Thresholds
+This defines how discrete process and product variables are discretized into pedagogical risk bands.
+
+| Indicator | Variable Name | Low / Risk | Moderate / Watch | Strong / Satisfactory | Operational Meaning |
+|-----------|---------------|------------|------------------|-----------------------|---------------------|
+| Word count | `word_count` | `< 90` | `90-119` | `120-180+` | Underdeveloped versus adequately elaborated paragraph |
+| Time on task | `time_on_task_minutes` | `< 15` | `15-29` | `30-40+` | Insufficient versus adequate composing engagement |
+| Rubric views | `rubric_views` | `0` | `1` | `>= 2` | Low criteria awareness versus active rubric consultation |
+| Revision frequency | `revision_frequency` | `0` | `1` | `>= 2` | No monitoring versus limited or sustained revision |
+| Error density | `error_density_per_100_words` | `> 8` | `4-8` | `< 4` | High form-level difficulty versus manageable error load |
+| Cohesion index | `cohesion_index_per_paragraph` | `< 2` | `2-3` | `>= 4` | Weak discourse linking versus controlled cohesion |
+| Criterion score | `criterion_score` | `1-2` | `3` | `4-5` | Clear weakness, developing control, or relative strength |
+| Feedback uptake | `feedback_uptake_status` | Feedback viewed, no revision | Feedback viewed, minor revision | Feedback viewed, substantive revision | Feedback exposure versus active use |
+| Help-seeking messages | `help_seeking_status` | 0 when performance is weak | 1 procedural message | >= 1 clarification / argument / language message | No help-seeking versus adaptive help-seeking |
+
+──────────────────────────────────────────
+OUTPUT SECTION 32 — SOFTWARE ARCHITECTURE & MODULE DESIGN
+──────────────────────────────────────────
+(This section provides the technical software architecture, database design, and API layer specification to support the pedagogical rules defined above.)
+
+### 32.1 Overall System Architecture (7 Layers)
+The system follows a layered, event-driven architecture with a mandatory Human-In-The-Loop governance layer.
+
+  ┌─────────────────────────────────────────────────────────────┐
+  │  EXTERNAL DATA SOURCES                                      │
+  │  [Moodle LMS] [NLP Engine] [Teacher Rubric Input]          │
+  └────────────────────────┬────────────────────────────────────┘
+                           │
+  ┌────────────────────────▼────────────────────────────────────┐
+  │  LAYER 1: DATA INGESTION & INTEGRATION                     │
+  │  [Moodle API Connector] [NLP Feature Extractor]            │
+  │  [Rubric Score Importer] [Data Validation Gate]            │
+  └────────────────────────┬────────────────────────────────────┘
+                           │
+  ┌────────────────────────▼────────────────────────────────────┐
+  │  LAYER 2: FEATURE ENGINEERING ENGINE                       │
+  │  [Indicator Calculator] [Threshold Classifier]             │
+  │  [Risk Band Generator]                                     │
+  └────────────────────────┬────────────────────────────────────┘
+                           │
+  ┌────────────────────────▼────────────────────────────────────┐
+  │  LAYER 3: AI / INFERENCE ENGINE                            │
+  │  [Learner State Diagnoser] [Bayesian Competence Model]     │
+  │  [Random Forest Improvement Predictor]                     │
+  │  [Learner Profile Classifier]                              │
+  └────────────────────────┬────────────────────────────────────┘
+                           │
+  ┌────────────────────────▼────────────────────────────────────┐
+  │  LAYER 4: ADAPTIVE RULE MATCHING ENGINE                    │
+  │  [Rule-State Matcher] [Priority Ranker]                    │
+  │  [Template Retriever]                                      │
+  └────────────────────────┬────────────────────────────────────┘
+                           │
+  ┌────────────────────────▼────────────────────────────────────┐
+  │  LAYER 5: TEACHER DASHBOARD (HITL LAYER)                  │
+  │  [Recommendation Display] [Approve / Modify / Reject]      │
+  │  [Feedback Customizer] [Delivery Trigger]                  │
+  └────────────────────────┬────────────────────────────────────┘
+                           │
+  ┌────────────────────────▼────────────────────────────────────┐
+  │  LAYER 6: FEEDBACK DELIVERY & STORAGE                      │
+  │  [Student Notification] [Moodle Feedback Post]             │
+  │  [Transaction Logger] [Learner Model Updater]              │
+  └────────────────────────┬────────────────────────────────────┘
+                           │
+  ┌────────────────────────▼────────────────────────────────────┐
+  │  LAYER 7: ANALYTICS & REPORTING                            │
+  │  [Cohort Dashboard] [Student Growth Tracker]               │
+  │  [Research Export Module] [System Audit Log]               │
+  └─────────────────────────────────────────────────────────────┘
+
+### 32.2 Database Design
+The database must follow an immutable transaction log pattern.
+
+**TABLE: students**
+Fields: student_id (PK, anonymous), group (Experimental/Control), cohort_id, created_at, anonymized (bool)
+Notes: No names, photos, or identifying personal data.
+
+**TABLE: tasks**
+Fields: task_id (PK), task_type, essay_component, prompt_text, deadline, expected_word_count, rubric_id, required_structure, created_by, moodle_assignment_id
+
+**TABLE: rubrics**
+Fields: rubric_id (PK), name, criteria_json, max_score_per_criterion
+
+**TABLE: feedback_loops**
+Fields: loop_id (PK), student_id (FK), task_id (FK), feedback_loop_number, draft_pair, writing_stage, created_at
+Notes: Each row = one student × one feedback loop instance.
+
+**TABLE: learner_transactions (CORE IMMUTABLE TABLE)**
+Fields: transaction_id (PK), loop_id (FK), student_id (FK),
+- Raw rubric scores: claim_score, evidence_score, reasoning_score, counterargument_score, language_use_score, overall_rubric_avg, performance_band
+- NLP features: word_count, error_count, error_density_per_100, cohesion_markers_count, cohesion_index, lexical_diversity_ttr, avg_sentence_length
+- Moodle behavioral traces: assignment_views, resource_views, rubric_views, active_time_min, draft_count, revision_frequency, revision_depth, text_change_pct
+- Feedback engagement: feedback_viewed, feedback_view_count, feedback_used, feedback_to_revision_hours
+- Help-seeking: help_message_count, help_category
+- Derived risk indicators: argument_risk, cohesion_risk, language_risk, forethought_risk, revision_risk, feedback_uptake_risk, help_seeking_risk, process_engagement_band
+- AI outputs: learner_profile, predicted_improvement_probability, bayesian_arg_competence, bayesian_cohesion_competence, bayesian_linguistic_complexity, bayesian_srl_revision
+- Rule engine outputs: primary_need, rule_id, feedback_template_id, recommended_feedback_focus
+- Teacher governance: teacher_decision, modification_reason, final_feedback_focus, next_action, feedback_delivered_at
+- Outcome tracking: next_draft_score, score_gain, dimension_improvements_json, created_at, updated_at
+
+**TABLE: feedback_rules**
+Fields: rule_id (PK), learner_state, pedagogical_interpretation, template_id (FK), recommended_feedback_focus, intervention_mode, priority, active (bool), version, created_at
+
+**TABLE: feedback_templates**
+Fields: template_id (PK), feedback_type, cognitive_demand, use_when, student_facing_skeleton, teacher_action, version, created_at
+
+**TABLE: indicator_thresholds**
+Fields: threshold_id (PK), indicator_name, variable_name, low_risk_bound, moderate_watch_bound, strong_satisfactory_bound, transformation_formula, pedagogical_meaning, primary_feedback_logic, version, active (bool)
+
+**TABLE: help_seeking_categories**
+Fields: code (PK), category_name, description, example, adaptive_interpretation
+
+**TABLE: audit_log**
+Fields: log_id (PK), actor_id, actor_role, action, entity_type, entity_id, before_state_json, after_state_json, timestamp
+
+**TABLE: teacher_feedback_delivery**
+Fields: delivery_id (PK), transaction_id (FK), student_id (FK), template_id (FK), personalized_message_text, delivery_channel, delivered_at, acknowledged_at
+
+### 32.3 Module Blueprints
+
+**MODULE 1: DATA INGESTION & INTEGRATION MODULE**
+- Responsibilities: Connect to Moodle API, trigger NLP extraction, accept rubric scores.
+- Outputs: Validated raw learner_transaction record.
+
+**MODULE 2: NLP FEATURE EXTRACTION ENGINE**
+- Responsibilities: Extract word count, error density, cohesion index, TTR, sentence length, connector count, revision depth (diffing algorithm).
+
+**MODULE 3: FEATURE ENGINEERING & THRESHOLDING ENGINE**
+- Responsibilities: Transform raw indicators into categorical risk bands using Threshold config table. Generate 7 composite risk flags.
+
+**MODULE 4: AI / INFERENCE ENGINE**
+- Responsibilities:
+  - Learner State Diagnosis (Rule-Based/Deterministic)
+  - Bayesian Competence Model (Argument, Cohesion, Linguistic, SRL Revision probabilities)
+  - Predictive Improvement Model (Random Forest for predicted_improvement_probability)
+  - Learner Profile Classifier (Strategic, Engaged, Efficient, At-Risk)
+
+**MODULE 5: ADAPTIVE RULE MATCHING ENGINE**
+- Responsibilities: Match learner state to rule_id. Apply priority logic (Writing competence -> Revision -> Engagement). Retrieve feedback_template_id.
+
+**MODULE 6: TEACHER DASHBOARD (HITL MODULE)**
+- Responsibilities: Display recommendation cards. Support APPROVE/MODIFY/REJECT workflow. Show cohort-level risk dashboard.
+
+**MODULE 7: FEEDBACK DELIVERY MODULE**
+- Responsibilities: Deliver customized message via Moodle comment/notification. Log delivery timestamp.
+
+**MODULE 8: REVISION MONITORING & LOOP CLOSURE MODULE**
+- Responsibilities: Detect new draft submission. Calculate revision_depth, feedback_used. Calculate score gains. Generate new transaction record.
+
+**MODULE 9: ANALYTICS & REPORTING MODULE**
+- Responsibilities: Cohort dashboard, student growth report, anonymized research data export.
+
+**MODULE 10: ADMINISTRATION & CONFIGURATION MODULE**
+- Responsibilities: Manage thresholds, rules, templates, user roles, academic tasks.
+
+### 32.4 API Layer Design
+- **Authentication**: JWT-based (login, refresh, logout)
+- **Student Endpoints**: /api/students/{id}/profile, /api/students/{id}/history, /api/students/{id}/growth
+- **Transactions**: POST /api/transactions, PATCH /api/transactions/{id}/decision
+- **Ingestion**: POST /api/ingest/moodle, POST /api/ingest/nlp, POST /api/ingest/scores
+- **Rule Engine**: POST /api/engine/process/{id}, GET /api/engine/recommendation/{id}
+- **Configuration**: /api/config/thresholds, /api/config/rules, /api/config/templates
+
+### 32.5 Security & Integration Architecture
+- **Authentication/Authorization**: JWT, RBAC (Admin, Teacher, Rater, Researcher, Student).
+- **Data Privacy**: No PII stored in engine. Anonymous research codes only. Raw help-seeking text is coded, not stored.
+- **Moodle Integration**: REST Web Services API (read-only scopes for submissions, logs, messages).
+- **Tech Stack Recommendations**:
+  - Backend: Python (FastAPI) for NLP and Bayesian modeling (spaCy, scikit-learn, pgmpy).
+  - Frontend: React.js / Next.js with Tailwind CSS.
+  - Database: PostgreSQL + Redis for caching.
+
+──────────────────────────────────────────
+OUTPUT SECTION 33 — DEVELOPMENT PRIORITIES & CRITICAL CLARIFICATIONS
+──────────────────────────────────────────
+(This section documents the recommended development roadmap and highlights known ambiguities that the engineering team must resolve prior to implementation.)
+
+### 33.1 Phase-Ordered Development Priorities
+- **Phase 0 (Foundations):** DB Schema generation, Auth Layer, Audit Log setup.
+- **Phase 1 (Ingestion & Pipeline):** Connect Moodle API, NLP extraction, Feature engineering. Create the "Worked Example (S_EXAMPLE)" as the absolute first end-to-end integration test.
+- **Phase 2 (Inference & Rules):** Implement Rule-Matching Engine (27 rules) and Template Library (25 templates).
+- **Phase 3 (Teacher Surface):** Build the Teacher Dashboard (HITL) and notification delivery.
+- **Phase 4 (AI Models):** Integrate Bayesian Competence Models and Predictive Improvement (Random Forest).
+- **Phase 5 (Production & Admin):** Admin Console, cohort dashboards, LTI 1.3 integration, security audits.
+
+### 33.2 Critical Engineering Clarifications & Edge Cases
+1. **Rubric Scale Resolution:** The system strictly enforces the **1-5 scale** universally across all data dictionaries and scoring modules. Any legacy 1-4 rubric templates must be interpolated to the 1-5 scale using strict integer rounding `score = round((raw_score / 4) * 5)` during the ingestion phase before reaching the AI inference engine. This guarantees compliance with the strict integer enumerations defined in Section 23.
+2. **Cohesion Index Gap:** The defined thresholds are `<2` (Low) and `>=4` (Strong), and `2-3` (Moderate). **Resolution:** Treat the floating point gap `3.0 to 3.99` as Moderate.
+3. **Template Count Discrepancy:** The initial matrix lists 23 templates, but the updated rule tables reference 25 (adding `motivational_reengagement` and `explicit_strategic_instruction`). **Resolution:** The 25-template set is authoritative.
+4. **NLP Error Taxonomy:** The system requires "Error Density" extraction. **Resolution:** Engineering must define a strict EFL Error Taxonomy (Grammar, Mechanics, Style) to configure the NLP library (spaCy) accurately.
+5. **Multilingual Help-Seeking:** EFL students may write help-seeking messages in their native language. **Resolution:** The Help-Seeking Classifier must be robust enough to handle L1 languages (e.g., Arabic, Chinese) or require an auto-translation pre-processing step.
+6. **Multi-Teacher Cohorts:** **Resolution:** The architecture must support one-to-many and many-to-many Teacher-Cohort relationships to allow for co-teaching and Teaching Assistants.
+
+──────────────────────────────────────────
+OUTPUT SECTION 34 — UNIFIED STUDENT DATA SCHEMA (JSON STRUCTURES)
+──────────────────────────────────────────
+This section defines the unified schema (Schema الموحدة) for the raw student data extracted from the Moodle environment, based on the actual 6 JSON files representing each student's profile. This serves as the precise JSON input format for the ingestion pipeline (Module 1).
+
+### 34.1 `metadata.json` (System Extraction Context)
+Captures the context of the data extraction.
+```json
+{
+  "export_timestamp": "ISO-8601 String",
+  "export_version": "String",
+  "data_sources": ["Array of Strings"],
+  "university": "String",
+  "course": "String",
+  "total_assignments": "Integer",
+  "rubric_version": "String",
+  "scoring": "String",
+  "processed_at": "ISO-8601 String"
+}
+```
+
+### 34.2 `profile.json` (Student Identity & Demographics)
+Contains static identity data and course enrollments.
+```json
+{
+  "student_id": "Integer",
+  "hashed_id": "String (e.g., Student_A1B2)",
+  "email": "String",
+  "email_domain": "String",
+  "profile_image_url": "String",
+  "role": "String (e.g., student)",
+  "enrolled_courses_count": "Integer",
+  "enrolled_courses": ["Array of Strings"],
+  "enrolled_courses_with_ids": [
+    { "id": "Integer", "shortname": "String" }
+  ]
+}
+```
+
+### 34.3 `logs.json` (Moodle Access Traces)
+Captures global platform activity metrics.
+```json
+{
+  "firstaccess_iso": "ISO-8601 String",
+  "lastaccess_iso": "ISO-8601 String",
+  "lastcourseaccess_iso": "ISO-8601 String",
+  "firstaccess_timestamp": "Integer (Unix)",
+  "lastaccess_timestamp": "Integer (Unix)",
+  "platform_account_age_days": "Integer",
+  "days_since_last_access": "Integer",
+  "days_between_first_and_last_access": "Integer",
+  "log_event_count": "Integer",
+  "log_page_views": "Integer"
+}
+```
+
+### 34.4 `submissions.json` (Drafts & Texts)
+Array of all submitted drafts across assignments.
+```json
+[
+  {
+    "assignment_name": "String",
+    "submission_id": "Integer",
+    "student_id": "Integer",
+    "status": "String (e.g., submitted)",
+    "timecreated_ts": "Integer (Unix)",
+    "timecreated_iso": "ISO-8601 String",
+    "text_content": "String (Raw essay text)",
+    "wordcount": "Integer"
+  }
+]
+```
+
+### 34.5 `learning_indicators.json` (Behavioral & SRL Indicators)
+Aggregated metrics from student activity mapping to system thresholds.
+```json
+{
+  "revision_frequency": "Float",
+  "feedback_views": "Integer",
+  "rubric_views": "Integer",
+  "help_seeking_messages": "Integer",
+  "time_on_task_min": "Float",
+  "session_count": "Integer"
+}
+```
+
+### 34.6 `reports.json` (Advanced Engagement & NLP Meta-Analysis)
+Aggregated writing and chronological engagement report.
+```json
+{
+  "total_assignments": "Integer",
+  "submitted_count": "Integer",
+  "submission_rate_pct": "Float",
+  "text_rate_pct": "Float",
+  "total_words_written": "Integer",
+  "total_chars_written": "Integer",
+  "total_sentences": "Integer",
+  "total_paragraphs": "Integer",
+  "avg_words_per_assignment": "Float",
+  "total_raw_editing_minutes": "Float",
+  "total_adjusted_time_on_task_minutes": "Float",
+  "time_distribution": { "night": "Integer", "morning": "Integer", "afternoon": "Integer", "evening": "Integer" },
+  "preferred_day": "String",
+  "is_burst_worker": "Boolean",
+  "session_depth_distribution": { "multi_day_session": "Integer", "single_session": "Integer", "short_multi_session": "Integer" },
+  "chronological_submission_order": ["Array of Strings"],
+  "first_submission_date": "Integer (Unix)",
+  "last_submission_date": "Integer (Unix)",
+  "active_days_span": "Float"
+}
+```
+
+### 34.7 `rules_output.json` (Inference Engine Output per Assignment)
+This file (generated per student, per assignment) captures the final computed metrics, cohort percentiles, and the pedagogical rules triggered by the AI Inference Engine (Youcef_Algo module).
+```json
+{
+  "student_id": "Integer",
+  "student_name": "String",
+  "assignment": "String",
+  "submission_status": "String (e.g., submitted)",
+  "lateness": "String (e.g., on_time)",
+  "metrics": {
+    "word_count": "Integer",
+    "char_count": "Integer",
+    "editing_duration_minutes": "Float",
+    "page_views": "Integer",
+    "event_count": "Integer",
+    "session_count": "Integer",
+    "attempt_number": "Integer",
+    "text_length": "Integer",
+    "ttr": "Float",
+    "cohesion_index": "Float",
+    "academic_vocab_density": "Float",
+    "academic_vocabulary_count": "Integer",
+    "error_density": "Float",
+    "syntactic_complexity": "Float",
+    "argument_marker_density": "Float",
+    "rubric_organization": "Integer",
+    "rubric_argumentation": "Integer",
+    "rubric_grammar": "Integer",
+    "evidence_rubric_score": "Integer",
+    "thesis_score": "Integer",
+    "rubric_grade_20pt": "Float",
+    "feedback_views": "Integer",
+    "revision_count": "Integer",
+    "comment_count": "Integer",
+    "rubric_views": "Integer",
+    "is_late": "Boolean",
+    "last_submission_time": "ISO-8601 String"
+  },
+  "percentiles": {
+    "editing_duration_minutes_percentile": "Float",
+    "cohesion_index_percentile": "Float",
+    "academic_vocab_density_percentile": "Float",
+    "error_density_percentile": "Float",
+    "syntactic_complexity_percentile": "Float",
+    "argument_marker_density_percentile": "Float",
+    "feedback_views_percentile": "Float",
+    "revision_count_percentile": "Float",
+    "comment_count_percentile": "Float",
+    "rubric_views_percentile": "Float",
+    "rubric_grade_20pt_percentile": "Float"
+  },
+  "rules_triggered": [
+    {
+      "rule_id": "String (e.g., B7)",
+      "name": "String (e.g., MISSING_THESIS)",
+      "interpretation": "String (Pedagogical meaning)",
+      "confidence": "Float (e.g., 0.9)",
+      "priority": "String (e.g., High)",
+      "category": "String (e.g., Product)",
+      "intervention": "String (Template ID)",
+      "justification": "String"
+    }
+  ]
+}
+```
+
+### 34.8 `behavioral_analysis.json` (Adnan_Algo - Behavioral & Session Extraction)
+This schema defines the intermediate output from the Log Parsing Engine (Adnan_Algo). It takes raw Moodle logs and extracts deep session metrics, PCA components, and Behavioral Flags (e.g., `RUSH_SUBMISSION`, `DEEP_ENGAGEMENT`) which are then fed into the rules engine.
+```json
+{
+  "essay_id": "String",
+  "student_id": "Integer",
+  "student_name": "String",
+  "assignment_name": "String",
+  "raw_behavioral": {
+    "editing_duration_min": "Float",
+    "page_views": "Integer",
+    "event_count": "Integer",
+    "session_count": "Integer",
+    "word_count": "Integer"
+  },
+  "winsorized_behavioral": "Object (Handles outliers)",
+  "outlier_flags": "Object (Booleans for extreme values)",
+  "derived_behavioral": {
+    "feedback_views": "Integer",
+    "rubric_views": "Integer",
+    "revision_count": "Integer",
+    "is_late_submission": "Boolean"
+  },
+  "sessions": [
+    {
+      "session_id": "Integer",
+      "duration_min": "Float",
+      "event_count": "Integer",
+      "action_types": ["Array of Strings (e.g., EDIT, VIEW, SUBMISSION)"]
+    }
+  ],
+  "behavioral_flags": [
+    {
+      "flag": "String (e.g., RUSH_SUBMISSION, DEEP_ENGAGEMENT)",
+      "condition_met": "Boolean",
+      "interpretation": "String (Pedagogical interpretation)"
+    }
+  ],
+  "pca_components": {
+    "pc1": "Float",
+    "pc2": "Float",
+    "pc3": "Float"
+  }
+}
+```
+
+──────────────────────────────────────────
+OUTPUT SECTION 35 — ALGORITHMIC PIPELINE, DEVELOPER COLLABORATION & I/O SCHEMAS
+──────────────────────────────────────────
+### 35.1 Executive Summary of Developer Collaboration
+This system represents a comprehensive adaptive feedback engine for Algerian university EFL students. The system covers three integrated dimensions: Writing (NLP), Behavior (Temporal analysis across 8 assignments), and Activity (Moodle logs). 
+Work is divided into 25 algorithms, distributed among three developers (7 algorithms each) plus an integration phase (4 algorithms). Each developer operates independently on their specific dimension, producing a unified JSON output schema.
+
+*Note: The KMeans algorithm was excluded and replaced with Agglomerative Clustering, as it is non-parametric and more appropriate for a small sample size (N=50). Additional ML techniques integrated based on Youcef's suggestions include: TF-IDF vectorization, Cosine similarity, PCA, and Cohen's d effect size.*
+
+| Developer | Dimension | Algorithms | Scope of Work | Primary Output |
+|---|---|---|---|---|
+| **Adnan** | Writing (NLP) | 7 Algorithms | Linguistic and argumentative analysis of student texts. | Writing Score (0-20) + L1/NLP markers. |
+| **Youcef** | Behavior & Temporal | 7 Algorithms | Analyzing temporal trajectories across 8 assignments and diagnosis. | Student Classification + Triggered Rules + Temporal Trajectory. |
+| **Abdelkader** | Moodle Activity | 7 Algorithms | Parsing Moodle log records. | Behavioral Flags + Sessions + Activity Patterns. |
+| **Integration** | System Output | 4 Algorithms | Merging all outputs into a final decision. | Final Grade + Risk + Diagnosis + Feedback. |
+
+### 35.2 Module 1: Moodle Activity & Log Parsing (Developer: Abdelkader)
+- **Purpose:** Analyzes Moodle logs to extract deep engagement metrics and sessions.
+- **Input Schema:** Raw Moodle log dumps.
+```json
+{
+  "firstaccess_timestamp": "Integer (Unix)",
+  "lastaccess_timestamp": "Integer (Unix)",
+  "log_event_count": "Integer"
+}
+```
+- **Output Schema:** Produces structured behavioral sessions and flags (`behavioral_analysis.json`).
+```json
+{
+  "student_id": "Integer",
+  "sessions": [{"duration_min": "Float", "event_count": "Integer"}],
+  "behavioral_flags": [{"flag": "String", "condition_met": "Boolean"}],
+  "pca_components": {"pc1": "Float", "pc2": "Float"}
+}
+```
+
+### 35.3 Module 2: NLP Feature Extraction & Writing Analysis (Developer: Adnan)
+- **Scope of Work:** Responsible for all NLP and argumentative analysis of student texts. This includes linguistic tokenization, extracting 6 deterministic features, rubric evaluation, L1 transfer error detection (Arabic/French), TF-IDF vectorization, Cosine Similarity (plagiarism/similarity), and Semantic embeddings (Sentence-BERT).
+
+#### Adnan's 7 NLP Algorithms
+| # | Algorithm | Function | Precise Output |
+|---|---|---|---|
+| **1** | spaCy (`en_core_web_sm`) | POS + dependency parsing, tokenization. | `tokens[]`, `sentences[]`, `POS_tags[]`, `dep_parse` |
+| **2** | 6 Deterministic Features | Calculate TTR, MTLD, Cohesion, AVD, Error Density, Arg Markers. | Numeric values + interpretation (weak/moderate/strong). |
+| **3** | Regex + spaCy rubric | Evaluate 22 criteria across 4 sections (intro/body/counter/conclusion). | `rubric_scores{criterion: 1-5}`, `section_grade (0-5)`, `total_grade (0-20)`. |
+| **4** | L1 Pattern Matching | Detect Arabic/French transfer patterns. | `l1_errors[]{type, text, position}`, `l1_error_count`, `dominant_l1_source`. |
+| **5** | TF-IDF Vectorization | Represent text as a sparse vector (`sklearn TfidfVectorizer`). | `tfidf_vector (sparse)`, `feature_names[]` (Saved as `.npz`). |
+| **6** | Cosine Similarity | Calculate similarity between every essay and all others. | `similarity_matrix (NxN)`, `top_3_similar_essays[]`. |
+| **7** | Sentence-BERT (frozen) | Semantic embedding without fine-tuning (768-dim). | `embedding_vector[768]`, `semantic_search_index` (Saved as `.npy`). |
+
+#### Final Output Schema for Adnan's Module
+After executing all 7 algorithms, Adnan's module produces a single unified JSON file per essay:
+```json
+{
+  "essay_id": "9074_argumentative_essay_introduction",
+  "student_id": "9074",
+  "assignment_name": "Argumentative essay Introduction",
+  "word_count": 112,
+  "nlp_features": {
+    "ttr": 0.77,
+    "mtld": 85.3,
+    "cohesion": 0.54,
+    "academic_vocab_density": 0.025,
+    "error_density": 0.13,
+    "argument_marker_density": 1.92
+  },
+  "rubric_scores": {
+    "intro": {"hook": 4, "context": 3, "thesis": 4},
+    "body": {"claim": 3, "evidence": 2},
+    "counter": {},
+    "conclusion": {}
+  },
+  "essay_grade_20": 14.5,
+  "l1_errors": [
+    {
+      "type": "arabic_article_overuse",
+      "text": "the life",
+      "position": "..."
+    }
+  ],
+  "l1_error_count": 2,
+  "dominant_l1_source": "arabic",
+  "tfidf_vector_path": ".../essay_123_tfidf.npz",
+  "sbert_embedding_path": ".../essay_123_sbert.npy",
+  "similarity_top3": ["essay_456", "essay_789", "essay_012"]
+}
+```
+
+#### Technical & Acceptance Criteria
+- **Tech Stack:** Python 3.11+, spaCy 3.8 (`en_core_web_sm`), scikit-learn 1.6, `re` (Regex), `numpy`, `sentence-transformers`.
+- **Hardware:** Designed to run efficiently on a standard CPU with 8GB RAM (No GPU required).
+- **Acceptance:** 
+  - Complete JSON generated for all 402 valid essays.
+  - Final Grade (0-20) accurately broken down by rubric criteria.
+  - L1 error detection accuracy ≥ 85% compared to manual review.
+  - TF-IDF and SBERT vectors successfully saved.
+  - Cosine similarity matrix generated for all pairs (402x402).
+  - Deterministic processing guarantees exact same output across multiple runs.
+
+### 35.4 Module 3: Temporal Trajectory & Behavior Inference (Developer: Youcef)
+- **Scope of Work:** Responsible for analyzing the student's evolution across the 8 assignments and diagnosing macro-behavioral patterns. This involves calculating trajectories, normalizing metrics to percentiles, conducting non-parametric statistical tests, calculating effect sizes, clustering students with Agglomerative Clustering, and firing the 18 pedagogical rules.
+
+*Note: Youcef relies directly on the outputs of Adnan (NLP linguistic features per essay) to compute the temporal trajectories.*
+
+#### Youcef's 7 Temporal & Behavioral Algorithms
+| # | Algorithm | Function | Precise Output |
+|---|---|---|---|
+| **1** | Descriptive OLS Regression | Calculate the slope of evolution per student across 8 tasks. | `trajectory_slopes{word_count, error_density, cohesion, grade}`, `trend_direction`. |
+| **2** | Percentile Normalization | Convert features to percentile ranks (0-100) across the cohort. | `percentiles{feature: 0-100}` for every student and task. |
+| **3** | Mann-Whitney U + Kruskal-Wallis | Non-parametric tests to compare student risk groups. | `group_comparisons[]{features, U_stat, p_value, effect_size_r}` (Global). |
+| **4** | Spearman Correlation | Rank correlation between behavior and writing features. | `correlation_matrix (NxN)`, `significant_pairs[]` (Global). |
+| **5** | Cohen's d Effect Size | Measure magnitude of difference between groups (e.g. high vs low risk). | `effect_sizes[]{group1, group2, feature, d_value, interpretation}` (Global). |
+| **6** | Agglomerative Clustering (k=2-4) | Descriptive grouping of students. (Replaced KMeans). | `cluster_id (0-3)`, `cluster_label`, `dendrogram_path` (Saved as PNG). |
+| **7** | 18 Diagnostic Rules | If/Then pedagogical rules covering 4 categories (process, product, revision, engagement). | `triggered_rules[]{rule_id, name, interpretation, confidence, priority}`. |
+
+#### Final Output Schema for Youcef's Module
+After executing the 7 algorithms, Youcef's module produces a single unified JSON file per student:
+```json
+{
+  "student_id": "...",
+  "trajectories": {
+    "word_count": {"slope": 5.2, "intercept": 80, "r2": 0.65, "trend": "improving"},
+    "error_density": {"slope": -0.4, "trend": "improving"},
+    "cohesion": {"slope": 0.03, "trend": "stable"},
+    "grade": {"slope": 0.8, "trend": "improving"}
+  },
+  "percentile_ranks": {
+    "word_count": 65,
+    "ttr": 70,
+    "cohesion": 55,
+    "error_density": 80,
+    "argument_markers": 60
+  },
+  "cluster": {
+    "cluster_id": 1,
+    "cluster_label": "high_development_cohesive",
+    "silhouette_score": 0.42
+  },
+  "triggered_rules": [
+    {
+      "rule_id": "B3",
+      "name": "LINGUISTIC_ACCURACY_PROBLEM",
+      "interpretation": "...",
+      "confidence": 0.90,
+      "priority": "High"
+    },
+    {
+      "rule_id": "C1",
+      "name": "WEAK_SELF_REGULATED_REVISION"
+    }
+  ],
+  "behavioral_profile": {
+    "argument_structure": 72,
+    "cohesion_organization": 58,
+    "linguistic_complexity": 65,
+    "revision_self_regulation": 45
+  }
+}
+```
+
+#### Technical & Acceptance Criteria
+- **Tech Stack:** Python 3.11+, `scipy.stats` (Mann-Whitney, Kruskal-Wallis, Spearman), `scikit-learn` (Agglomerative Clustering), `matplotlib` (Dendrograms), `numpy`.
+- **Why Agglomerative over KMeans?** (1) Fully non-parametric, estimating zero parameters from the data. (2) Does not require pre-defining `k`; the dendrogram can be cut at any level. (3) The dendrogram visually helps understand hierarchical cluster structures, whereas KMeans assumes spherical clusters.
+- **Acceptance:** 
+  - Complete JSON generated for all 50 logged students containing their 4 temporal trajectories.
+  - Every student mapped to a cluster label (0-3).
+  - List of triggered diagnostic rules accurately generated per essay.
+  - 4 competence scores (0-100) calculated per student.
+  - A visual PNG Dendrogram representing the cluster structure is saved.
+  - Full statistical hypothesis testing matrix (Mann-Whitney + Spearman) completed.
+
+### 35.5 Module 4: Final Integration (All Developers)
+- **Scope of Work:** The integration is a joint effort between Adnan, Youcef, and Abdelkader. After each developer completes their respective 7 algorithms, they submit their outputs in a unified JSON format to the Integration Module. This module applies 4 collaborative algorithms to fuse the data into the final system output.
+
+#### The 4 Collaborative Integration Algorithms
+| # | Algorithm | Inputs | Precise Output |
+|---|---|---|---|
+| **1** | Fixed-Weight Fusion (70/30 Baseline) | Rubric Grade (from Adnan) + NLP Composite (from Adnan). Note: 70/30 weights are initial heuristic baselines subject to empirical calibration via Gold Standard Corpus. | `final_percentile = 0.70*rubric + 0.30*nlp_composite` → `final_grade` (0-20). |
+| **2** | Weighted Evidence Accumulation | Triggered Rules (Youcef) + Behavioral Flags (Abdelkader). | `alert_score` (Sum of priority*confidence) + `alert_level` (low/moderate/high). |
+| **3** | Bayesian Inference (Literature Priors) | Multiple metrics across dimensions + priors from SLA literature. | Posterior probabilities like `P(argument_weak \| evidence)`, `P(cohesion_weak \| evidence)`. |
+| **4** | Decision Tree (Fixed Structure) | `risk_band` + `rules`. Fixed structure for feedback generation. | `feedback_type`, `feedback_template_id`, `feedback_text`. |
+
+#### Final Comprehensive System Output Schema
+After integration, the system produces a single, comprehensive JSON file per student essay, which is consumed by the Teacher Dashboard:
+```json
+{
+  "essay_id": "...",
+  "student_id": "...",
+  "assignment_name": "...",
+  "FINAL_GRADE": 14.5,
+  "RISK_BAND": "moderate",
+  "ALERT_LEVEL": "moderate",
+  "WRITING_ANALYSIS": {
+    "... Adnan's Outputs ..."
+  },
+  "ACTIVITY_ANALYSIS": {
+    "... Abdelkader's Outputs ..."
+  },
+  "BEHAVIOR_ANALYSIS": {
+    "... Youcef's Outputs ..."
+  },
+  "DIAGNOSTIC_RULES": [
+    "... Triggered Rules ..."
+  ],
+  "COMPETENCE_SCORES": {
+    "argument_structure": 72,
+    "cohesion_organization": 58,
+    "linguistic_complexity": 65,
+    "revision_self_regulation": 45
+  },
+  "FEEDBACK": {
+    "feedback_type": "structure-focused",
+    "feedback_text": "...",
+    "grounding_score": 0.92,
+    "hallucination_rate": 0.02
+  },
+  "AUDIT_TRAIL": {
+    "pipeline_version": "1.0",
+    "processed_at": "2026-06-24T...",
+    "rules_evaluated": 18,
+    "rules_triggered": 3
+  }
+}
+```
+
+#### Integration Workflow & Directory Structure
+The operational sequence follows this strict pipeline:
+1. **Adnan:** Extracts linguistic and argumentative features for each text.
+2. **Abdelkader:** Extracts Moodle activity and behavioral metrics (runs in parallel with Adnan).
+3. **Youcef:** Uses Adnan's outputs to calculate temporal trajectories and behavior clusters.
+4. **Integration (All Three):** Merges all outputs via the 4 integration algorithms to compute `FINAL_GRADE`, `RISK`, and `FEEDBACK`.
+
+To facilitate API Integration, the developers maintain a strict folder structure:
+```text
+/project/
+├── adnan_output/
+│   ├── essays/ (JSON per essay)
+│   ├── tfidf/ (TF-IDF vectors .npz)
+│   └── sbert/ (Sentence-BERT embeddings .npy)
+├── boucef_output/
+│   ├── students/ (JSON per student)
+│   ├── essays/ (JSON Rules per essay)
+│   └── cluster_dendrogram.png
+├── abdelkader_output/
+│   ├── essays/ (JSON per essay)
+│   ├── sessions/ (JSON Sessions)
+│   └── patterns/ (PrefixSpan patterns)
+└── integration/
+    └── (Final combined JSON output)
+```
+
+──────────────────────────────────────────
+OUTPUT SECTION 36 — STUDENT SUBMISSION STATISTICS (CURRENT COHORT)
+──────────────────────────────────────────
+This section documents the current submission status of the 50 students with valid logs (out of 60 enrolled), extracted dynamically from the `reports.json` of the ingestion pipeline. Note: The $437$ valid submissions safely exceed the theoretical baseline ($50 \times 8 = 400$) because the system permits and logs multiple draft submissions per task for the active students.
+
+| Student Name | Total Submissions | Submitted Assignments | Missing Assignments |
+|---|---|---|---|
+| ZEGGOU MOHAMMED YASSER | 8 | Writing an Effective Introduction, Argumentative essay Introduction, First Body Paragraph, Using Evidence and Analysis, Second Body Paragraph, Writing Progress Reflection, Third Body / Counter Argument, Conclusion Paragraph | None |
+| belharir roumayssa | 6 | Writing an Effective Introduction, Argumentative essay Introduction, First Body Paragraph, Using Evidence and Analysis, Third Body / Counter Argument, Conclusion Paragraph | Second Body Paragraph, Writing Progress Reflection |
+| belhosseine kaoutar | 8 | Writing an Effective Introduction, Argumentative essay Introduction, First Body Paragraph, Using Evidence and Analysis, Second Body Paragraph, Writing Progress Reflection, Third Body / Counter Argument, Conclusion Paragraph | None |
+| belmokhtar sara | 6 | Argumentative essay Introduction, First Body Paragraph, Second Body Paragraph, Writing Progress Reflection, Third Body / Counter Argument, Conclusion Paragraph | Writing an Effective Introduction, Using Evidence and Analysis |
+| belmouedden fatima | 8 | Writing an Effective Introduction, Argumentative essay Introduction, First Body Paragraph, Using Evidence and Analysis, Second Body Paragraph, Writing Progress Reflection, Third Body / Counter Argument, Conclusion Paragraph | None |
+| belyamani fouad | 7 | Writing an Effective Introduction, Argumentative essay Introduction, First Body Paragraph, Using Evidence and Analysis, Second Body Paragraph, Third Body / Counter Argument, Conclusion Paragraph | Writing Progress Reflection |
+| benaceur fatima | 8 | Writing an Effective Introduction, Argumentative essay Introduction, First Body Paragraph, Using Evidence and Analysis, Second Body Paragraph, Writing Progress Reflection, Third Body / Counter Argument, Conclusion Paragraph | None |
+| benmansour hanane | 8 | Writing an Effective Introduction, Argumentative essay Introduction, First Body Paragraph, Using Evidence and Analysis, Second Body Paragraph, Writing Progress Reflection, Third Body / Counter Argument, Conclusion Paragraph | None |
+| benmansour mohamed | 7 | Writing an Effective Introduction, Argumentative essay Introduction, First Body Paragraph, Using Evidence and Analysis, Writing Progress Reflection, Third Body / Counter Argument, Conclusion Paragraph | Second Body Paragraph |
+| benmouffok fatima | 7 | Writing an Effective Introduction, Argumentative essay Introduction, First Body Paragraph, Using Evidence and Analysis, Second Body Paragraph, Third Body / Counter Argument, Conclusion Paragraph | Writing Progress Reflection |
+| bennafla nour | 8 | Writing an Effective Introduction, Argumentative essay Introduction, First Body Paragraph, Using Evidence and Analysis, Second Body Paragraph, Writing Progress Reflection, Third Body / Counter Argument, Conclusion Paragraph | None |
+| bensadat sabaa | 8 | Writing an Effective Introduction, Argumentative essay Introduction, First Body Paragraph, Using Evidence and Analysis, Second Body Paragraph, Writing Progress Reflection, Third Body / Counter Argument, Conclusion Paragraph | None |
+| bensafi douaa | 8 | Writing an Effective Introduction, Argumentative essay Introduction, First Body Paragraph, Using Evidence and Analysis, Second Body Paragraph, Writing Progress Reflection, Third Body / Counter Argument, Conclusion Paragraph | None |
+| bensaoula safia | 8 | Writing an Effective Introduction, Argumentative essay Introduction, First Body Paragraph, Using Evidence and Analysis, Second Body Paragraph, Writing Progress Reflection, Third Body / Counter Argument, Conclusion Paragraph | None |
+| berdane douae | 8 | Writing an Effective Introduction, Argumentative essay Introduction, First Body Paragraph, Using Evidence and Analysis, Second Body Paragraph, Writing Progress Reflection, Third Body / Counter Argument, Conclusion Paragraph | None |
+| bouchiba nihad | 8 | Writing an Effective Introduction, Argumentative essay Introduction, First Body Paragraph, Using Evidence and Analysis, Second Body Paragraph, Writing Progress Reflection, Third Body / Counter Argument, Conclusion Paragraph | None |
+| boudissa abdellah | 7 | Writing an Effective Introduction, Argumentative essay Introduction, First Body Paragraph, Using Evidence and Analysis, Second Body Paragraph, Third Body / Counter Argument, Conclusion Paragraph | Writing Progress Reflection |
+| boulefdaoui hidayette | 8 | Writing an Effective Introduction, Argumentative essay Introduction, First Body Paragraph, Using Evidence and Analysis, Second Body Paragraph, Writing Progress Reflection, Third Body / Counter Argument, Conclusion Paragraph | None |
+| boulenouar nawel | 8 | Writing an Effective Introduction, Argumentative essay Introduction, First Body Paragraph, Using Evidence and Analysis, Second Body Paragraph, Writing Progress Reflection, Third Body / Counter Argument, Conclusion Paragraph | None |
+| cherki rabea | 8 | Writing an Effective Introduction, Argumentative essay Introduction, First Body Paragraph, Using Evidence and Analysis, Second Body Paragraph, Writing Progress Reflection, Third Body / Counter Argument, Conclusion Paragraph | None |
+| daoudamamoudoualfari mariama | 8 | Writing an Effective Introduction, Argumentative essay Introduction, First Body Paragraph, Using Evidence and Analysis, Second Body Paragraph, Writing Progress Reflection, Third Body / Counter Argument, Conclusion Paragraph | None |
+| derbal khouloud | 7 | Writing an Effective Introduction, Argumentative essay Introduction, First Body Paragraph, Second Body Paragraph, Writing Progress Reflection, Third Body / Counter Argument, Conclusion Paragraph | Using Evidence and Analysis |
+| didani lamisse | 8 | Writing an Effective Introduction, Argumentative essay Introduction, First Body Paragraph, Using Evidence and Analysis, Second Body Paragraph, Writing Progress Reflection, Third Body / Counter Argument, Conclusion Paragraph | None |
+| djalthouari naima | 8 | Writing an Effective Introduction, Argumentative essay Introduction, First Body Paragraph, Using Evidence and Analysis, Second Body Paragraph, Writing Progress Reflection, Third Body / Counter Argument, Conclusion Paragraph | None |
+| djamai manel | 8 | Writing an Effective Introduction, Argumentative essay Introduction, First Body Paragraph, Using Evidence and Analysis, Second Body Paragraph, Writing Progress Reflection, Third Body / Counter Argument, Conclusion Paragraph | None |
+| doukali nourhene | 7 | Writing an Effective Introduction, Argumentative essay Introduction, First Body Paragraph, Using Evidence and Analysis, Second Body Paragraph, Writing Progress Reflection, Conclusion Paragraph | Third Body / Counter Argument |
+| elmezouar zina | 8 | Writing an Effective Introduction, Argumentative essay Introduction, First Body Paragraph, Using Evidence and Analysis, Second Body Paragraph, Writing Progress Reflection, Third Body / Counter Argument, Conclusion Paragraph | None |
+| elmoukeffes hanene | 7 | Writing an Effective Introduction, Argumentative essay Introduction, First Body Paragraph, Second Body Paragraph, Writing Progress Reflection, Third Body / Counter Argument, Conclusion Paragraph | Using Evidence and Analysis |
+| ghazli farah | 8 | Writing an Effective Introduction, Argumentative essay Introduction, First Body Paragraph, Using Evidence and Analysis, Second Body Paragraph, Writing Progress Reflection, Third Body / Counter Argument, Conclusion Paragraph | None |
+| gorine imane | 8 | Writing an Effective Introduction, Argumentative essay Introduction, First Body Paragraph, Using Evidence and Analysis, Second Body Paragraph, Writing Progress Reflection, Third Body / Counter Argument, Conclusion Paragraph | None |
+| guerrouad assia | 7 | Writing an Effective Introduction, Argumentative essay Introduction, First Body Paragraph, Second Body Paragraph, Writing Progress Reflection, Third Body / Counter Argument, Conclusion Paragraph | Using Evidence and Analysis |
+| hachimi ibtissem | 6 | Writing an Effective Introduction, Argumentative essay Introduction, First Body Paragraph, Using Evidence and Analysis, Second Body Paragraph, Third Body / Counter Argument | Writing Progress Reflection, Conclusion Paragraph |
+| haddou alaa | 8 | Writing an Effective Introduction, Argumentative essay Introduction, First Body Paragraph, Using Evidence and Analysis, Second Body Paragraph, Writing Progress Reflection, Third Body / Counter Argument, Conclusion Paragraph | None |
+| haddouche nourhane | 8 | Writing an Effective Introduction, Argumentative essay Introduction, First Body Paragraph, Using Evidence and Analysis, Second Body Paragraph, Writing Progress Reflection, Third Body / Counter Argument, Conclusion Paragraph | None |
+| hadjadj mohamed | 7 | Writing an Effective Introduction, Argumentative essay Introduction, First Body Paragraph, Using Evidence and Analysis, Second Body Paragraph, Third Body / Counter Argument, Conclusion Paragraph | Writing Progress Reflection |
+| hamdi majda | 8 | Writing an Effective Introduction, Argumentative essay Introduction, First Body Paragraph, Using Evidence and Analysis, Second Body Paragraph, Writing Progress Reflection, Third Body / Counter Argument, Conclusion Paragraph | None |
+| hifri adlane | 7 | Writing an Effective Introduction, Argumentative essay Introduction, First Body Paragraph, Using Evidence and Analysis, Second Body Paragraph, Third Body / Counter Argument, Conclusion Paragraph | None |
+| homani leila | 6 | Writing an Effective Introduction, Argumentative essay Introduction, First Body Paragraph, Using Evidence and Analysis, Second Body Paragraph, Third Body / Counter Argument | Writing Progress Reflection, Conclusion Paragraph |
+| jaadar asmaa | 8 | Writing an Effective Introduction, Argumentative essay Introduction, First Body Paragraph, Using Evidence and Analysis, Second Body Paragraph, Writing Progress Reflection, Third Body / Counter Argument, Conclusion Paragraph | None |
+| khelladi malika | 8 | Writing an Effective Introduction, Argumentative essay Introduction, First Body Paragraph, Using Evidence and Analysis, Second Body Paragraph, Writing Progress Reflection, Third Body / Counter Argument, Conclusion Paragraph | None |
+| ladouani ghizlane | 5 | Argumentative essay Introduction, Using Evidence and Analysis, Second Body Paragraph, Writing Progress Reflection, Conclusion Paragraph | Writing an Effective Introduction, First Body Paragraph, Third Body / Counter Argument |
+| lahmar oumelkheir | 8 | Writing an Effective Introduction, Argumentative essay Introduction, First Body Paragraph, Using Evidence and Analysis, Second Body Paragraph, Writing Progress Reflection, Third Body / Counter Argument, Conclusion Paragraph | None |
+| lahmarabbou asmaa | 8 | Writing an Effective Introduction, Argumentative essay Introduction, First Body Paragraph, Using Evidence and Analysis, Second Body Paragraph, Writing Progress Reflection, Third Body / Counter Argument, Conclusion Paragraph | None |
+| larbicherrak aicha | 8 | Writing an Effective Introduction, Argumentative essay Introduction, First Body Paragraph, Using Evidence and Analysis, Second Body Paragraph, Writing Progress Reflection, Third Body / Counter Argument, Conclusion Paragraph | None |
+| laredjmedjahed hadil | 7 | Writing an Effective Introduction, Argumentative essay Introduction, First Body Paragraph, Using Evidence and Analysis, Second Body Paragraph, Writing Progress Reflection, Conclusion Paragraph | Third Body / Counter Argument |
+| loukili chahinez | 8 | Writing an Effective Introduction, Argumentative essay Introduction, First Body Paragraph, Using Evidence and Analysis, Second Body Paragraph, Writing Progress Reflection, Third Body / Counter Argument, Conclusion Paragraph | None |
+| madani nourhan | 8 | Writing an Effective Introduction, Argumentative essay Introduction, First Body Paragraph, Using Evidence and Analysis, Second Body Paragraph, Writing Progress Reflection, Third Body / Counter Argument, Conclusion Paragraph | None |
+| setra ikram | 7 | Writing an Effective Introduction, Argumentative essay Introduction, First Body Paragraph, Using Evidence and Analysis, Second Body Paragraph, Writing Progress Reflection, Conclusion Paragraph | Third Body / Counter Argument |
+| sharifjibril usman | 7 | Writing an Effective Introduction, Argumentative essay Introduction, First Body Paragraph, Second Body Paragraph, Writing Progress Reflection, Third Body / Counter Argument, Conclusion Paragraph | Using Evidence and Analysis |
+| yousfi anfal | 8 | Writing an Effective Introduction, Argumentative essay Introduction, First Body Paragraph, Using Evidence and Analysis, Second Body Paragraph, Writing Progress Reflection, Third Body / Counter Argument, Conclusion Paragraph | None |
+
+──────────────────────────────────────────
+OUTPUT SECTION 37 — COMPLETE GRANULAR OUTPUT REFERENCE TABLES
+──────────────────────────────────────────
+This section contains the granular, expanded output tables for each developer, breaking down their algorithms into the exact 1-to-1 data points they must produce. This serves as the definitive checklist for API integration.
+
+### 37.1 Adnan's Granular Outputs (NLP & Writing)
+| # | Algorithm | Function | Precise Output | Coverage |
+|---|---|---|---|---|
+| 1 | spaCy | Text Tokenization | `tokens[]`, `sentences[]` | Per Essay |
+| 2 | spaCy | POS Analysis | `POS_tags[]` per token | Per Essay |
+| 3 | spaCy | Dependency Parsing | `dep_parse` tree | Per Essay |
+| 4 | TTR | Lexical Diversity | Value 0-1 | Per Essay |
+| 5 | MTLD | Robust Lexical Diversity | Numeric Value | Per Essay |
+| 6 | Cohesion Index | Textual Cohesion (Ratio: markers/words) | Value 0.01 - 0.43 | Per Essay |
+| 7 | Academic Vocab | Academic Register | Value 0-1 | Per Essay |
+| 8 | Error Density | Linguistic Error Tracking | Value 0-30 | Per Essay |
+| 9 | Arg Markers | Argumentative Markers | Value 0-15 | Per Essay |
+| 10 | Rubric Scoring | Detailed Grading | Grade 0-20 + Criteria Details | Per Essay |
+| 11 | L1 Detection | Native Transfer Errors | `l1_errors[]` + count + source | Per Essay |
+| 12 | TF-IDF | Frequency Vectorization | `vector` + `feature_names` | Per Essay |
+| 13 | Cosine Similarity | Inter-text Similarity | `NxN matrix` + `top_3` | Per Essay |
+| 14 | Sentence-BERT | Semantic Embedding | `vector[768]` | Per Essay |
+
+### 37.2 Youcef's Granular Outputs (Behavior & Temporal)
+| # | Algorithm | Function | Precise Output | Coverage |
+|---|---|---|---|---|
+| 1 | OLS Regression | Trend slope for `word_count` | `slope` + `trend_direction` | Per Student |
+| 2 | OLS Regression | Trend slope for `error_density` | `slope` + `trend_direction` | Per Student |
+| 3 | OLS Regression | Trend slope for `cohesion` | `slope` + `trend_direction` | Per Student |
+| 4 | OLS Regression | Trend slope for `grade` | `slope` + `trend_direction` | Per Student |
+| 5 | Percentile Norm | Percentile rank for features | `0-100 percentile` | Per Student |
+| 6 | Mann-Whitney U | Compare high vs low risk groups | `U_stat` + `p_value` + `effect_size` | Per Feature |
+| 7 | Spearman | Correlation between all features | `NxN correlation_matrix` | Global |
+| 8 | Cohen's d | Effect size between groups | `d_value` + `interpretation` | Per Comparison |
+| 9 | Agglomerative Clustering | Classify student into cluster | `cluster_id (0-3)` + `label` | Per Student |
+| 10 | 18 Diagnostic Rules | Fire pedagogical rules | `triggered_rules[]` | Per Essay / Student |
+
+### 37.3 Abdelkader's Granular Outputs (Moodle Activity)
+| # | Algorithm | Function | Precise Output | Coverage |
+|---|---|---|---|---|
+| 1 | Robust Stats | Descriptive robust statistics | `median`, `IQR`, `MAD`, `percentiles` | Per Feature |
+| 2 | Robust Z-Score | Outlier detection | `outlier_flags` (true/false) | Per Essay |
+| 3 | Segment Session | Divide logs into sessions | `sessions[]` with details | Per Essay |
+| 4 | PrefixSpan | Discover frequent patterns | `frequent_patterns[]` + `support` | Global |
+| 5 | Rule: RUSH | Fast submission detection | `interpretation` + `flag` | Per Essay |
+| 6 | Rule: DEEP_ENGAGE | Deep engagement detection | `interpretation` + `flag` | Per Essay |
+| 7 | Rule: RUBRIC_AWARE | Rubric view tracking | `interpretation` + `flag` | Per Essay |
+| 8 | Rule: FEEDBACK_LIT | Feedback review tracking | `interpretation` + `flag` | Per Essay |
+| 9 | Rule: PASSIVE | Passive behavior detection | `interpretation` + `flag` | Per Essay |
+| 10 | Rule: DEADLINE | Deadline pressure detection | `interpretation` + `flag` | Per Essay |
+| 11 | Rule: INSUFF_PLAN | Insufficient planning tracking | `interpretation` + `flag` | Per Essay |
+| 12 | K-S Test | Distribution normality test | `D_stat` + `p_value` + `dist_type` | Per Feature |
+| 13 | PCA | Dimensionality reduction | `pc1, pc2, pc3` + `variance_ratio` | Per Essay |
+| 14 | Scree Plot | Visualize PCA variance | PNG image | Global |
+
+### 37.4 Final System Outputs (Integration Module)
+| # | Output | Description / Value | Source / Module | Coverage |
+|---|---|---|---|---|
+| 1 | Final Grade | `final_grade` (0-20) from Fixed-Weight Fusion | Integration | Per Essay |
+| 2 | Risk Band | `risk_band` (low/moderate/high) | Integration | Per Essay |
+| 3 | Alert Level | `low/moderate/high` (evidence accumulation) | Integration | Per Essay |
+| 4 | Diagnostic Report | `triggered_rules` + `competences` + `interpretations` | Integration | Per Essay |
+| 5 | Competence Scores | 4 scores (0-100): `argument`/`cohesion`/`linguistic`/`revision` | Youcef | Per Student |
+| 6 | Text Feedback | `feedback_text` + `grounding` + `hallucination` | Integration | Per Essay |
+| 7 | Temporal Trajectory | 4 `trajectories` + `trends` | Youcef | Per Student |
+| 8 | Cluster Assignment | `cluster_id` + `label` + `silhouette` | Youcef | Per Student |
+| 9 | Class Analytics | `class_summary` + `group_feedback` | Integration | Per Assignment |
+| 10 | Audit Trail | `pipeline_version` + `rules_evaluated` + `timestamps` | Integration | Per Essay |
+
+──────────────────────────────────────────
+OUTPUT SECTION 38 — MACHINE LEARNING & AI ARCHITECTURE (THE AI TRIAD)
+──────────────────────────────────────────
+As discussed with the client and documented in the thesis design logs, the artificial intelligence layer of the system operates on a unified, interdependent three-stage architecture. This "AI Triad" prevents ML models from working in isolation and ensures they map directly to pedagogical actions.
+
+### 38.1 Learner Profiling (Clustering)
+- **Algorithm:** K-Means / Agglomerative Clustering (`scikit-learn`)
+- **Inputs:** A synthesized feature vector including `time_on_task`, `revision_frequency`, `feedback_views`, `rubric_views`, `help_seeking_messages`, `total_score`, `ttr`, `cohesion_index`, and `word_count`.
+- **Purpose:** Groups students into macro-behavioral profiles (e.g., Strategic Writers, Effortful but Struggling Writers, Disengaged Learners). 
+- **Methodological Role:** Rather than diagnosing individual errors, clustering detects patterns in learner engagement, transitioning analysis from raw data to learner typology.
+
+### 38.2 Performance Prediction & Feature Importance (Random Forest)
+- **Algorithm:** Random Forest Regressor / Classifier (`scikit-learn`)
+- **Inputs:** Behavioral + Product + Textual Variables. Target variable = `total_score` or `score_gain`.
+- **Purpose:** Predicts final writing performance and identifies the strongest predictors of writing improvement. 
+- **Methodological Role:** Random Forest handles non-linear relationships and explicitly calculates "Feature Importance," revealing *why* a student improved (e.g., discovering that `revision_frequency` is the strongest predictor of growth).
+
+### 38.3 Latent Competence Inference (Discrete Bayesian Network)
+- **Algorithm:** Discrete Bayesian Network (`pgmpy`)
+- **Inputs:** Observable evidence (Clustering labels, Random Forest risk levels, triggered rules, and raw text features).
+- **Outputs:** Posterior probabilities of unobservable (latent) states (Low / Medium / High).
+- **Purpose:** Infers latent writing competencies under uncertainty (e.g., `Argumentation Competence`, `Self-Regulated Revision`, `Linguistic Complexity`).
+- **Methodological Role:** Bayesian modeling goes beyond predictive scoring. It estimates the *probability* that a student has truly mastered a skill based on multiple converging lines of evidence, allowing the pedagogical rules to fire with high statistical confidence.
+
+### 38.4 System Integration Flow
+The three models operate in a strict sequence to enrich the rule-based pedagogical feedback:
+1. **Clustering** answers: *What type of learner is this?*
+2. **Random Forest** answers: *What is their trajectory, and what variables matter most?*
+3. **Bayesian Network** answers: *Given their profile and trajectory, what is the probability that they lack self-regulation or argumentation skills?*
+
+──────────────────────────────────────────
+OUTPUT SECTION 39 — SMALL SAMPLE SIZE (N=50) OVERFITTING MITIGATION STRATEGY
+──────────────────────────────────────────
+Given the constraint of a small sample size ($N=50$ logged students, producing 437 valid task logs), Machine Learning algorithms like Random Forest and Bayesian Networks are highly susceptible to overfitting. To maintain methodological rigor without relying on synthetic data augmentation, the following strict mathematical constraints MUST be applied during implementation:
+
+### 39.1 Random Forest Stability: The Longitudinal Paradigm Shift
+A common methodological error is treating each student as a single row ($N=60$ enrolled, $N=50$ logged). However, this system relies on a **Longitudinal / Temporal Matrix**. Every student completes up to 8 writing tasks, resulting in exactly **437 actual valid submissions (rows)**. By shifting the **Unit of Analysis** from *Student* to *Submission*, the training dataset size expands to $N=437$. This allows the Random Forest algorithm to achieve high stability and learn complex patterns without severe overfitting.
+
+- **The New Feature Limit (Rule of 10):** By expanding to $N=437$, the mathematical limit for safe features expands drastically: $p_{max} \leq \frac{437}{10} \approx 43 \text{ features}$. We no longer need to strictly limit the model to 6 PCA components.
+- **Model Inputs ($X$):**
+  1. **NLP & Text Metrics:** Word count, Cohesion Index (0.01 - 0.43), Error Density, and Type-Token Ratio (TTR).
+  2. **Moodle Log Behaviors:** Time-on-task, Late Editing flags, Session start hour (e.g., 21:00), and days since last login.
+  3. **Task Context:** Task ID (1 to 8), accounting for varying task lengths and cognitive demands.
+- **Model Target ($Y$):** The Random Forest is designed as a Classifier predicting the optimal pedagogical intervention. Target classes include:
+  - **Suggested Feedback Type:** `Metacognitive prompt` (majority class), `Strategic feedback`, `Higher-order feedback`.
+  - **Primary Diagnosis:** Identifying whether the core issue is a `discourse_organization_problem` or `weak_argument_development`.
+- **Validation Constraint:** To prevent severe data leakage caused by multiple drafts per task, the Random Forest must use **GroupKFold Cross-Validation** grouped by a composite key: `(student_id, task_id)`. Grouping only by `student_id` is insufficient and would leak Draft 1 into the training set and Draft 2 into the test set. This composite key ensures the model learns to generalize to entirely new assignments.
+
+### 39.2 Bayesian Network Mitigation
+- **Network Sparsity:** The Directed Acyclic Graph (DAG) must be restricted. Nodes cannot have more than 2 parents. This limits the exponential explosion of parameters in the Conditional Probability Tables (CPTs), which would otherwise contain sparse or zero values given $N=50$ logged students.
+- **SLA Expert Priors (Crucial Addition):** The Bayesian CPTs must **NOT** be initialized solely from the $N=50$ dataset, as this will lead to highly fragile probabilities. Instead, the network must be seeded with **Expert Priors** derived from Second Language Acquisition (SLA) literature. The data is only used to update these robust priors, completely immunizing the Bayesian Network against sparse data crashes.
+- **Smoothing:** Laplace Smoothing (Add-1 smoothing) must be applied across all probabilities to handle unseen configurations in the testing phase, ensuring no zero-probability errors crash the inference engine.
+
+──────────────────────────────────────────
+OUTPUT SECTION 40 — THE ARBITER: DUAL-TRACK ARCHITECTURE (NLP VS ML)
+──────────────────────────────────────────
+To guarantee absolute pedagogical accuracy despite ML instability, the system operates on a **Dual-Track Architecture**. For every ML algorithm requested, there is a parallel deterministic NLP/Rule-based algorithm calculating the same objective using the exact same schema.
+
+### 40.1 The Parallel Pipelines
+| Analytical Goal | Track A: Machine Learning (Prone to Overfitting) | Track B: Deterministic NLP/Rules (100% Stable) |
+|---|---|---|
+| **Performance Scoring** | Random Forest Regressor | spaCy Regex Rubric Score |
+| **Learner Profiling** | Agglomerative Clustering | Rule-Based Diagnostic Triggers (Adnan/Youcef) |
+| **Competence Diagnosis** | Bayesian Network Inference | Deterministic Composite Feature Score |
+
+### 40.2 The Preference and Classification System (The Arbiter)
+The system employs an **Arbiter** (نظام تفضيل وتصنيف) to resolve conflicts between Track A and Track B. 
+- The Arbiter evaluates the outputs of both algorithms for the same student (e.g., ML classifies as "Weak", NLP classifies as "Strong").
+- It calculates a **Confidence Score** for the ML output (e.g., Random Forest prediction variance, Bayesian posterior probability margin).
+- **Decision Logic:** 
+  - If the ML model exhibits high confidence (generalizes well), the Arbiter selects the ML output.
+  - If the ML model exhibits low confidence or high variance (a direct symptom of $N=50$ overfitting), the Arbiter defaults to the highly stable, deterministic NLP output.
+- The winning decision becomes the definitive **`output_final`**.
+
+──────────────────────────────────────────
+OUTPUT SECTION 41 — LLM API FEEDBACK GENERATION
+──────────────────────────────────────────
+Once the Arbiter secures the `output_final`, this absolute ground-truth JSON is forwarded via API to a Large Language Model (LLM) to generate natural language feedback. The LLM acts strictly as a text generator driven by a highly constrained prompt, ensuring no hallucinations.
+
+### 41.1 Individual Task Feedback (Formative)
+- **Trigger:** Generated immediately after each of the 8 tasks.
+- **Input:** The `output_final` specific to that single session (e.g., grammar errors, rushed submission flag).
+- **Output:** Targeted, short-term pedagogical advice instructing the student on what to fix for the next draft.
+
+### 41.2 Individual Summative Feedback (Cumulative)
+- **Trigger:** Generated at the conclusion of all 8 assignments.
+- **Input:** The aggregated `output_final` metrics, focusing on Youcef's Temporal Trajectories and final Competence Scores.
+- **Output:** A comprehensive review of the student's development trajectory over the semester, highlighting eradicated errors and lingering weaknesses.
+
+### 41.3 Group Feedback (Class Clustering)
+- **Trigger:** Generated periodically for the classroom instructor.
+- **Input:** The system clusters students who share identical `output_final` diagnostic profiles (e.g., a cohort of 12 students all struggling with "Weak Cohesion" and "Insufficient Planning").
+- **Output:** The LLM generates a shared **Group Feedback** and a unified pedagogical intervention plan. The instructor can deliver this specific lesson to the clustered group collectively, saving time and addressing shared misconceptions efficiently.
+
+──────────────────────────────────────────
+OUTPUT SECTION 44 — ETHICS, PRIVACY, AND DATA OWNERSHIP
+──────────────────────────────────────────
+In compliance with strict academic research ethics and GDPR principles, the following protocols are enforced:
+- **Informed Consent:** Explicit consent must be obtained from all $N=60$ enrolled students before their texts are processed via the NLP pipeline or the LLM API. 
+- **Data Anonymization:** The `ingestion` module must execute a one-way cryptographic hash on Moodle IDs (e.g., generating `Student_A1B2`) before the data reaches Adnan, Youcef, or Abdelkader. No names or direct identifiers exist in the analytical schema.
+- **LLM Hallucination Definition:** Hallucination is operationally defined as *any LLM output advice that deviates from or contradicts the explicit diagnosis present in the `output_final.json`*. The target rate is `<0.02` (measured via a subset of manual teacher audits).
+
+──────────────────────────────────────────
+OUTPUT SECTION 45 — THE PHASED ROLLOUT PLAN (MVP TO AI)
+──────────────────────────────────────────
+To prevent integration failure due to system complexity (3 developers, 21 algorithms), the system will NOT be deployed all at once. Deployment follows a **Minimum Viable Product (MVP)** methodology:
+
+### Phase 1: The Core MVP (Months 1-2)
+- **Scope:** Moodle Data Ingestion + Adnan's NLP Features + Youcef's Rule Engine + Basic Teacher Dashboard.
+- **Goal:** Validate that deterministic rules correctly fire based on raw text. Prove the Human-in-the-Loop (HITL) dashboard works in a live classroom setting without any ML instability.
+
+### Phase 2: The ML Triad & Arbiter (Months 3-4)
+- **Scope:** Activate Random Forest, Agglomerative Clustering, Bayesian Network, and the Dual-Track Arbiter.
+- **Goal:** Allow the ML models to "shadow" the MVP. The Arbiter runs silently, collecting confidence scores. Once the ML proves stability on the 437 submissions, it is actively utilized to refine the NLP predictions.
+
+### Phase 3: The LLM Generative Layer (Months 5-6)
+- **Scope:** Connect the LLM API to generate Formative and Group feedback.
+- **Goal:** Introduce natural language generation only after the underlying pedagogical diagnosis (`output_final`) is proven to be 100% accurate.
+
+──────────────────────────────────────────
+OUTPUT SECTION 42 — ULTRA SYSTEM ARCHITECT FLOWCHART
+──────────────────────────────────────────
+The following Mermaid diagram maps the entire flow of data from raw student logs through the Dual-Track Arbitrator, terminating in the LLM-generated pedagogical feedback. The ultimate goal of this pipeline is to mathematically link Moodle behavior with NLP writing quality to produce actionable, precise feedback.
+
+```mermaid
+graph TD
+    %% 1. Data Sources
+    subgraph 1_RAW_DATA [1. Raw Data Input]
+        A1[Moodle Behavior Logs <br> time_on_task, clicks, sessions]
+        A2[Student Essay Drafts <br> raw text per task, N=437]
+    end
+
+    %% 2. Feature Extraction
+    subgraph 2_FEATURE_EXTRACTION [2. Feature Extraction Modules]
+        B1[Adnan: NLP Pipeline <br> spaCy, TTR, Cohesion, Error Density]
+        B2[Abdelkader: Activity Mining <br> PrefixSpan, Session Splits, PCA]
+        A2 --> B1
+        A1 --> B2
+        B1 --> B3[Youcef: Temporal Trajectories <br> Slopes, Percentile Norms, 18 Rules]
+        B2 --> B3
+    end
+
+    %% 3. Dual-Track Inference
+    subgraph 3_DUAL_TRACK [3. The Dual-Track Inference]
+        C1[Track B: Deterministic NLP/Rules <br> 18 Rules, Regex Rubrics, Composites]
+        C2[Track A: Machine Learning <br> Random Forest, Clustering, Bayesian]
+        B3 --> C1
+        B3 --> C2
+    end
+
+    %% 4. The Arbiter
+    subgraph 4_THE_ARBITER [4. The Preference System Arbiter]
+        D1{Confidence Check & Comparator}
+        C1 --> D1
+        C2 --> D1
+        D1 -->|High ML Confidence| D2[ML Output Chosen]
+        D1 -->|Low ML/High Variance| D3[NLP Output Chosen]
+        D2 --> E1[output_final.json]
+        D3 --> E1
+    end
+
+    %% 5. LLM Feedback Generation
+    subgraph 5_LLM_GENERATOR [5. LLM API Feedback Engine]
+        E1 --> F1[LLM API Engine <br> Prompt: Link Behavior to Writing Errors]
+        F1 --> G1[Individual Task Feedback <br> specific to draft]
+        F1 --> G2[Individual Summative Feedback <br> final trajectory]
+        F1 --> G3[Group/Cluster Feedback <br> shared cohort errors]
+    end
+
+    %% 6. Pedagogical Action
+    subgraph 6_PEDAGOGICAL_ACTION [6. Pedagogical Action Loop]
+        G1 --> H1[Teacher Dashboard Validation]
+        G2 --> H1
+        G3 --> H1
+        H1 --> I1([Student Revision & SRL Growth])
+        I1 -.->|Submits Next Draft| A1
+        I1 -.->|Submits Next Draft| A2
+    end
+
+    classDef default fill:#1E1E1E,stroke:#4CAF50,stroke-width:2px,color:#FFF;
+    classDef raw fill:#2196F3,stroke:#1565C0,color:#FFF;
+    classDef llm fill:#9C27B0,stroke:#6A1B9A,color:#FFF;
+    classDef arbiter fill:#F44336,stroke:#C62828,color:#FFF;
+    
+    class A1,A2 raw;
+    class F1,G1,G2,G3 llm;
+    class D1 arbiter;
+```
+
+──────────────────────────────────────────
+OUTPUT SECTION 43 — PROJECT DIRECTORY & DATA ARCHITECTURE
+──────────────────────────────────────────
+To maintain absolute organization between the 3 developers (Adnan, Youcef, Abdelkader), the physical files and databases must be structured strictly according to the hierarchy below. This ensures scripts interact with the correct schemas.
+
+```text
+NLP_Project_Root/
+│
+├── data/                                 # 🗄️ THE DATA LAKE
+│   ├── raw/
+│   │   ├── moodle_logs_N62.csv           # Raw Moodle behavior events
+│   │   └── student_essays_N437.json      # Raw text submissions (The Unit of Analysis)
+│   ├── processed/
+│   │   ├── adnan_nlp_features.csv        # Output: Tokens, TTR, Error Density
+│   │   ├── abdelkader_activity.csv       # Output: Sessions, PCA components, Outliers
+│   │   └── youcef_trajectories.csv       # Output: Slopes, Norms, 18 Rule Triggers
+│   └── outputs/
+│       ├── output_final.json             # THE ARBITER'S definitive chosen output
+│       └── llm_feedbacks/                # Generated LLM markdown/text files
+│           ├── individual/
+│           └── group/
+│
+├── src/                                  # ⚙️ THE CODEBASE
+│   ├── adnan_nlp/
+│   │   ├── spacy_parser.py               # Linguistic parsing logic
+│   │   └── rubric_matcher.py             # Regex text rule evaluation
+│   ├── abdelkader_moodle/
+│   │   ├── pca_reducer.py                # Reduces features to 6-8 PCA dimensions
+│   │   └── prefixspan_miner.py           # Frequent pattern mining
+│   ├── youcef_behavior/
+│   │   ├── regression_slopes.py          # OLS Regression for Trajectories
+│   │   └── rule_engine.py                # Triggers the 18 Pedagogical Rules
+│   ├── machine_learning/
+│   │   ├── random_forest.py              # ML Track A: Performance Prediction
+│   │   ├── clustering.py                 # ML Track A: Learner Profiling
+│   │   └── bayesian_network.py           # ML Track A: Competence Inference
+│   └── integration/
+│       ├── arbiter.py                    # The core comparator (Track A vs Track B)
+│       └── llm_generator.py              # API prompt scripts reading output_final.json
+│
+├── docs/                                 # 📚 DOCUMENTATION
+│   ├── system_blueprint.txt              # [MASTER ARCHITECTURE DOCUMENT - You are here]
+│   └── rules_and_thresholds.md           # Pedagogical thresholds and formulas
+│
+└── notebooks/                            # 📊 EXPLORATORY & TESTING
+    └── ml_validation_scree.ipynb         # Scree plots and Overfitting LOOCV tests
+```

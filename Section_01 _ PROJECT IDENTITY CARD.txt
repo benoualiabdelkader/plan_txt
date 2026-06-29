@@ -1,0 +1,18 @@
+──────────────────────────────────────────
+OUTPUT SECTION 01 — PROJECT IDENTITY CARD
+──────────────────────────────────────────
+PROJECT NAME: AI-Supported Adaptive Feedback System for EFL Academic Writing
+VERSION: 2.0 (Production Grade Blueprint)
+DATE: June 2026
+TEAM RESOURCES USED: 
+  - Resource A: Custom Algorithms (Abdelkader_Algo, Youcef_Algo, Adnan_Algo)
+  - Resource B: Client Specifications (Moodle rubrics, RF mandate, 8-stage pipeline)
+  - Resource C: LLM Analysis (Z.ai, Claude, Gemini, Grok insights)
+DATASET SUMMARY: 60 students enrolled (50 with valid Moodle logs) × up to 8 assignments = 437 valid submissions. Variables include rubric scores (1-5), NLP textual metrics, Moodle engagement logs.
+CLIENT CONSTRAINTS SUMMARY: 
+  - Extremely small dataset limits deep learning.
+  - Random Forest (RF) algorithm is strictly mandatory.
+  - Data augmentation is prohibited.
+  - Human-In-The-Loop (HITL) requirement for final teacher validation.
+SYSTEM TYPE CLASSIFICATION: Hybrid Rule-Based & Intelligent Ensemble Recommendation Engine.
+

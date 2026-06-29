@@ -1,0 +1,21 @@
+──────────────────────────────────────────
+OUTPUT SECTION 40 — THE ARBITER: DUAL-TRACK ARCHITECTURE (NLP VS ML)
+──────────────────────────────────────────
+To guarantee absolute pedagogical accuracy despite ML instability, the system operates on a **Dual-Track Architecture**. For every ML algorithm requested, there is a parallel deterministic NLP/Rule-based algorithm calculating the same objective using the exact same schema.
+
+### 40.1 The Parallel Pipelines
+| Analytical Goal | Track A: Machine Learning (Prone to Overfitting) | Track B: Deterministic NLP/Rules (100% Stable) |
+|---|---|---|
+| **Performance Scoring** | Random Forest Regressor | spaCy Regex Rubric Score |
+| **Learner Profiling** | Agglomerative Clustering | Rule-Based Diagnostic Triggers (Adnan/Youcef) |
+| **Competence Diagnosis** | Bayesian Network Inference | Deterministic Composite Feature Score |
+
+### 40.2 The Preference and Classification System (The Arbiter)
+The system employs an **Arbiter** (نظام تفضيل وتصنيف) to resolve conflicts between Track A and Track B. 
+- The Arbiter evaluates the outputs of both algorithms for the same student (e.g., ML classifies as "Weak", NLP classifies as "Strong").
+- It calculates a **Confidence Score** for the ML output (e.g., Random Forest prediction variance, Bayesian posterior probability margin).
+- **Decision Logic:** 
+  - If the ML model exhibits high confidence (generalizes well), the Arbiter selects the ML output.
+  - If the ML model exhibits low confidence or high variance (a direct symptom of $N=50$ overfitting), the Arbiter defaults to the highly stable, deterministic NLP output.
+- The winning decision becomes the definitive **`output_final`**.
+

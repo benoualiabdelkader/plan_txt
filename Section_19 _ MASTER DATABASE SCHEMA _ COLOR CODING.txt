@@ -1,0 +1,29 @@
+──────────────────────────────────────────
+OUTPUT SECTION 19 — MASTER DATABASE SCHEMA & COLOR CODING
+──────────────────────────────────────────
+Based on the full-width Excel tracking database, the system's primary data structure is explicitly organized into distinct color-coded zones. This organization strictly separates human inputs, machine-extracted metrics, and AI-computed decisions.
+
+■ BLUE ZONE: Identification & Metadata
+- Variables: Student_ID, Group (e.g., Experimental), Feedback_Loop, Task_ID, Writing_Stage, Draft_Pair, Expected_Word_Count.
+- Purpose: Anchors the row to the specific "Transaction Record" (Stage 1).
+
+■ GREEN ZONE: Human/Teacher Evaluation Inputs
+- Variables: Claim_Score, Evidence_Score, Reasoning_Score, Counterargument_Score, Language_Score.
+- Purpose: The raw analytic rubric scores provided by human raters.
+
+■ GREY ZONE: Mathematical Averages
+- Variables: Overall_Rubric_Avg, Performance_Band.
+- Purpose: Simple arithmetic transformations computed by the system.
+
+■ ORANGE/BROWN ZONE: NLP & Behavioral Feature Extraction
+- Variables: Word_Count, Error_Count, Error_Density_per_100, Cohesion_Index, Lexical_Diversity_TTR, Avg_Sentence_Length, Resource_Views, Rubric_Views, Active_Time_Min, Revision_Frequency, Revision_Depth, Feedback_Views, Feedback_Uptake, Help_Category.
+- Purpose: The raw metrics extracted by Abdelkader's NLP Engine and Adnan/Youcef's Moodle log processors (Stage 2).
+
+■ PURPLE ZONE: AI Diagnosis & Rule Engine Outputs
+- Variables: Process_Engagement_Band, Argument_Risk, Cohesion_Risk, Language_Risk, Forethought_Risk, Revision_Risk, Feedback_Uptake_Risk, Help_Seeking_Risk, Learner_Profile, Primary_Need, Rule_ID, Feedback_Template_ID, Recommended_Feedback_Theme.
+- Purpose: The exclusive output of the Intelligent Selector. No human touches these columns; they represent the mathematical synthesis of the AI (Stages 4, 5, & 6).
+
+■ YELLOW ZONE: Human-In-The-Loop (HITL) Validation & Outcomes
+- Variables: Teacher_Decision (e.g., "Pending"), Final_Feedback_Theme, Goal_Active, Next_Draft_Score.
+- Purpose: The final validation stage (Stage 7). The teacher explicitly approves or overrides the Purple Zone's recommendations here, and the system tracks the final outcome of the next draft.
+

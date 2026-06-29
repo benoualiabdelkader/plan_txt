@@ -1,0 +1,158 @@
+──────────────────────────────────────────
+OUTPUT SECTION 32 — SOFTWARE ARCHITECTURE & MODULE DESIGN
+──────────────────────────────────────────
+(This section provides the technical software architecture, database design, and API layer specification to support the pedagogical rules defined above.)
+
+### 32.1 Overall System Architecture (7 Layers)
+The system follows a layered, event-driven architecture with a mandatory Human-In-The-Loop governance layer.
+
+  ┌─────────────────────────────────────────────────────────────┐
+  │  EXTERNAL DATA SOURCES                                      │
+  │  [Moodle LMS] [NLP Engine] [Teacher Rubric Input]          │
+  └────────────────────────┬────────────────────────────────────┘
+                           │
+  ┌────────────────────────▼────────────────────────────────────┐
+  │  LAYER 1: DATA INGESTION & INTEGRATION                     │
+  │  [Moodle API Connector] [NLP Feature Extractor]            │
+  │  [Rubric Score Importer] [Data Validation Gate]            │
+  └────────────────────────┬────────────────────────────────────┘
+                           │
+  ┌────────────────────────▼────────────────────────────────────┐
+  │  LAYER 2: FEATURE ENGINEERING ENGINE                       │
+  │  [Indicator Calculator] [Threshold Classifier]             │
+  │  [Risk Band Generator]                                     │
+  └────────────────────────┬────────────────────────────────────┘
+                           │
+  ┌────────────────────────▼────────────────────────────────────┐
+  │  LAYER 3: AI / INFERENCE ENGINE                            │
+  │  [Learner State Diagnoser] [Bayesian Competence Model]     │
+  │  [Random Forest Improvement Predictor]                     │
+  │  [Learner Profile Classifier]                              │
+  └────────────────────────┬────────────────────────────────────┘
+                           │
+  ┌────────────────────────▼────────────────────────────────────┐
+  │  LAYER 4: ADAPTIVE RULE MATCHING ENGINE                    │
+  │  [Rule-State Matcher] [Priority Ranker]                    │
+  │  [Template Retriever]                                      │
+  └────────────────────────┬────────────────────────────────────┘
+                           │
+  ┌────────────────────────▼────────────────────────────────────┐
+  │  LAYER 5: TEACHER DASHBOARD (HITL LAYER)                  │
+  │  [Recommendation Display] [Approve / Modify / Reject]      │
+  │  [Feedback Customizer] [Delivery Trigger]                  │
+  └────────────────────────┬────────────────────────────────────┘
+                           │
+  ┌────────────────────────▼────────────────────────────────────┐
+  │  LAYER 6: FEEDBACK DELIVERY & STORAGE                      │
+  │  [Student Notification] [Moodle Feedback Post]             │
+  │  [Transaction Logger] [Learner Model Updater]              │
+  └────────────────────────┬────────────────────────────────────┘
+                           │
+  ┌────────────────────────▼────────────────────────────────────┐
+  │  LAYER 7: ANALYTICS & REPORTING                            │
+  │  [Cohort Dashboard] [Student Growth Tracker]               │
+  │  [Research Export Module] [System Audit Log]               │
+  └─────────────────────────────────────────────────────────────┘
+
+### 32.2 Database Design
+The database must follow an immutable transaction log pattern.
+
+**TABLE: students**
+Fields: student_id (PK, anonymous), group (Experimental/Control), cohort_id, created_at, anonymized (bool)
+Notes: No names, photos, or identifying personal data.
+
+**TABLE: tasks**
+Fields: task_id (PK), task_type, essay_component, prompt_text, deadline, expected_word_count, rubric_id, required_structure, created_by, moodle_assignment_id
+
+**TABLE: rubrics**
+Fields: rubric_id (PK), name, criteria_json, max_score_per_criterion
+
+**TABLE: feedback_loops**
+Fields: loop_id (PK), student_id (FK), task_id (FK), feedback_loop_number, draft_pair, writing_stage, created_at
+Notes: Each row = one student × one feedback loop instance.
+
+**TABLE: learner_transactions (CORE IMMUTABLE TABLE)**
+Fields: transaction_id (PK), loop_id (FK), student_id (FK),
+- Raw rubric scores: claim_score, evidence_score, reasoning_score, counterargument_score, language_use_score, overall_rubric_avg, performance_band
+- NLP features: word_count, error_count, error_density_per_100, cohesion_markers_count, cohesion_index, lexical_diversity_ttr, avg_sentence_length
+- Moodle behavioral traces: assignment_views, resource_views, rubric_views, active_time_min, draft_count, revision_frequency, revision_depth, text_change_pct
+- Feedback engagement: feedback_viewed, feedback_view_count, feedback_used, feedback_to_revision_hours
+- Help-seeking: help_message_count, help_category
+- Derived risk indicators: argument_risk, cohesion_risk, language_risk, forethought_risk, revision_risk, feedback_uptake_risk, help_seeking_risk, process_engagement_band
+- AI outputs: learner_profile, predicted_improvement_probability, bayesian_arg_competence, bayesian_cohesion_competence, bayesian_linguistic_complexity, bayesian_srl_revision
+- Rule engine outputs: primary_need, rule_id, feedback_template_id, recommended_feedback_focus
+- Teacher governance: teacher_decision, modification_reason, final_feedback_focus, next_action, feedback_delivered_at
+- Outcome tracking: next_draft_score, score_gain, dimension_improvements_json, created_at, updated_at
+
+**TABLE: feedback_rules**
+Fields: rule_id (PK), learner_state, pedagogical_interpretation, template_id (FK), recommended_feedback_focus, intervention_mode, priority, active (bool), version, created_at
+
+**TABLE: feedback_templates**
+Fields: template_id (PK), feedback_type, cognitive_demand, use_when, student_facing_skeleton, teacher_action, version, created_at
+
+**TABLE: indicator_thresholds**
+Fields: threshold_id (PK), indicator_name, variable_name, low_risk_bound, moderate_watch_bound, strong_satisfactory_bound, transformation_formula, pedagogical_meaning, primary_feedback_logic, version, active (bool)
+
+**TABLE: help_seeking_categories**
+Fields: code (PK), category_name, description, example, adaptive_interpretation
+
+**TABLE: audit_log**
+Fields: log_id (PK), actor_id, actor_role, action, entity_type, entity_id, before_state_json, after_state_json, timestamp
+
+**TABLE: teacher_feedback_delivery**
+Fields: delivery_id (PK), transaction_id (FK), student_id (FK), template_id (FK), personalized_message_text, delivery_channel, delivered_at, acknowledged_at
+
+### 32.3 Module Blueprints
+
+**MODULE 1: DATA INGESTION & INTEGRATION MODULE**
+- Responsibilities: Connect to Moodle API, trigger NLP extraction, accept rubric scores.
+- Outputs: Validated raw learner_transaction record.
+
+**MODULE 2: NLP FEATURE EXTRACTION ENGINE**
+- Responsibilities: Extract word count, error density, cohesion index, TTR, sentence length, connector count, revision depth (diffing algorithm).
+
+**MODULE 3: FEATURE ENGINEERING & THRESHOLDING ENGINE**
+- Responsibilities: Transform raw indicators into categorical risk bands using Threshold config table. Generate 7 composite risk flags.
+
+**MODULE 4: AI / INFERENCE ENGINE**
+- Responsibilities:
+  - Learner State Diagnosis (Rule-Based/Deterministic)
+  - Bayesian Competence Model (Argument, Cohesion, Linguistic, SRL Revision probabilities)
+  - Predictive Improvement Model (Random Forest for predicted_improvement_probability)
+  - Learner Profile Classifier (Strategic, Engaged, Efficient, At-Risk)
+
+**MODULE 5: ADAPTIVE RULE MATCHING ENGINE**
+- Responsibilities: Match learner state to rule_id. Apply priority logic (Writing competence -> Revision -> Engagement). Retrieve feedback_template_id.
+
+**MODULE 6: TEACHER DASHBOARD (HITL MODULE)**
+- Responsibilities: Display recommendation cards. Support APPROVE/MODIFY/REJECT workflow. Show cohort-level risk dashboard.
+
+**MODULE 7: FEEDBACK DELIVERY MODULE**
+- Responsibilities: Deliver customized message via Moodle comment/notification. Log delivery timestamp.
+
+**MODULE 8: REVISION MONITORING & LOOP CLOSURE MODULE**
+- Responsibilities: Detect new draft submission. Calculate revision_depth, feedback_used. Calculate score gains. Generate new transaction record.
+
+**MODULE 9: ANALYTICS & REPORTING MODULE**
+- Responsibilities: Cohort dashboard, student growth report, anonymized research data export.
+
+**MODULE 10: ADMINISTRATION & CONFIGURATION MODULE**
+- Responsibilities: Manage thresholds, rules, templates, user roles, academic tasks.
+
+### 32.4 API Layer Design
+- **Authentication**: JWT-based (login, refresh, logout)
+- **Student Endpoints**: /api/students/{id}/profile, /api/students/{id}/history, /api/students/{id}/growth
+- **Transactions**: POST /api/transactions, PATCH /api/transactions/{id}/decision
+- **Ingestion**: POST /api/ingest/moodle, POST /api/ingest/nlp, POST /api/ingest/scores
+- **Rule Engine**: POST /api/engine/process/{id}, GET /api/engine/recommendation/{id}
+- **Configuration**: /api/config/thresholds, /api/config/rules, /api/config/templates
+
+### 32.5 Security & Integration Architecture
+- **Authentication/Authorization**: JWT, RBAC (Admin, Teacher, Rater, Researcher, Student).
+- **Data Privacy**: No PII stored in engine. Anonymous research codes only. Raw help-seeking text is coded, not stored.
+- **Moodle Integration**: REST Web Services API (read-only scopes for submissions, logs, messages).
+- **Tech Stack Recommendations**:
+  - Backend: Python (FastAPI) for NLP and Bayesian modeling (spaCy, scikit-learn, pgmpy).
+  - Frontend: React.js / Next.js with Tailwind CSS.
+  - Database: PostgreSQL + Redis for caching.
+

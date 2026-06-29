@@ -1,0 +1,43 @@
+──────────────────────────────────────────
+OUTPUT SECTION 28 — ITERATIVE FEEDBACK LOOPS & ANALYTIC RUBRICS
+──────────────────────────────────────────
+This section explicitly defines the sequencing of the assignments (Feedback Loops 1 through 4) and the specific scoring criteria/checklists for each stage of the writing process. This governs how the analytic scores are assigned iteratively by the teacher/system.
+
+### 28.1 Feedback Loop 1: Introduction Paragraph (Checklist)
+| Checklist Item | Guiding Questions for Peers | Example Feedback Phrases |
+|----------------|-----------------------------|--------------------------|
+| **1. Attention-Grabber / Hook** | Does the opening sentence capture the reader’s attention? Is it relevant to the argument topic? | “The opening is interesting, but you could relate it more directly to the controversy over blended assessment.” |
+| **2. Background / Context** | Does the introduction provide essential background to understand the topic? Are key terms or concepts defined? | “You briefly define blended assessment; consider adding one sentence about its role in EFL writing to give context.” |
+| **3. Issue / Problem / Controversy** | Is the debate, problem, or issue clearly stated? Is it relevant to current research or practice? | “The controversy is mentioned, but it could be more explicit: what is the main disagreement in the literature?” |
+| **4. Significance / Rationale** | Does the introduction explain why the topic matters or why it is important to address? | “You could add a sentence explaining why improving writing quality with adaptive feedback is important in EFL education.” |
+| **5. Position / Thesis Statement** | Does the thesis clearly state your position? Is it specific, arguable, and concise? | “Your thesis expresses a general stance; make it explicit that you advocate for an adaptive, learning-analytics-informed feedback framework.” |
+| **6. Roadmap / Preview of Arguments** | Does the introduction briefly outline the main points that will support the thesis? | “Consider adding one sentence summarizing the key arguments that will be discussed in the essay.” |
+
+### 28.2 Feedback Loop 2: Body Paragraphs (First and Second)
+| Criterion | Excellent (4) | Good (3) | Satisfactory (2) | Needs Improvement (1) |
+|-----------|---------------|----------|------------------|-----------------------|
+| **Claim** | Clear, precise topic sentence directly supports thesis | Mostly clear, minor ambiguity | Claim is vague or partially connected to thesis | Claim is unclear or missing |
+| **Argument Development** | Each sentence logically develops the argument with clear reasoning | Mostly logical, minor gaps | Some sentences do not clearly support argument | Argument lacks logical sequence |
+| **Evidence / Sources** | Evidence is relevant, integrated, properly cited, and interpreted | Evidence mostly relevant, minor integration issues | Some evidence lacks citation or interpretation | Evidence missing or irrelevant |
+| **Analysis / Interpretation** | Provides insightful analysis linking evidence to claim | Analysis is mostly clear | Limited analysis, mostly summary | No analysis present |
+| **Cohesion & Coherence** | Logical connectors and lexical cohesion maintain flow | Minor cohesion issues | Some sentences disconnected | Paragraph lacks coherence |
+| **Linguistic Accuracy & Academic Style** | Complex sentences, hedging, academic vocabulary, minimal errors | Mostly correct, minor errors | Some grammatical errors or informal style | Many errors, style inappropriate |
+
+### 28.3 Feedback Loop 3: Counterargument Paragraph
+| Criterion | Excellent (4) | Good (3) | Fair (2) | Limited (1) |
+|-----------|---------------|----------|----------|-------------|
+| **Structure of the counter-argument paragraph** | The paragraph includes all essential components: opposing view, explanation, support, refutation/concession, and concluding link, arranged in a clear and logical sequence. | The paragraph includes most required components and is generally well organized. | The paragraph includes some required components, but the structure is partially incomplete or uneven. | The paragraph lacks key components and shows weak or ineffective organization. |
+| **Presentation of the opposing viewpoint** | The opposing viewpoint is presented clearly, accurately, and fairly, showing strong understanding of the alternative position. | The opposing viewpoint is clear and generally accurate. | The opposing viewpoint is somewhat vague, simplified, or insufficiently developed. | The opposing viewpoint is unclear, inaccurate, or absent. |
+| **Development and support of ideas** | The paragraph includes relevant and well-developed reasoning or examples that effectively support the counter-argument. | Ideas are supported with relevant explanation or examples, though development may be somewhat limited. | Support is present but underdeveloped, repetitive, or only partly relevant. | Support is minimal, unclear, or missing. |
+| **Quality of refutation or concession** | The writer responds to the opposing view effectively and persuasively, strengthening the overall argument. | The refutation or concession is relevant and reasonably clear. | The response to the opposing view is weak, brief, or insufficiently convincing. | The paragraph lacks a meaningful refutation or concession. |
+| **Coherence and cohesion** | The paragraph demonstrates excellent unity, logical progression, and effective use of transitions and linking devices. | The paragraph is generally coherent, with appropriate transitions and overall unity. | The paragraph shows some organizational control, but transitions or flow are inconsistent. | The paragraph lacks coherence, and ideas are poorly connected. |
+
+### 28.4 Feedback Loop 4: Conclusion Paragraph
+| Criteria | Excellent (4) | Good (3) | Satisfactory (2) | Needs Improvement (1) |
+|----------|---------------|----------|------------------|-----------------------|
+| **Transition to the conclusion** | Uses a clear and effective transition that creates a smooth flow from the last body paragraph to the conclusion. | Uses an appropriate transition, though the flow may be slightly uneven. | Uses a basic transition, but the connection to the previous paragraph is weak. | It does not use a clear transition, or the paragraph begins abruptly. |
+| **Restatement of thesis** | Restates the thesis clearly and effectively in new words. | Restates the thesis clearly with some variation in wording. | Restates the thesis, but it is too close to the original or somewhat unclear. | The thesis is missing, unclear, or simply copied from the introduction. |
+| **Summary of main points** | Summarizes the main supporting points clearly and concisely. | Summarizes most main points clearly. | Refers to some main points, but the summary is incomplete or unclear. | Does not summarize the main points effectively. |
+| **Final closing statement** | Ends with a strong, thoughtful, and memorable final statement. | Ends with a clear final statement that supports the essay well. | Ends with a simple closing statement, but it lacks strength or impact. | The ending is weak, unclear, or missing. |
+| **Language and mechanics** | Uses accurate grammar, punctuation, spelling, and formal academic language throughout. | Contains minor language or mechanical errors that do not affect meaning. | Contains several errors that sometimes affect clarity. | Contains frequent errors that make the paragraph difficult to understand. |
+

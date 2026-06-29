@@ -1,0 +1,67 @@
+──────────────────────────────────────────
+OUTPUT SECTION 13 — ALGORITHMS DEEP DIVE
+──────────────────────────────────────────
+
+■ FIRST: Natural Language Processing Module (Abdelkader_Algo)
+1. Tokenization and Syntactic Analysis Algorithm (spaCy parser)
+   - Goal: Syntactic decomposition of texts and understanding of sentence structure.
+   - Input Format: Raw student text as a string array (Raw String).
+   - Outputs: Segments (Tokens), Parts of Speech tags (POS Tags), and Dependency Parsing trees.
+
+2. Numeric Feature Extraction Algorithm
+   - Goal: Convert writing quality into numerical values to measure lexical diversity and cohesion indicators.
+   - Input Format: List of tokenized words and list of detected grammatical errors.
+   - Outputs: Continuous numerical variables (Float) including (TTR, MTLD, Cohesion, Error Density).
+
+3. Rubric Evaluation Algorithm
+   - Goal: Automated evaluation of texts according to 22 pedagogical criteria (e.g., introduction, body, conclusion).
+   - Input Format: Raw text split into independent paragraphs using Regular Expressions (Regex).
+   - Outputs: Discrete Scores for each evaluation criterion.
+
+4. L1 Transfer Error Detection Algorithm (L1 Pattern Matching)
+   - Goal: Detect the negative linguistic transfer from the mother tongue (Arabic/French) to the student's English writing via 8 specific patterns.
+   - Input Format: Student text sentences.
+   - Outputs: Number of detected errors (Integer) categorized by the linguistic pattern type.
+
+5. Vector Representation and Similarity Algorithm (TF-IDF & Cosine Similarity)
+   - Goal: Detect cases of similarity and academic plagiarism among student texts.
+   - Input Format: The text corpus of all students in the cohort.
+   - Outputs: A mathematical similarity matrix (2D Float Array Similarity Matrix).
+
+6. Semantic Embedding (Sentence-BERT)
+   - Goal: Extract deep semantic meaning and embed it into the machine learning model without the need for pre-training (Zero-shot).
+   - Input Format: Essay texts.
+   - Outputs: Massive 768-dimensional semantic vectors (768-dim Vectors).
+
+■ SECOND: Statistical Profiling and Portfolio Building Module (Youcef_Algo)
+1. Group Statistics Algorithm (Group Statistics & Mann-Whitney U)
+   - Goal: Identify fundamental statistical differences between students at high risk versus those at low risk.
+   - Input Format: Student grades and aggregated behaviors from the Moodle system.
+   - Outputs: Precise metrics including (Mann-Whitney U, p-value, r effect size, Cohen's d).
+
+2. Spearman Correlations Algorithm
+   - Goal: Feature engineering and selection of the most critical variables to eliminate weak features and prevent Overfitting.
+   - Input Format: Evaluation scores for major criteria (Writing Process, Linguistic Accuracy).
+   - Outputs: A statistical correlation matrix in (JSON) format that measures the strength of relationships between skills.
+
+■ THIRD: Behavioral Features and Decision Engine (Adnan_Algo)
+1. Robust Behavioral Feature Engineering Algorithm
+   - Goal: Calculate precise temporal statistics for student effort while removing extreme and outlier values using Winsorization (hard cap at 30-minute inactivity).
+   - Input Format: Raw Moodle logs (Raw JSON Logs) including Timestamps.
+   - Outputs: Corrected temporal statistical metrics (Median, IQR, MAD).
+
+2. Behavioral Flags Engine
+   - Goal: Classify the behavioral state of the student to guide feedback (e.g., rushed submission before the deadline).
+   - Input Format: Temporal data and browsing sessions (Editing Duration, Session Count, Page Views).
+   - Outputs: 7 critical Boolean Flags such as (RUSH_SUBMISSION, DEEP_ENGAGEMENT, DEADLINE_PRESSURE).
+
+3. Temporal Analyzer and Pattern Extraction Algorithm (Temporal & Log Analysis & PrefixSpan)
+   - Goal: Track navigation paths and student clicks on the system to diagnose learning habits and patterns.
+   - Input Format: Sequential logs of student clicks on the Moodle platform.
+   - Outputs: Sequential navigation patterns, in addition to Principal Component Analysis (PCA).
+
+4. Intelligent Selector Logic Algorithm
+   - Goal: The central engine of the system; merges the outputs of classical AI (Random Forest) and generative AI (NLP) to make the final decision.
+   - Input Format: RF Probabilities generated from the first branch, and NLP Confidence from the second branch.
+   - Outputs: The final Learner State and the Rule ID that triggers the final feedback message.
+

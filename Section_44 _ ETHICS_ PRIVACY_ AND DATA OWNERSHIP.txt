@@ -1,0 +1,8 @@
+──────────────────────────────────────────
+OUTPUT SECTION 44 — ETHICS, PRIVACY, AND DATA OWNERSHIP
+──────────────────────────────────────────
+In compliance with strict academic research ethics and GDPR principles, the following protocols are enforced:
+- **Informed Consent:** Explicit consent must be obtained from all $N=60$ enrolled students before their texts are processed via the NLP pipeline or the LLM API. 
+- **Data Anonymization:** The `ingestion` module must execute a one-way cryptographic hash on Moodle IDs (e.g., generating `Student_A1B2`) before the data reaches Adnan, Youcef, or Abdelkader. No names or direct identifiers exist in the analytical schema.
+- **LLM Hallucination Definition:** Hallucination is operationally defined as *any LLM output advice that deviates from or contradicts the explicit diagnosis present in the `output_final.json`*. The target rate is `<0.02` (measured via a subset of manual teacher audits).
+

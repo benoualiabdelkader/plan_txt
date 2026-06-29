@@ -1,0 +1,24 @@
+──────────────────────────────────────────
+OUTPUT SECTION 11 — HONEST LIMITATIONS & RISK REGISTER
+──────────────────────────────────────────
+RISK 01: Random Forest Overfitting
+SEVERITY: High
+DESCRIPTION: N=437 submissions (derived from 50 logged students out of 60 enrolled) requires careful ML regularization.
+IMPACT: Model may perfectly memorize training drafts and fail on new cohorts.
+MITIGATION: Draconian tree limits (depth 4) and intelligent fallback to NLP branch.
+ACCEPTED: Yes — Client mandated Random Forest despite data size.
+
+RISK 02: NLP Hallucination / Misclassification
+SEVERITY: Medium
+DESCRIPTION: LLMs may hallucinate linguistic risk levels or fail to parse text structures accurately.
+IMPACT: Inappropriate feedback templates suggested to teachers.
+MITIGATION: Intelligent Selector override (If RF confidence > 0.9, ignore NLP). Final Teacher Validation acts as safety net.
+ACCEPTED: Yes — HITL requirement solves this risk entirely.
+
+RISK 03: Feature Sparsity
+SEVERITY: Low
+DESCRIPTION: Some students may have missing Moodle logs (e.g., zero time-on-task logged due to timeouts).
+IMPACT: Median imputation may skew statistical distributions.
+MITIGATION: Youcef_Algo handles median imputation, and the fusion engine down-weights RF if feature sparsity detects anomaly.
+ACCEPTED: Yes.
+

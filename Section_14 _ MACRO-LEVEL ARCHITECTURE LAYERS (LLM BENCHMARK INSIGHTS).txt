@@ -1,0 +1,29 @@
+──────────────────────────────────────────
+OUTPUT SECTION 14 — MACRO-LEVEL ARCHITECTURE LAYERS (LLM BENCHMARK INSIGHTS)
+──────────────────────────────────────────
+Based on meta-analyses of leading LLM architectural responses (Claude, Z.ai, Gemini), the system's operational workflow is formally structured into four distinct horizontal layers to separate concerns and ensure maintainability:
+
+■ LAYER 1: DATA INGESTION & INTEGRATION
+- Responsibility: Connects external data sources (Moodle LMS) securely without altering the original student logs. 
+- Components Involved: Raw JSON Log Parsing, Student Profile Anonymization, and secure temporary storage in `/data/raw/`.
+
+■ LAYER 2: FEATURE ENGINEERING ENGINE
+- Responsibility: Transforms messy, multi-modal raw data into structured tensors and calculated metrics.
+- Components Involved: 
+  - Adnan's Winsorization & Timestamp segmentation.
+  - Youcef's Group Statistics and Missing Value Handling.
+  - Abdelkader's spaCy Tokenization and L1 Pattern Matchers.
+
+■ LAYER 3: AI / INFERENCE ENGINE
+- Responsibility: Predicts pedagogical risk. This layer is explicitly bifurcated to solve the small-N constraint (437 submission rows).
+- Components Involved: 
+  - The Classical ML Branch (Random Forest classifier limited to depth 4).
+  - The Generative NLP Branch (Zero-shot LLM Semantic Inference & SBERT).
+
+■ LAYER 4: ADAPTIVE RULE MATCHING & FUSION ENGINE
+- Responsibility: Synthesizes competing AI predictions and safely routes them to deterministic human-readable templates.
+- Components Involved: 
+  - Adnan's Intelligent Selector Formula (0.70 NLP + 0.30 RF — heuristic baseline pending calibration).
+  - Rule-Based Override Logic.
+  - Final Feedback Template Dispatcher and Teacher Validation Dashboard.
+
